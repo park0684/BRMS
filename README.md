@@ -22,7 +22,7 @@
 <summary>셈플데이터 지원 :</summary>
 
 >셈플 데이터 접근을 위한 정보를 제공<br/>
-> - Address : http://park0684.duckdns.org/<br/>
+> - Address : park0684.jumpingcrab.com/<br/>
 > - port : 15745
 > - user : testuser
 > - Password : !testuser1200
