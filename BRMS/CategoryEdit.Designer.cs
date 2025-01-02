@@ -46,6 +46,7 @@ namespace BRMS
             this.tBoxBotEn = new System.Windows.Forms.TextBox();
             this.bntSave = new System.Windows.Forms.Button();
             this.bntCancle = new System.Windows.Forms.Button();
+            this.chkStatus = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -113,7 +114,7 @@ namespace BRMS
             this.tBoxTopCode.Location = new System.Drawing.Point(69, 32);
             this.tBoxTopCode.Name = "tBoxTopCode";
             this.tBoxTopCode.Size = new System.Drawing.Size(100, 21);
-            this.tBoxTopCode.TabIndex = 1;
+            this.tBoxTopCode.TabIndex = 0;
             // 
             // tBoxTopKr
             // 
@@ -127,49 +128,49 @@ namespace BRMS
             this.tBoxTopEn.Location = new System.Drawing.Point(326, 32);
             this.tBoxTopEn.Name = "tBoxTopEn";
             this.tBoxTopEn.Size = new System.Drawing.Size(145, 21);
-            this.tBoxTopEn.TabIndex = 1;
+            this.tBoxTopEn.TabIndex = 2;
             // 
             // tBoxMidCode
             // 
             this.tBoxMidCode.Location = new System.Drawing.Point(69, 63);
             this.tBoxMidCode.Name = "tBoxMidCode";
             this.tBoxMidCode.Size = new System.Drawing.Size(100, 21);
-            this.tBoxMidCode.TabIndex = 1;
+            this.tBoxMidCode.TabIndex = 0;
             // 
             // tBoxMidKr
             // 
             this.tBoxMidKr.Location = new System.Drawing.Point(175, 63);
             this.tBoxMidKr.Name = "tBoxMidKr";
             this.tBoxMidKr.Size = new System.Drawing.Size(145, 21);
-            this.tBoxMidKr.TabIndex = 1;
+            this.tBoxMidKr.TabIndex = 3;
             // 
             // tBoxMidEn
             // 
             this.tBoxMidEn.Location = new System.Drawing.Point(326, 63);
             this.tBoxMidEn.Name = "tBoxMidEn";
             this.tBoxMidEn.Size = new System.Drawing.Size(145, 21);
-            this.tBoxMidEn.TabIndex = 1;
+            this.tBoxMidEn.TabIndex = 4;
             // 
             // tBoxBotCode
             // 
             this.tBoxBotCode.Location = new System.Drawing.Point(69, 94);
             this.tBoxBotCode.Name = "tBoxBotCode";
             this.tBoxBotCode.Size = new System.Drawing.Size(100, 21);
-            this.tBoxBotCode.TabIndex = 1;
+            this.tBoxBotCode.TabIndex = 0;
             // 
             // tBoxBotKr
             // 
             this.tBoxBotKr.Location = new System.Drawing.Point(175, 94);
             this.tBoxBotKr.Name = "tBoxBotKr";
             this.tBoxBotKr.Size = new System.Drawing.Size(145, 21);
-            this.tBoxBotKr.TabIndex = 1;
+            this.tBoxBotKr.TabIndex = 5;
             // 
             // tBoxBotEn
             // 
             this.tBoxBotEn.Location = new System.Drawing.Point(326, 94);
             this.tBoxBotEn.Name = "tBoxBotEn";
             this.tBoxBotEn.Size = new System.Drawing.Size(145, 21);
-            this.tBoxBotEn.TabIndex = 1;
+            this.tBoxBotEn.TabIndex = 6;
             // 
             // bntSave
             // 
@@ -181,12 +182,12 @@ namespace BRMS
             this.bntSave.Location = new System.Drawing.Point(314, 121);
             this.bntSave.Name = "bntSave";
             this.bntSave.Size = new System.Drawing.Size(70, 30);
-            this.bntSave.TabIndex = 10;
+            this.bntSave.TabIndex = 7;
             this.bntSave.Text = "저장";
             this.bntSave.UseVisualStyleBackColor = false;
             this.bntSave.Click += new System.EventHandler(this.bntSave_Click);
             // 
-            // btnCancle
+            // bntCancle
             // 
             this.bntCancle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(95)))), ((int)(((byte)(184)))));
             this.bntCancle.FlatAppearance.BorderSize = 0;
@@ -194,12 +195,22 @@ namespace BRMS
             this.bntCancle.Font = new System.Drawing.Font("맑은 고딕", 10F);
             this.bntCancle.ForeColor = System.Drawing.Color.White;
             this.bntCancle.Location = new System.Drawing.Point(400, 121);
-            this.bntCancle.Name = "btnCancle";
+            this.bntCancle.Name = "bntCancle";
             this.bntCancle.Size = new System.Drawing.Size(70, 30);
-            this.bntCancle.TabIndex = 11;
+            this.bntCancle.TabIndex = 8;
             this.bntCancle.Text = "취소";
             this.bntCancle.UseVisualStyleBackColor = false;
             this.bntCancle.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // chkStatus
+            // 
+            this.chkStatus.AutoSize = true;
+            this.chkStatus.Location = new System.Drawing.Point(16, 130);
+            this.chkStatus.Name = "chkStatus";
+            this.chkStatus.Size = new System.Drawing.Size(48, 16);
+            this.chkStatus.TabIndex = 9;
+            this.chkStatus.Text = "유효";
+            this.chkStatus.UseVisualStyleBackColor = true;
             // 
             // CategoryEdit
             // 
@@ -207,6 +218,7 @@ namespace BRMS
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(482, 168);
+            this.Controls.Add(this.chkStatus);
             this.Controls.Add(this.bntCancle);
             this.Controls.Add(this.bntSave);
             this.Controls.Add(this.tBoxBotEn);
@@ -250,5 +262,6 @@ namespace BRMS
         private System.Windows.Forms.TextBox tBoxBotEn;
         private System.Windows.Forms.Button bntSave;
         private System.Windows.Forms.Button bntCancle;
+        private System.Windows.Forms.CheckBox chkStatus;
     }
 }

@@ -43,6 +43,7 @@ namespace BRMS
             this.panelCategoryBot = new System.Windows.Forms.Panel();
             this.bntBotCategoryAdd = new System.Windows.Forms.Button();
             this.bntBotCategoryModify = new System.Windows.Forms.Button();
+            this.chkStatus = new System.Windows.Forms.CheckBox();
             this.groupBoxTopCategory.SuspendLayout();
             this.groupBoxMidCategory.SuspendLayout();
             this.groupBoxBotCategory.SuspendLayout();
@@ -228,12 +229,24 @@ namespace BRMS
             this.bntBotCategoryModify.UseVisualStyleBackColor = false;
             this.bntBotCategoryModify.Click += new System.EventHandler(this.bntBotCategoryModify_Click);
             // 
+            // chkStatus
+            // 
+            this.chkStatus.AutoSize = true;
+            this.chkStatus.Font = new System.Drawing.Font("맑은 고딕", 9F);
+            this.chkStatus.Location = new System.Drawing.Point(12, 413);
+            this.chkStatus.Name = "chkStatus";
+            this.chkStatus.Size = new System.Drawing.Size(78, 19);
+            this.chkStatus.TabIndex = 11;
+            this.chkStatus.Text = "무효 포함";
+            this.chkStatus.UseVisualStyleBackColor = true;
+            // 
             // CategoryBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(854, 461);
+            this.Controls.Add(this.chkStatus);
             this.Controls.Add(this.groupBoxBotCategory);
             this.Controls.Add(this.groupBoxMidCategory);
             this.Controls.Add(this.groupBoxTopCategory);
@@ -245,6 +258,7 @@ namespace BRMS
             this.groupBoxMidCategory.ResumeLayout(false);
             this.groupBoxBotCategory.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -263,5 +277,6 @@ namespace BRMS
         private System.Windows.Forms.Panel panelCategoryTop;
         private System.Windows.Forms.Panel panelCategoryMid;
         private System.Windows.Forms.Panel panelCategoryBot;
+        private System.Windows.Forms.CheckBox chkStatus;
     }
 }

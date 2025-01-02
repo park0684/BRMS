@@ -73,6 +73,7 @@ namespace BRMS
             isNewEntry = newEntery;
             if (isNewEntry == true) // 추가 등록
             {
+                chkStatus.Visible = false;
                 object resultObj = new object();
                 string query;
                 if (topCode == 0)
@@ -105,7 +106,8 @@ namespace BRMS
                     MidCategorySearch(topCode, midCode);
                     query = string.Format("SELECT ISNULL(MAX(cat_bot) + 1,1) FROM category WHERE cat_top = {0} AND cat_mid = {1} AND cat_bot !=0", topCode, midCode);
                     dbconn.sqlScalaQuery(query, out resultObj);
-                    tBoxBotCode.Text = resultObj.ToString();
+                    catBot = cDataHandler.ConvertToInt(resultObj); //2025-01-01 수정
+                    tBoxBotCode.Text = catBot.ToString();
                     tBoxMidCode.Enabled = false;
                     tBoxMidKr.Enabled = false;
                     tBoxMidEn.Enabled = false;
@@ -141,17 +143,21 @@ namespace BRMS
         private void TopCategorySearch(int topCode)
         {
             DataTable resultData = new DataTable();
-            string query = string.Format("SELECT cat_name_kr,cat_name_en,cat_code FROM category WHERE cat_top ={0} AND cat_mid = 0 AND cat_bot =0", topCode);
+            string query = string.Format("SELECT cat_name_kr,cat_name_en,cat_code,cat_status FROM category WHERE cat_top ={0} AND cat_mid = 0 AND cat_bot =0", topCode);
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
             categoryCode = cDataHandler.ConvertToInt(dataRow["cat_code"]);
             catTop = topCode;
+            catMid = 0;
+            catBot = 0;
             catNameKr = dataRow["cat_name_kr"].ToString();
             catNameEn = dataRow["cat_name_en"].ToString();
             tBoxTopCode.Text = topCode.ToString();
             tBoxTopKr.Text = catNameKr;
             tBoxTopEn.Text = catNameEn;
             tBoxTopCode.Enabled = false;
+            int status = cDataHandler.ConvertToInt(dataRow["cat_status"]);
+            chkStatus.Checked = status == 1 ? true : false;
             RegisterOriginalData();
         }
         /// <summary>
@@ -163,12 +169,13 @@ namespace BRMS
         {
             TopCategorySearch(topCode);
             DataTable resultData = new DataTable();
-            string query = string.Format("SELECT cat_name_kr,cat_name_en,cat_code FROM category WHERE cat_top ={0} AND cat_mid = {1} AND cat_bot =0", topCode, midCode);
+            string query = string.Format("SELECT cat_name_kr,cat_name_en,cat_code, cat_status FROM category WHERE cat_top ={0} AND cat_mid = {1} AND cat_bot =0", topCode, midCode);
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
             categoryCode = cDataHandler.ConvertToInt(dataRow["cat_code"]);
             catTop = topCode;
             catMid = midCode;
+            catBot = 0;
             catNameKr = dataRow["cat_name_kr"].ToString();
             catNameEn = dataRow["cat_name_en"].ToString();
             tBoxMidCode.Text = midCode.ToString();
@@ -183,6 +190,8 @@ namespace BRMS
             tBoxMidCode.Enabled = true;
             tBoxMidKr.Enabled = true;
             tBoxMidEn.Enabled = true;
+            int status = cDataHandler.ConvertToInt(dataRow["cat_status"]);
+            chkStatus.Checked = status == 1 ? true : false;
             RegisterOriginalData();
         }
         /// <summary>
@@ -196,7 +205,7 @@ namespace BRMS
             TopCategorySearch(topCode);
             MidCategorySearch(topCode, midCode);
             DataTable resultData = new DataTable();
-            string query = string.Format("SELECT cat_code, cat_name_kr,cat_name_en FROM category WHERE cat_top ={0} AND cat_mid = {1} AND cat_bot ={2}", topCode, midCode, botCode);
+            string query = string.Format("SELECT cat_name_kr,cat_name_en, cat_code, cat_status FROM category WHERE cat_top ={0} AND cat_mid = {1} AND cat_bot ={2}", topCode, midCode, botCode);
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
             categoryCode = cDataHandler.ConvertToInt(dataRow["cat_code"]);
@@ -219,6 +228,8 @@ namespace BRMS
             tBoxMidEn.Visible = true;
             tBoxBotKr.Enabled = true;
             tBoxBotEn.Enabled = true;
+            int status = cDataHandler.ConvertToInt(dataRow["cat_status"]);
+            chkStatus.Checked = status == 1 ? true : false;
             RegisterOriginalData();
         }
         /// <summary>
@@ -302,8 +313,8 @@ namespace BRMS
                 name_kr = tBoxBotKr.Text;
                 name_en = tBoxBotEn.Text;
             }
-            query = "INSERT INTO category (cat_code, cat_top, cat_mid, cat_bot,cat_name_kr, cat_name_en, cat_idate, cat_udate)" +
-                "VALUES(@catCode,@catTop,@catMid,@catBot,@catNameKr,@catNameEn, GETDATE(), GETDATE()";
+            query = "INSERT INTO category (cat_code, cat_top, cat_mid, cat_bot,cat_name_kr, cat_name_en, cat_idate, cat_udate, cat_status)" +
+                "VALUES(@catCode,@catTop,@catMid,@catBot,@catNameKr,@catNameEn, GETDATE(), GETDATE(), 1)";
             SqlParameter[] parameter =
             {
                 new SqlParameter("@catCode",SqlDbType.Int){Value = newCategoryCode},
@@ -330,11 +341,13 @@ namespace BRMS
             string name_kr = "";
             string name_en = "";
             string query;
+            int status = chkStatus.Checked == true ? 1:0;
             if (tBoxTopKr.Enabled == true)
             {
                 top = tBoxTopCode.Text;
                 name_kr = tBoxTopKr.Text;
                 name_en = tBoxTopEn.Text;
+
             }
             else if (tBoxMidKr.Enabled == true)
             {
@@ -351,7 +364,8 @@ namespace BRMS
                 name_kr = tBoxBotKr.Text;
                 name_en = tBoxBotEn.Text;
             }
-            query = $"UPDATE category SET cat_top = {top}, cat_mid = {mid}, cat_bot = {bot}, cat_name_kr ='{name_kr}', cat_name_en = '{name_en}', cat_udate = GETDATE() WHERE cat_code ={categoryCode}";
+            
+            query = "UPDATE category SET cat_top = @catTop, cat_mid = @catMid, cat_bot = @catBot, cat_name_kr =@catNameKr, cat_name_en = @catNameEn, cat_udate = GETDATE(), cat_status = @catStatus WHERE cat_code = @catCode";
             SqlParameter[] parameter =
             {
                 new SqlParameter("@catCode",SqlDbType.Int){Value = categoryCode},
@@ -360,6 +374,7 @@ namespace BRMS
                 new SqlParameter("@catBot",SqlDbType.Int){Value = bot},
                 new SqlParameter("@catNameKr",SqlDbType.NVarChar){Value = name_kr},
                 new SqlParameter("@catNameEn",SqlDbType.NVarChar){Value = name_en},
+                new SqlParameter("@catStatus",SqlDbType.Int){Value = status}
             };
             dbconn.ExecuteNonQuery(query, connection, transaction, parameter);
             Dictionary<string, string> modifiedValues = new Dictionary<string, string>();

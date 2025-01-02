@@ -11,9 +11,9 @@ namespace BRMS
 {
     public partial class CategoryBoard : Form
     {
-        private cDataGridDefaultSet DgrTopCategory;
-        private cDataGridDefaultSet DgrMidCategory;
-        private cDataGridDefaultSet DgrBotCategory;
+        private cDataGridDefaultSet DgvTopCategory;
+        private cDataGridDefaultSet DgvMidCategory;
+        private cDataGridDefaultSet DgvBotCategory;
         cDatabaseConnect dbconn = new cDatabaseConnect();
         CategoryEdit categoryEdit = new CategoryEdit();
         public event Action<int, int, int> CategorySelected;
@@ -31,9 +31,10 @@ namespace BRMS
             FormBorderStyle = FormBorderStyle.FixedDialog;
             DataGridViewForm();
             GetTopCategoryInfo();
-            DgrTopCategory.Dgv.CellClick += CurrentDatagridviewTop;
-            DgrMidCategory.Dgv.CellClick += CurrentDatagridviewMid;
-            DgrBotCategory.Dgv.CellClick += CurrentDatagridviewBot;
+            DgvTopCategory.Dgv.CellClick += CurrentDatagridviewTop;
+            DgvMidCategory.Dgv.CellClick += CurrentDatagridviewMid;
+            DgvBotCategory.Dgv.CellClick += CurrentDatagridviewBot;
+            chkStatus.CheckedChanged += chkStatus_ChagedChcked;
             CheckModifyPermission();
         }
         /// <summary>
@@ -97,55 +98,55 @@ namespace BRMS
         /// </summary>
         private void DataGridViewForm()
         {
-            DgrTopCategory = new cDataGridDefaultSet();
-            DgrMidCategory = new cDataGridDefaultSet();
-            DgrBotCategory = new cDataGridDefaultSet();
-            panelCategoryTop.Controls.Add(DgrTopCategory.Dgv);
-            DgrTopCategory.Dgv.Dock = DockStyle.Fill;
-            panelCategoryMid.Controls.Add(DgrMidCategory.Dgv);
-            DgrMidCategory.Dgv.Dock = DockStyle.Fill;
-            panelCategoryBot.Controls.Add(DgrBotCategory.Dgv);
-            DgrBotCategory.Dgv.Dock = DockStyle.Fill;
+            DgvTopCategory = new cDataGridDefaultSet();
+            DgvMidCategory = new cDataGridDefaultSet();
+            DgvBotCategory = new cDataGridDefaultSet();
+            panelCategoryTop.Controls.Add(DgvTopCategory.Dgv);
+            DgvTopCategory.Dgv.Dock = DockStyle.Fill;
+            panelCategoryMid.Controls.Add(DgvMidCategory.Dgv);
+            DgvMidCategory.Dgv.Dock = DockStyle.Fill;
+            panelCategoryBot.Controls.Add(DgvBotCategory.Dgv);
+            DgvBotCategory.Dgv.Dock = DockStyle.Fill;
 
-            DgrTopCategory.Dgv.Columns.Add("catTop", "");
-            DgrTopCategory.Dgv.Columns.Add("CatTopNameKr", "분류명");
-            DgrTopCategory.Dgv.Columns.Add("CatTopNameEn", "분류명");
-            DgrMidCategory.Dgv.Columns.Add("catMid", "");
-            DgrMidCategory.Dgv.Columns.Add("CatMidNameKr", "분류명");
-            DgrMidCategory.Dgv.Columns.Add("CatMidNameEn", "분류명");
-            DgrBotCategory.Dgv.Columns.Add("CatBot", "");
-            DgrBotCategory.Dgv.Columns.Add("CatBotNamekr", "분류명");
-            DgrBotCategory.Dgv.Columns.Add("CatBotNameEn", "분류명");
-            DgrTopCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgrMidCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgrBotCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DgrTopCategory.FormatAsStringCenter("catTop", "CatTopNameKr", "CatTopNameEn","catMid", "CatMidNameKr", "CatMidNameEn", "CatBot", "CatBotNamekr", "CatBotNameEn");
-            DgrTopCategory.Dgv.ReadOnly = true;
-            DgrMidCategory.Dgv.ReadOnly = true;
-            DgrBotCategory.Dgv.ReadOnly = true;
-            DgrTopCategory.Dgv.Columns["catTop"].Width = 30;
-            DgrMidCategory.Dgv.Columns["catMid"].Width = 30;
-            DgrBotCategory.Dgv.Columns["CatBot"].Width = 30;
-            DgrTopCategory.Dgv.Columns["no"].Visible = false;
-            DgrMidCategory.Dgv.Columns["no"].Visible = false;
-            DgrBotCategory.Dgv.Columns["no"].Visible = false;
+            DgvTopCategory.Dgv.Columns.Add("catTop", "");
+            DgvTopCategory.Dgv.Columns.Add("CatTopNameKr", "분류명");
+            DgvTopCategory.Dgv.Columns.Add("CatTopNameEn", "분류명");
+            DgvMidCategory.Dgv.Columns.Add("catMid", "");
+            DgvMidCategory.Dgv.Columns.Add("CatMidNameKr", "분류명");
+            DgvMidCategory.Dgv.Columns.Add("CatMidNameEn", "분류명");
+            DgvBotCategory.Dgv.Columns.Add("CatBot", "");
+            DgvBotCategory.Dgv.Columns.Add("CatBotNamekr", "분류명");
+            DgvBotCategory.Dgv.Columns.Add("CatBotNameEn", "분류명");
+            DgvTopCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DgvMidCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DgvBotCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DgvTopCategory.FormatAsStringCenter("catTop", "CatTopNameKr", "CatTopNameEn","catMid", "CatMidNameKr", "CatMidNameEn", "CatBot", "CatBotNamekr", "CatBotNameEn");
+            DgvTopCategory.Dgv.ReadOnly = true;
+            DgvMidCategory.Dgv.ReadOnly = true;
+            DgvBotCategory.Dgv.ReadOnly = true;
+            DgvTopCategory.Dgv.Columns["catTop"].Width = 30;
+            DgvMidCategory.Dgv.Columns["catMid"].Width = 30;
+            DgvBotCategory.Dgv.Columns["CatBot"].Width = 30;
+            DgvTopCategory.Dgv.Columns["no"].Visible = false;
+            DgvMidCategory.Dgv.Columns["no"].Visible = false;
+            DgvBotCategory.Dgv.Columns["no"].Visible = false;
 
 
             //그리드 정렬 기능 제외
             // Top DataGridView
-            foreach (DataGridViewColumn column in DgrTopCategory.Dgv.Columns)
+            foreach (DataGridViewColumn column in DgvTopCategory.Dgv.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
             // Mid DataGridView
-            foreach (DataGridViewColumn column in DgrMidCategory.Dgv.Columns)
+            foreach (DataGridViewColumn column in DgvMidCategory.Dgv.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
             // Bot DataGridView
-            foreach (DataGridViewColumn column in DgrBotCategory.Dgv.Columns)
+            foreach (DataGridViewColumn column in DgvBotCategory.Dgv.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
@@ -155,17 +156,22 @@ namespace BRMS
         /// </summary>
         private void GetTopCategoryInfo()
         {
-            DgrTopCategory.Dgv.Rows.Clear();
+            DgvTopCategory.Dgv.Rows.Clear();
             DataTable dataTable = new DataTable();
-            string query = string.Format("SELECT cat_top, cat_name_kr,cat_name_en FROm category WHERE cat_top != 0 AND cat_mid = 0 AND cat_bot = 0");
+            string query = "SELECT cat_top, cat_name_kr,cat_name_en, cat_status FROm category WHERE cat_top != 0 AND cat_mid = 0 AND cat_bot = 0";
+            query += chkStatus.Checked == false ? " AND cat_status = 1":"";
             dbconn.SqlDataAdapterQuery(query, dataTable);
             int rowIndex = 0;
             foreach(DataRow dataRow in dataTable.Rows)
             {
-                DgrTopCategory.Dgv.Rows.Add();
-                DgrTopCategory.Dgv.Rows[rowIndex].Cells[1].Value = dataRow[0];
-                DgrTopCategory.Dgv.Rows[rowIndex].Cells[2].Value = dataRow[1];
-                DgrTopCategory.Dgv.Rows[rowIndex].Cells[3].Value = dataRow[2];
+                DgvTopCategory.Dgv.Rows.Add();
+                DgvTopCategory.Dgv.Rows[rowIndex].Cells[1].Value = dataRow[0];
+                DgvTopCategory.Dgv.Rows[rowIndex].Cells[2].Value = dataRow[1];
+                DgvTopCategory.Dgv.Rows[rowIndex].Cells[3].Value = dataRow[2];
+                if(cDataHandler.ConvertToInt(dataRow["cat_status"]).Equals(0) )
+                {
+                    DgvTopCategory.Dgv.Rows[rowIndex].DefaultCellStyle.BackColor = cUIManager.Color.PastelRose;
+                }
                 rowIndex++;
             }
         }
@@ -174,23 +180,28 @@ namespace BRMS
         /// </summary>
         private void GetMidCategoryInfo()
         {
-            DgrMidCategory.Dgv.Rows.Clear();
+            DgvMidCategory.Dgv.Rows.Clear();
             DataTable dataTable = new DataTable();
-            string query = string.Format("SELECT cat_mid, cat_name_kr, cat_name_en FROM category WHERE cat_top ={0} AND cat_mid != 0 AND cat_bot = 0"
-                , DgrTopCategory.Dgv.CurrentRow.Cells[1].Value.ToString());
+            int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells[1].Value);
+            string query = $"SELECT cat_mid, cat_name_kr, cat_name_en, cat_status FROM category WHERE cat_top ={topCode} AND cat_mid != 0 AND cat_bot = 0";
+            query += chkStatus.Checked == false ? " AND cat_status = 1" : "";
             dbconn.SqlDataAdapterQuery(query, dataTable);
             int rowIndex = 0;
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                DgrMidCategory.Dgv.Rows.Add();
-                DgrMidCategory.Dgv.Rows[rowIndex].Cells[1].Value = dataRow[0];
-                DgrMidCategory.Dgv.Rows[rowIndex].Cells[2].Value = dataRow[1];
-                DgrMidCategory.Dgv.Rows[rowIndex].Cells[3].Value = dataRow[2];
+                DgvMidCategory.Dgv.Rows.Add();
+                DgvMidCategory.Dgv.Rows[rowIndex].Cells[1].Value = dataRow[0];
+                DgvMidCategory.Dgv.Rows[rowIndex].Cells[2].Value = dataRow[1];
+                DgvMidCategory.Dgv.Rows[rowIndex].Cells[3].Value = dataRow[2];
+                if (cDataHandler.ConvertToInt(dataRow["cat_status"]).Equals(0))
+                {
+                    DgvMidCategory.Dgv.Rows[rowIndex].DefaultCellStyle.BackColor = cUIManager.Color.PastelRose;
+                }
                 rowIndex++;
             }
             if(WorkTye == 2)
             {
-                DgrMidCategory.Dgv.ClearSelection();
+                DgvMidCategory.Dgv.ClearSelection();
             }
         }
         /// <summary>
@@ -198,23 +209,29 @@ namespace BRMS
         /// </summary>
         private void GetBotCategoryInfo()
         {
-            DgrBotCategory.Dgv.Rows.Clear();
+            DgvBotCategory.Dgv.Rows.Clear();
             DataTable dataTable = new DataTable();
-            string query = string.Format("SELECT cat_bot, cat_name_kr, cat_name_en FROM category WHERE cat_top ={0} AND cat_mid = {1} AND cat_bot != 0"
-                , DgrTopCategory.Dgv.CurrentRow.Cells[1].Value.ToString(), DgrMidCategory.Dgv.CurrentRow.Cells[1].Value.ToString());
+            int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells[1].Value);
+            int midCode = cDataHandler.ConvertToInt(DgvMidCategory.Dgv.CurrentRow.Cells[1].Value);
+            string query = $"SELECT cat_bot, cat_name_kr, cat_name_en, cat_status FROM category WHERE cat_top ={topCode} AND cat_mid = {midCode} AND cat_bot != 0";
+            query += chkStatus.Checked == false ? " AND cat_status = 1" : "";
             dbconn.SqlDataAdapterQuery(query, dataTable);
             int rowIndex = 0;
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                DgrBotCategory.Dgv.Rows.Add();
-                DgrBotCategory.Dgv.Rows[rowIndex].Cells[1].Value = dataRow[0];
-                DgrBotCategory.Dgv.Rows[rowIndex].Cells[2].Value = dataRow[1];
-                DgrBotCategory.Dgv.Rows[rowIndex].Cells[3].Value = dataRow[2];
+                DgvBotCategory.Dgv.Rows.Add();
+                DgvBotCategory.Dgv.Rows[rowIndex].Cells[1].Value = dataRow[0];
+                DgvBotCategory.Dgv.Rows[rowIndex].Cells[2].Value = dataRow[1];
+                DgvBotCategory.Dgv.Rows[rowIndex].Cells[3].Value = dataRow[2];
+                if (cDataHandler.ConvertToInt(dataRow["cat_status"]).Equals(0))
+                {
+                    DgvBotCategory.Dgv.Rows[rowIndex].DefaultCellStyle.BackColor = cUIManager.Color.PastelRose;
+                }
                 rowIndex++;
             }
             if (WorkTye == 2)
             {
-                DgrBotCategory.Dgv.ClearSelection();
+                DgvBotCategory.Dgv.ClearSelection();
             }
         }
         /// <summary>
@@ -228,11 +245,11 @@ namespace BRMS
             int selectedRowIndex = e.RowIndex;
             if(selectedRowIndex >=0)
             {
-                DgrMidCategory.Dgv.Rows.Clear();
-                DgrBotCategory.Dgv.Rows.Clear();
-                DataGridViewRow selectedRow = DgrTopCategory.Dgv.Rows[selectedRowIndex];
+                DgvMidCategory.Dgv.Rows.Clear();
+                DgvBotCategory.Dgv.Rows.Clear();
+                DataGridViewRow selectedRow = DgvTopCategory.Dgv.Rows[selectedRowIndex];
                 GetMidCategoryInfo();
-                pdtTop = Convert.ToInt32(DgrTopCategory.Dgv.CurrentRow.Cells[1].Value);
+                pdtTop = Convert.ToInt32(DgvTopCategory.Dgv.CurrentRow.Cells[1].Value);
 
             }
         }
@@ -247,10 +264,10 @@ namespace BRMS
             int selectedRowIndex = e.RowIndex;
             if (selectedRowIndex >= 0)
             {
-                DgrBotCategory.Dgv.Rows.Clear();
-                DataGridViewRow selectedRow = DgrMidCategory.Dgv.Rows[selectedRowIndex];
+                DgvBotCategory.Dgv.Rows.Clear();
+                DataGridViewRow selectedRow = DgvMidCategory.Dgv.Rows[selectedRowIndex];
                 GetBotCategoryInfo();
-                pdtMid = Convert.ToInt32(DgrMidCategory.Dgv.CurrentRow.Cells[1].Value);
+                pdtMid = Convert.ToInt32(DgvMidCategory.Dgv.CurrentRow.Cells[1].Value);
             }
         }
         /// <summary>
@@ -260,7 +277,7 @@ namespace BRMS
         /// <param name="e"></param>
         private void CurrentDatagridviewBot(object sener, DataGridViewCellEventArgs e)
         {
-            pdtBot = Convert.ToInt32(DgrBotCategory.Dgv.CurrentRow.Cells[1].Value);
+            pdtBot = Convert.ToInt32(DgvBotCategory.Dgv.CurrentRow.Cells[1].Value);
         }
         /// <summary>
         /// 분류정보 수정 창 호출
@@ -278,8 +295,8 @@ namespace BRMS
         /// <param name="e"></param>
         private void bntTopCategoryModify_Click(object sender, EventArgs e)
         {
-            int row = DgrTopCategory.Dgv.CurrentRow.Index;
-            int topCode = cDataHandler.ConvertToInt(DgrTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
+            int row = DgvTopCategory.Dgv.CurrentRow.Index;
+            int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
             int midCode = 0;
             int botCode = 0;
             categoryEdit.GetCategoryinfo(topCode, midCode, botCode, false);
@@ -293,10 +310,10 @@ namespace BRMS
         /// <param name="e"></param>
         private void bntMidCategoryModify_Click(object sender, EventArgs e)
         {
-            if (DgrMidCategory.Dgv.RowCount > 0)
+            if (DgvMidCategory.Dgv.RowCount > 0)
             {
-                int topCode = cDataHandler.ConvertToInt(DgrTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
-                int midCode = cDataHandler.ConvertToInt(DgrMidCategory.Dgv.CurrentRow.Cells["catMid"].Value);
+                int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
+                int midCode = cDataHandler.ConvertToInt(DgvMidCategory.Dgv.CurrentRow.Cells["catMid"].Value);
                 int botCode = 0;
                 categoryEdit.GetCategoryinfo(topCode, midCode, botCode, false);
                 CallCategoryEditFrom();
@@ -314,11 +331,11 @@ namespace BRMS
         /// <param name="e"></param>
         private void bntBotCategoryModify_Click(object sender, EventArgs e)
         {
-            if (DgrBotCategory.Dgv.RowCount > 0)
+            if (DgvBotCategory.Dgv.RowCount > 0)
             {
-                int topCode = cDataHandler.ConvertToInt(DgrTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
-                int midCode = cDataHandler.ConvertToInt(DgrMidCategory.Dgv.CurrentRow.Cells["catMid"].Value);
-                int botCode = cDataHandler.ConvertToInt(DgrBotCategory.Dgv.CurrentRow.Cells["catBot"].Value);
+                int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
+                int midCode = cDataHandler.ConvertToInt(DgvMidCategory.Dgv.CurrentRow.Cells["catMid"].Value);
+                int botCode = cDataHandler.ConvertToInt(DgvBotCategory.Dgv.CurrentRow.Cells["catBot"].Value);
                 categoryEdit.GetCategoryinfo(topCode, midCode, botCode, false);
                 CallCategoryEditFrom();
                 GetBotCategoryInfo();
@@ -349,7 +366,7 @@ namespace BRMS
         /// <param name="e"></param>
         private void bntMidCategoryAdd_Click(object sender, EventArgs e)
         {
-            int topCode = cDataHandler.ConvertToInt(DgrTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
+            int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
             int midCode = 0;
             int botCode = 0;
             categoryEdit.GetCategoryinfo(topCode, midCode, botCode, true);
@@ -363,8 +380,8 @@ namespace BRMS
         /// <param name="e"></param>
         private void bntBotCategoryAdd_Click(object sender, EventArgs e)
         {
-            int topCode = cDataHandler.ConvertToInt(DgrTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
-            int midCode = cDataHandler.ConvertToInt(DgrMidCategory.Dgv.CurrentRow.Cells["catMid"].Value);
+            int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells["catTop"].Value);
+            int midCode = cDataHandler.ConvertToInt(DgvMidCategory.Dgv.CurrentRow.Cells["catMid"].Value);
             int botCode = 0;
             if (topCode != 0 || midCode != 0)
             {
@@ -393,19 +410,19 @@ namespace BRMS
         {
             if(WorkTye != 2)
             {
-                if (DgrMidCategory.Dgv.CurrentRow == null && DgrBotCategory.Dgv.CurrentRow == null)
+                if (DgvMidCategory.Dgv.CurrentRow == null && DgvBotCategory.Dgv.CurrentRow == null)
                 {
                     MessageBox.Show("중,소분류를 선택하세요");
                 }
-                else if (DgrBotCategory.Dgv.CurrentRow == null)
+                else if (DgvBotCategory.Dgv.CurrentRow == null)
                 {
                     MessageBox.Show("소분류를 선택하세요");
                 }
                 else
                 {
-                    pdtTop = Convert.ToInt32(DgrTopCategory.Dgv.CurrentRow.Cells[1].Value);
-                    pdtMid = Convert.ToInt32(DgrMidCategory.Dgv.CurrentRow.Cells[1].Value);
-                    pdtBot = Convert.ToInt32(DgrBotCategory.Dgv.CurrentRow.Cells[1].Value);
+                    pdtTop = Convert.ToInt32(DgvTopCategory.Dgv.CurrentRow.Cells[1].Value);
+                    pdtMid = Convert.ToInt32(DgvMidCategory.Dgv.CurrentRow.Cells[1].Value);
+                    pdtBot = Convert.ToInt32(DgvBotCategory.Dgv.CurrentRow.Cells[1].Value);
                     //productInfo.GetCategory(pdttop, pdtmid, pdtbot);
                     CategorySelected?.Invoke(pdtTop, pdtMid, pdtBot);
                     Close();
@@ -417,6 +434,10 @@ namespace BRMS
                 CategorySelected?.Invoke(pdtTop, pdtMid, pdtBot);
                 Close();
             }
+        }
+        private void chkStatus_ChagedChcked(object sender, EventArgs e)
+        {
+            GetTopCategoryInfo();
         }
     }
 }
