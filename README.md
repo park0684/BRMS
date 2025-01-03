@@ -27,6 +27,9 @@
 > - user : testuser
 > - Password : !testuser1200
 > - Databse : brms_test
+> - BRMS 로그인 계정
+>   > 코드 : 1
+>   > 패스워드 1
 </details>
 
 ## 📌 주요기능
