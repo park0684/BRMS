@@ -91,7 +91,7 @@ namespace BRMS
             cmBoxSaleDate.SelectedIndex = 0;
 
             cmBoxStatus.Items.Add("전체");
-            foreach (var status in cStatusCode.SupplierPayment)
+            foreach (var status in cStatusCode.CustomerStatus)
             {
                 cmBoxStatus.Items.Add(new KeyValuePair<int, string>(status.Key, status.Value));
             }
