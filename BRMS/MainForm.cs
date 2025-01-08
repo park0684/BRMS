@@ -17,10 +17,20 @@ namespace BRMS
         //Dictionary<int, string> accessPermission = new Dictionary<int, string>();
         int accessedEmp = cUserSession.AccessedEmp;
         Dictionary<int, string> accessPermission = cUserSession.AccessPermission;
-
+        //메뉴 등록될 패널 전역 변수 선언
+        Panel pnlSalesMenu = new Panel();
+        Panel pnlCustomerMenu = new Panel();
+        Panel pnlsupplierMenu = new Panel();
+        Panel pnlBasicMenu = new Panel();
+        //사이드 메뉴 버튼 전역 변수 선언
+        Button btnBasicMenu = new Button();
+        Button btnSupplierMenu = new Button();
+        Button btnSalesMenu = new Button();
+        Button btnCustomerMenu = new Button();
         public MainForm()
         {
             InitializeComponent();
+            MenuLayout();
             SideMenuDesign();
             TopMenuButtonSet();
             lblMenuTitle.Text = "";
@@ -46,36 +56,171 @@ namespace BRMS
             btnPrint.Text = "";
 
         }
-       /// <summary>
-       /// 사이드 메뉴 디자인 설정
-       /// </summary>
+        private void MenuLayout()
+        {
+            /*사이드 메뉴 패널 객체 등록
+             해당 부분은 사이드 메뉴 표시에 순서 영향이 있음*/
+            //회원
+            panelSideMenu.Controls.Add(pnlCustomerMenu);
+            panelSideMenu.Controls.Add(btnCustomerMenu);
+            //판매관리
+            panelSideMenu.Controls.Add(pnlSalesMenu);
+            panelSideMenu.Controls.Add(btnSalesMenu);
+            //공급사/매입관리
+            panelSideMenu.Controls.Add(pnlsupplierMenu);
+            panelSideMenu.Controls.Add(btnSupplierMenu);
+            //기초관리
+            panelSideMenu.Controls.Add(pnlBasicMenu);
+            panelSideMenu.Controls.Add(btnBasicMenu);
+            panelSideMenu.Controls.Add(panelMenuTitle);
+
+            //실행 메뉴 버튼 생성,이벤트 지정
+
+            Button btnSupplierLog = CreateMenuButton("공급사 변경 로그", btnSupplierLog_Click);
+            Button btnProductLog = CreateMenuButton("제품변경 로그", btnProductLog_Click);
+            Button btnEmployee = CreateMenuButton("직원관리", btnEmployee_Click);
+            Button btnSalesReport = CreateMenuButton("판매현황", btnSalesReport_Click);
+            Button btnSalesList = CreateMenuButton("판매내역", btnSalesList_Click);
+            Button btnCustomerList = CreateMenuButton("회원목록", btnCustomerList_Click);
+            Button btnOrderList = CreateMenuButton("주문서", btnOrderList_Click);
+            Button btnSupplierOrder = CreateMenuButton("발주", btnSupplierOrder_Click);
+            Button btnPurchase = CreateMenuButton("매입", btnPurchase_Click);
+            Button btnSupplier = CreateMenuButton("공급사 관리", btnSupplier_Click);
+            Button btnCategory = CreateMenuButton("분류", btnCategory_Click);
+            Button btnProduct = CreateMenuButton("제품관리", btnProduct_Click);
+            Button btnPurchaseLog = CreateMenuButton("매입변경로그", btnPurchaseLog_Click);
+            Button btnPaymentLog = CreateMenuButton("결제변경로그", btnPaymentLog_Click);
+            Button btnCustomerLog = CreateMenuButton("회원변경 로그", btnCustomerLog_Click);
+            Button btnEmpLog = CreateMenuButton("직원변경 로그", btnEmpLog_Click);
+            Button btnAccessLog = CreateMenuButton("직원접속 로그", btnAccessLog_Click);
+            Button btnSettlement = CreateMenuButton("일결산 실행", btnSettlement_Click);
+            Button btnDailyreportByDay = CreateMenuButton("일결산 일별 조회", btnDailyreportByDay_Click);
+            Button btnDailyReportPdt = CreateMenuButton("일결산 제품별 조회", btnDailyReportPdt_Click);
+            Button btnDailyReportCategory = CreateMenuButton("일결산 분류별 조회", btnDailyReportCategory_Click);
+            Button btnSupplierPayment = CreateMenuButton("공급사 결제", btnSupplierPayment_Click);
+
+            //사이드 버튼 설정
+            SideButtonSetting(btnCustomerMenu, "회원관리", btnCustomerMenu_Click);
+            SideButtonSetting(btnSalesMenu, "판매관리", btnSalesMenu_Click);
+            SideButtonSetting(btnSupplierMenu, "공급사/매입관리", btnSupplierMenu_Click);
+            SideButtonSetting(btnBasicMenu, "기초관리", btnBasicMenu_Click);
+
+            //기초관리 패널 설정
+            SidePanalSetting(pnlBasicMenu);// 패널 설정
+            pnlBasicMenu.Controls.Add(btnAccessLog);
+            pnlBasicMenu.Controls.Add(btnEmpLog);
+            pnlBasicMenu.Controls.Add(btnEmployee);
+            pnlBasicMenu.Controls.Add(btnCategory);
+            pnlBasicMenu.Controls.Add(btnProductLog);
+            pnlBasicMenu.Controls.Add(btnProduct);
+
+            //공급사/매입관리 패널 설정
+            SidePanalSetting(pnlsupplierMenu);
+            pnlsupplierMenu.Controls.Add(btnPaymentLog);
+            pnlsupplierMenu.Controls.Add(btnSupplierPayment);
+            pnlsupplierMenu.Controls.Add(btnPurchaseLog);
+            pnlsupplierMenu.Controls.Add(btnSupplierOrder);
+            pnlsupplierMenu.Controls.Add(btnPurchase);
+            pnlsupplierMenu.Controls.Add(btnSupplierLog);
+            pnlsupplierMenu.Controls.Add(btnSupplier);
+
+            //판매관리 패널 설정
+            SidePanalSetting(pnlSalesMenu);
+            pnlSalesMenu.Controls.Add(btnDailyReportCategory);
+            pnlSalesMenu.Controls.Add(btnDailyReportPdt);
+            pnlSalesMenu.Controls.Add(btnDailyreportByDay);
+            pnlSalesMenu.Controls.Add(btnSettlement);
+            pnlSalesMenu.Controls.Add(btnOrderList);
+            pnlSalesMenu.Controls.Add(btnSalesReport);
+            pnlSalesMenu.Controls.Add(btnSalesList);
+
+            //회원관리 패널 설정
+            SidePanalSetting(pnlCustomerMenu);
+            pnlCustomerMenu.Controls.Add(btnCustomerLog);
+            pnlCustomerMenu.Controls.Add(btnCustomerList);
+        }
+        /// <summary>
+        /// 메뉴버튼 생성 메소드
+        /// </summary>
+        /// <param name="btnText"></param>
+        /// <param name="eventHandler"></param>해당 버튼 클릭시 실행될 이벤트 지정
+        /// <returns></returns>
+        private Button CreateMenuButton(string btnText, EventHandler eventHandler)
+        {
+            Button btn = new Button
+            {
+                Text = btnText,
+                Dock = DockStyle.Top,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Color.White,
+                UseVisualStyleBackColor = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Size = new Size(150, 35),
+                Font = new Font("맑은 고딕", 10F)
+            };
+            btn.FlatAppearance.BorderSize = 0;
+            btn.Click += eventHandler;
+            return btn;
+        }
+
+        /// <summary>
+        /// 사이드 버튼 설정 메소드
+        /// </summary>
+        /// <param name="button"></param> 전역에서 생성된 변수 지정
+        /// <param name="btnString"></param> 표시될 메뉴명
+        /// <param name="eventHandler"></param> 클릭시 실해될 이벤트 지정
+        private void SideButtonSetting(Button button, string btnString, EventHandler eventHandler)
+        {
+            button.BackColor = Color.FromArgb(39, 39, 58);
+            button.Text = btnString;
+            button.Dock = DockStyle.Top;
+            button.FlatAppearance.BorderSize = 0;
+            button.FlatStyle = FlatStyle.Flat;
+            button.ForeColor = Color.White;
+            button.Size = new Size(150, 40);
+            button.TextAlign = ContentAlignment.MiddleLeft;
+            button.Font = new Font("맑은 고딕", 10F);
+            button.Click += eventHandler;
+        }
+        /// <summary>
+        /// 사이드 메뉴 패널 설정 메소드
+        /// </summary>
+        /// <param name="pnl"></param>
+        private void SidePanalSetting(Panel pnl)
+        {
+            pnl.BackColor = Color.FromArgb(45, 58, 88);
+            pnl.Dock = DockStyle.Top;
+        }
+        /// <summary>
+        /// 사이드 메뉴 디자인 설정
+        /// </summary>
         private void SideMenuDesign()
         {
-            panelBasicMenu.Visible = false;
-            panelSupplyMenu.Visible = false;
-            panelSalseNenu.Visible = false;
-            panelCustomerMenu.Visible = false;
+            pnlBasicMenu.Visible = false;
+            pnlsupplierMenu.Visible = false;
+            pnlSalesMenu.Visible = false;
+            pnlCustomerMenu.Visible = false;
         }
         /// <summary>
         /// 사이드 메뉴 보이기/숨기시 기능 설정
         /// </summary>
         private void SubMenuHide()
         {
-            if (panelBasicMenu.Visible == true)
+            if (pnlBasicMenu.Visible == true)
             {
-                panelBasicMenu.Visible = false;
+                pnlBasicMenu.Visible = false;
             }
-            if(panelSupplyMenu.Visible == true)
+            if(pnlsupplierMenu.Visible == true)
             {
-                panelSupplyMenu.Visible = false;
+                pnlsupplierMenu.Visible = false;
             }
-            if (panelSalseNenu.Visible == true)
+            if (pnlSalesMenu.Visible == true)
             {
-                panelSalseNenu.Visible = false;
+                pnlSalesMenu.Visible = false;
             }
-            if (panelCustomerMenu.Visible == true)
+            if (pnlCustomerMenu.Visible == true)
             {
-                panelCustomerMenu.Visible = false;
+                pnlCustomerMenu.Visible = false;
             }
         }
 
@@ -193,30 +338,30 @@ namespace BRMS
                 }
             }
         }
-        private void bntBasicMenu_Click(object sender, EventArgs e)
+        private void btnBasicMenu_Click(object sender, EventArgs e)
         {
-            SubMenuShow(panelBasicMenu);
+            SubMenuShow(pnlBasicMenu);
         }
 
-        private void bntSupplierMenu_Click(object sender, EventArgs e)
+        private void btnSupplierMenu_Click(object sender, EventArgs e)
         {
-            SubMenuShow(panelSupplyMenu);
+            SubMenuShow(pnlsupplierMenu);
         }
 
-        private void bntSalseMenu_Click(object sender, EventArgs e)
+        private void btnSalesMenu_Click(object sender, EventArgs e)
         {
-            SubMenuShow(panelSalseNenu);
+            SubMenuShow(pnlSalesMenu);
         }
-        private void bntCoustomer_Click(object sender, EventArgs e)
+        private void btnCustomerMenu_Click(object sender, EventArgs e)
         {
-            SubMenuShow(panelCustomerMenu);
+            SubMenuShow(pnlCustomerMenu);
         }
         /// <summary>
         /// 분류 버튼 클릭
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntCategory_Click(object sender, EventArgs e)
+        private void btnCategory_Click(object sender, EventArgs e)
         {
             CategoryBoard categoryBoard = new CategoryBoard();
             categoryBoard.StartPosition = FormStartPosition.CenterParent;
@@ -228,7 +373,7 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntProduct_Click(object sender, EventArgs e)
+        private void btnProduct_Click(object sender, EventArgs e)
         {
             btn_Click<ProductList>(sender, e,101);
         }
@@ -237,7 +382,7 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntSupplier_Click(object sender, EventArgs e)
+        private void btnSupplier_Click(object sender, EventArgs e)
         {
             btn_Click<SupplierList>(sender, e,131);
         }
@@ -246,7 +391,7 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntPurchase_Click(object sender, EventArgs e)
+        private void btnPurchase_Click(object sender, EventArgs e)
         {
             btn_Click<PurchaseList>(sender, e,201);
         }
@@ -255,7 +400,7 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntSupplierPayment_Click(object sender, EventArgs e)
+        private void btnSupplierPayment_Click(object sender, EventArgs e)
         {
             btn_Click<PaymentList>(sender, e,221);
         }
@@ -264,7 +409,7 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntSupplierOrder_Click(object sender, EventArgs e)
+        private void btnSupplierOrder_Click(object sender, EventArgs e)
         {
             btn_Click<PurchaseOrderList>(sender, e,201);
         }
@@ -273,7 +418,7 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntOrderList_Click(object sender, EventArgs e)
+        private void btnOrderList_Click(object sender, EventArgs e)
         {
             btn_Click<CustomerOrderList>(sender, e,301);
         }
@@ -282,17 +427,17 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void bntCustomerList_Click(object sender, EventArgs e)
+        private void btnCustomerList_Click(object sender, EventArgs e)
         {
             btn_Click<CustomerList>(sender, e,401);
         }
 
-        private void bntSalseList_Click(object sender, EventArgs e)
+        private void btnSalesList_Click(object sender, EventArgs e)
         {
             btn_Click<SalesList>(sender, e,301);
         }
 
-        private void bntSalesReport_Click(object sender, EventArgs e)
+        private void btnSalesReport_Click(object sender, EventArgs e)
         {
             btn_Click<SalesReport>(sender, e,301);
         }
@@ -304,7 +449,7 @@ namespace BRMS
             dbconfig.ShowDialog();
 
         }
-        private void bntEmployee_Click(object sender, EventArgs e)
+        private void btnEmployee_Click(object sender, EventArgs e)
         {
             btn_Click<EmployeeList>(sender, e,501);
         }
