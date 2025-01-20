@@ -42,11 +42,16 @@
 <summary>제품관리</summary>
 
 > - 제품명, 제품코드를 검색어로 조회도 가능하지만 제품 등록 및 기간 조건을 지정하여 조회가 가능합니다<br/>
+    ![Image](https://github.com/user-attachments/assets/ae8e3119-fa61-4727-8bbb-3d664b747078)
 > - 좌측 상단의 분류를 지정할 경우 지정된 분류의 상품들만 조회가 가능합니다<br/>
 > - 조회된 제품을 더블클릭 하면 선택된 제품의 제품코드, 제품명, 공급사, 분류, 매입가, 판매가 설정이 가능합니다.<br/>
+판매가는 설정된 환율 연동으로 자동 한화 또는 달러로 전환됩니다.<br/>
+![Image](https://github.com/user-attachments/assets/c09796de-1b1f-4421-97be-ad2f0e964932)
 > - 새로운 제품을 등록 할 경우 제품코드의 중복 여부를 확인 후 등록 합니다.
+![Image](https://github.com/user-attachments/assets/50ed954d-22d4-48e1-8bab-67880159696d)
 > - 새 제품 등록 시 공급사와 분류 지정은 필수 입니다. 
 > - 제품등록정보에서는 제품의 정보뿐 아니라 매입, 판매, 변경 로그 조회가 가능합니다.
+![Image](https://github.com/user-attachments/assets/65e59257-9171-46f5-83de-7a10e65960ee)
 </details>
 </div>
 
@@ -55,6 +60,11 @@
   
 > - 제품의 분류 지정을 위한 분류 정보를 추가 수정 할 수 있으며<br/>
 > 제품 정보 및 판매 조회 시 분류를 지정하사용 가능
+<div>
+  <img src="https://github.com/user-attachments/assets/2319a7bc-1d64-458b-9874-cbd866a253de" alt="Image 1" width="200"/>
+  <img src="https://github.com/user-attachments/assets/8d4cb6c9-aece-4e23-b773-71f052d42a0f" alt="Image 2" width="200"/>
+  <img src="https://github.com/user-attachments/assets/2c63cba8-ec8b-487a-a997-40e8781df3c7" alt="Image 3" width="200"/>
+</div>
 </details>
 
 <details>
@@ -63,6 +73,7 @@
 > - 업무를 위한 직원을 등록하거나 정보를 수정 할 수 있는 메뉴입니다.
 > - 직원 등록 및 권한 부여를 통해 업무에 따른 정보 접근 및 제어를 제한 할 수 있습니다.<br/>
 > - 직원 권한은 조회와 등록/수정, 출력, 엑셀저장 등 4가지 권한을 각 메뉴마다 지정이 가능합니다.
+> - ![Image](https://github.com/user-attachments/assets/908c058e-50f3-4989-9420-c85635c40fc1)
 > - 직원코드는 채번코드로 별도 지정하지 못하고 자동으로 등록 순서에 따라 부여됩니다.
 > - 직원 비밀번호는 암호화 처리 되며, 분실시 확인은 불가능하므로 수정을 통해 초기화 할 수 있습니다.
 </details>
@@ -90,21 +101,23 @@
 > - 등록된 매입 제품은 각 제품의 제고에 즉시 반영 됩니다<br/>
 > - 매입금액은 제품의 매입단가에 반영이 우선이나 개별로 변경하여 입력이 가능하며,<br/>
 > - 합산된 매입액은 해당 공급사의 미수잔액에 반영이 됩니다.
+> - ![Image](https://github.com/user-attachments/assets/c683c666-6da0-4b90-9260-9f4ea3dfc226)
 </details>
 <details>
 <summary>발주</summary>
 
 > - 각 공급사별로 매입 또는 반품으로 전표 등록이 가능하며,<br/> 
 > - 등록된 매입 제품은 각 재고 및 공급사 미수 잔액에 영향을 주지 않습니다.
-> - 입고완료 등 상태를 변경 할 수 있으며, 입고 수량만큼 매입전표로 전환도 가능합니다.
+> - 입고완료 등 상태를 변경 할 수 있습니다.
 </details>
 
 <details>
 <summary>결제관리</summary>
 
-> - 각 공급사별로 미수잔액 조회 및 결제 등록<br/>
+> - 각 공급사별로 미수잔액 조회 및 결제 등록하는 메뉴입니다<br/>
 > - 결제유형은 현금, 계좌이체, 카드, 어음이 있으며<br/>
-> - 할인 및 쿠폰과 같은 공급사의 지원 사항등도 반영이 가능
+> - 할인 및 쿠폰과 같은 공급사의 지원 사항등도 반영이 가능합니다
+> - ![Image](https://github.com/user-attachments/assets/709d868f-bf6e-4ef9-8bda-400fa9ac3883)
 </details>
 
 ### 3.판매관리
@@ -114,6 +127,7 @@
 > - 제품 판매 현황을 공급사별, 분류별, 제품별, 일자별로 조회 할 수 있는 메뉴입니다.<br/>
 > - 판매된 수량과 금액이 합산되어 표시되며, 이익은 판매분에 대한 이익율로 계산됩니다.<br/>
 > - 공급사별, 분류별, 제품별은 일자별 조회 체크 시 각항목이 일자별로 구분되어 조회가 됩니다.
+> - ![Image](https://github.com/user-attachments/assets/8cc195d2-5696-460d-a334-aef0aef3afca)
 </details>
 
 <details>
@@ -171,9 +185,9 @@
 > - 국가 지정은 D/B에 기록되어 있는 정보를 기준으로 반영되며, 새 회원등록 시 기본적으로 대한민국으로 지정되어 있어 별도 수정이 필요합니다.
 </details>
 <details>
-<summary>회원 거래내역 </summary>
+<summary>포인트 내역 </summary>
 
-> - 회원의 거래 금액, 횟수 등의 정보를 일괄 조회 하는 메뉴입니다.
-> - 거래기간을 지정하거나, 특정 회원만 조회 하는 등 상세내역이 아닌 합산된 내역을 조회 하는것이 목적인 메뉴이나,<br/>
-> - 현재 기능 구현은 안되어 있습니다.
+> - 회원의 포인트 적립, 사용 정보를 일괄 조회 하는 메뉴입니다.
+> - 판매 또는 반품 거래시 적립과 사용된 포인트를 따로 표시하며,<br/>
+> - 회원정보와 거래 선택을 하여 조회 할 수 있습니다.
 </details>
