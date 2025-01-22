@@ -114,7 +114,7 @@ namespace BRMS
             this.bntOrderReg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bntOrderReg.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.bntOrderReg.ForeColor = System.Drawing.Color.White;
-            this.bntOrderReg.Location = new System.Drawing.Point(820, 134);
+            this.bntOrderReg.Location = new System.Drawing.Point(820, 10);
             this.bntOrderReg.Name = "bntOrderReg";
             this.bntOrderReg.Size = new System.Drawing.Size(100, 30);
             this.bntOrderReg.TabIndex = 20;
@@ -195,9 +195,9 @@ namespace BRMS
             this.panelDatagrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelDatagrid.Location = new System.Drawing.Point(12, 170);
+            this.panelDatagrid.Location = new System.Drawing.Point(12, 94);
             this.panelDatagrid.Name = "panelDatagrid";
-            this.panelDatagrid.Size = new System.Drawing.Size(908, 447);
+            this.panelDatagrid.Size = new System.Drawing.Size(908, 523);
             this.panelDatagrid.TabIndex = 21;
             // 
             // PurchaseOrderList

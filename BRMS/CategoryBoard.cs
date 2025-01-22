@@ -17,7 +17,7 @@ namespace BRMS
         cDatabaseConnect dbconn = new cDatabaseConnect();
         CategoryEdit categoryEdit = new CategoryEdit();
         public event Action<int, int, int> CategorySelected;
-        int WorkTye = 0; // 0== 분류 지정 | 1 == 분류설정 | 2 == 분류 조회 조건 설정
+        private static int WorkTye = 0; // 0== 분류 지정 | 1 == 분류설정 | 2 == 분류 조회 조건 설정
         int pdtTop = 0;
         int pdtMid = 0;
         int pdtBot = 0;
@@ -37,6 +37,11 @@ namespace BRMS
             chkStatus.CheckedChanged += chkStatus_ChagedChcked;
             CheckModifyPermission();
         }
+        public int WorkType
+        {
+            get { return WorkTye; }
+            set { WorkTye = value; }
+        }
         /// <summary>
         /// 등록/수정 권한 확인 후 버튼 비활성화 여부 결정
         /// </summary>
@@ -54,6 +59,7 @@ namespace BRMS
         }
         /// <summary>
         /// 설정모드로 Form 실행
+        /// 추가, 수정 버튼 비활성 상태로 실행
         /// </summary>
         /// <returns></returns>
         public bool EditeMode()
@@ -64,6 +70,7 @@ namespace BRMS
         }
         /// <summary>
         /// 조회모드로 Form 실행
+        /// 추가, 수정 버튼 활성 상태로 실행
         /// </summary>
         /// <returns></returns>
         public bool SearchMode()
@@ -90,6 +97,7 @@ namespace BRMS
                 bntBotCategoryModify.Visible = false;
                 bntMidCategoryModify.Visible = false;
                 bntTopCategoryModify.Visible = false;
+                chkStatus.Visible = false;
             }
 
         }
@@ -117,16 +125,25 @@ namespace BRMS
             DgvBotCategory.Dgv.Columns.Add("CatBot", "");
             DgvBotCategory.Dgv.Columns.Add("CatBotNamekr", "분류명");
             DgvBotCategory.Dgv.Columns.Add("CatBotNameEn", "분류명");
+
             DgvTopCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DgvMidCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DgvBotCategory.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            DgvTopCategory.Dgv.MultiSelect = false;
+            DgvMidCategory.Dgv.MultiSelect = false;
+            DgvBotCategory.Dgv.MultiSelect = false;
+
             DgvTopCategory.FormatAsStringCenter("catTop", "CatTopNameKr", "CatTopNameEn","catMid", "CatMidNameKr", "CatMidNameEn", "CatBot", "CatBotNamekr", "CatBotNameEn");
+            
             DgvTopCategory.Dgv.ReadOnly = true;
             DgvMidCategory.Dgv.ReadOnly = true;
             DgvBotCategory.Dgv.ReadOnly = true;
+            
             DgvTopCategory.Dgv.Columns["catTop"].Width = 30;
             DgvMidCategory.Dgv.Columns["catMid"].Width = 30;
             DgvBotCategory.Dgv.Columns["CatBot"].Width = 30;
+            
             DgvTopCategory.Dgv.Columns["no"].Visible = false;
             DgvMidCategory.Dgv.Columns["no"].Visible = false;
             DgvBotCategory.Dgv.Columns["no"].Visible = false;
@@ -160,6 +177,7 @@ namespace BRMS
             DataTable dataTable = new DataTable();
             string query = "SELECT cat_top, cat_name_kr,cat_name_en, cat_status FROm category WHERE cat_top != 0 AND cat_mid = 0 AND cat_bot = 0";
             query += chkStatus.Checked == false ? " AND cat_status = 1":"";
+            query += " ORDER BY cat_top";
             dbconn.SqlDataAdapterQuery(query, dataTable);
             int rowIndex = 0;
             foreach(DataRow dataRow in dataTable.Rows)
@@ -185,6 +203,7 @@ namespace BRMS
             int topCode = cDataHandler.ConvertToInt(DgvTopCategory.Dgv.CurrentRow.Cells[1].Value);
             string query = $"SELECT cat_mid, cat_name_kr, cat_name_en, cat_status FROM category WHERE cat_top ={topCode} AND cat_mid != 0 AND cat_bot = 0";
             query += chkStatus.Checked == false ? " AND cat_status = 1" : "";
+            query += " ORDER BY cat_mid";
             dbconn.SqlDataAdapterQuery(query, dataTable);
             int rowIndex = 0;
             foreach (DataRow dataRow in dataTable.Rows)
@@ -215,6 +234,7 @@ namespace BRMS
             int midCode = cDataHandler.ConvertToInt(DgvMidCategory.Dgv.CurrentRow.Cells[1].Value);
             string query = $"SELECT cat_bot, cat_name_kr, cat_name_en, cat_status FROM category WHERE cat_top ={topCode} AND cat_mid = {midCode} AND cat_bot != 0";
             query += chkStatus.Checked == false ? " AND cat_status = 1" : "";
+            query += "ORDER BY cat_bot";
             dbconn.SqlDataAdapterQuery(query, dataTable);
             int rowIndex = 0;
             foreach (DataRow dataRow in dataTable.Rows)

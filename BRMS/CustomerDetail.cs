@@ -31,7 +31,7 @@ namespace BRMS
             InitializeComboBox();
             InitalizeLable();
             InitializeDateTimePicker();
-            cUIManager.ApplyPopupFormStyleㅡ(this);
+            cUIManager.ApplyPopupFormStyle(this);
             MaximizeBox = false;
             custOrder.CellDoubleClick += custOrder_DuobleClick;
             GridForm();
@@ -46,7 +46,7 @@ namespace BRMS
         {
             if (!cUserSession.HasPermission(402))
             {
-                bntSave.Enabled = false;
+                btnSave.Enabled = false;
             }
         }
         private void InitializeTabControl()
@@ -125,7 +125,7 @@ namespace BRMS
 
             custOrder.Dgv.Columns["custOrderCode"].Visible = false;
             custOrder.FormatAsDateTime("custOrderDate");
-            custOrder.FormatAsInteger("custOrderAmontKrw");
+            custOrder.FormatAsInt("custOrderAmontKrw");
             custOrder.FormatAsDecimal("custOrderAmontUsd");
             custSale.FormatAsStringCenter("custOrderStatus");
             custOrder.Dgv.ReadOnly = true;
@@ -141,7 +141,7 @@ namespace BRMS
             
             custSale.Dgv.Columns["saleCode"].Visible = false;
             custSale.FormatAsDateTime("saleDate");
-            custSale.FormatAsInteger("saleAmountKrw");
+            custSale.FormatAsInt("saleAmountKrw");
             custSale.FormatAsDecimal("saleAmountUsd");
             custSale.FormatAsStringCenter("saleStaff");
             custSale.Dgv.ReadOnly = true;

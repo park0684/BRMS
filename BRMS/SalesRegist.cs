@@ -26,7 +26,7 @@ namespace BRMS
         int pointKrw = 0;
         int amountKrw = 0;
         int discount = 0;
-        int delivyerKrw = 0;
+        int deliveryKrw = 0;
         decimal cashUsd = 0;
         decimal accountUsd = 0;
         decimal cardUsd = 0;
@@ -35,31 +35,36 @@ namespace BRMS
         decimal deliveryUsd = 0;
         int customerCode = 0;
         int custPoint = 0;
+        int pointSeq = 0;
         string customerName = "";
         string DeliveryAddr = "";
         string DeliveryRecipient = "";
         string DeliveryInvoice = "";
         string DeliveryTel = "";
         int deliveryCountry = 0;
-        int reward = 0;
-        int tax = 0;
-        int saleCode = 0;
-        int origineCode = 0;
-        int exchange = 0;
-        int saleType = 1;
-        int deliveryCode = 0;
-        int paymentCode = 0;
-        int custOrderCode = 0;
-        int addPoint = 0;
-        bool DeliveryWhether = false;
-        bool custormCheck = false;
+        int reward = 0; // 적립 포인트
+        int tax = 0; // 과면세 여부
+        int saleCode = 0; // 거래코드
+        int origineCode = 0;//원거래 코드
+        int exchange = 0; // 환율
+        int saleType = 1;//판매유형
+        int deliveryCode = 0;// 배달 코드
+        int paymentCode = 0;//결제 코드
+        int custOrderCode = 0;//주문서 코드
+        decimal cashRewardRate = 0;
+        decimal cardRewardRate = 0;
+        decimal acchRewardRate = 0;
+        decimal pointRewardRate = 0;
+        bool DeliveryWhether = false; // 배달 등록 여부
+        bool custormCheck = false; // 회원여부
+
         public SalesRegist()
         {
             InitializeComponent();
             InitializeControls();
             FormBorderStyle = FormBorderStyle.FixedDialog;
             LablesUpdate();
-            SetExchange();
+            GetConfig();
             tBoxWord.KeyDown += tBoxWordh_KeyDownEnter;
             panelPdtList.Controls.Add(PdtList.Dgv);
             PdtList.Dgv.Dock = DockStyle.Fill;
@@ -77,7 +82,7 @@ namespace BRMS
             {
                 cmBoxType.Items.Add(status.Value); // 상태 문자열 추가
             }
-
+            cmBoxType.Items.Remove("반품(구매 취소)");
             cmBoxType.SelectedIndex = 1;
 
             bntReturn.Visible = false;
@@ -132,12 +137,16 @@ namespace BRMS
             amountUsd = Convert.ToDecimal(dataRow["sale_sprice_usd"]);
             discount = Convert.ToInt32(dataRow["sale_dc"]);
             tax = Convert.ToInt32(dataRow["sale_tax"]);
+            reward = cDataHandler.ConvertToInt(dataRow["sale_reward"]);
             customerCode = Convert.ToInt32(dataRow["sale_cust"]);
             deliveryCode = Convert.ToInt32(dataRow["sale_delivery"]);
-            delivyerKrw = Convert.ToInt32(dataRow["sale_delfee"]);
+            deliveryKrw = Convert.ToInt32(dataRow["sale_delfee"]);
             empCode = Convert.ToInt32(dataRow["sale_emp"]);
             origineCode = Convert.ToInt32(dataRow["sale_origine"]);
-            query = $"SELECT spay_cash_krw, spay_cash_use, spay_account_krw, spay_account_usd, spay_credit_krw, spay_credit_usd, spay_point_krw, spay_point_usd, spay_exchenge FROM salepay WHERE spay_code = {code}";
+            customerCode = cDataHandler.ConvertToInt(dataRow["sale_cust"]);
+            custormCheck = customerCode != 0 ? true : false;
+            LoadCustomerInfo();
+            query = $"SELECT spay_cash_krw, spay_cash_use, spay_account_krw, spay_account_usd, spay_credit_krw, spay_credit_usd, spay_point_krw, spay_point_usd, spay_exchenge FROM salepay WHERE spay_salecode = {code}";
             dbconn.SqlReaderQuery(query, payData);
             
             dataRow.Delete();
@@ -152,7 +161,7 @@ namespace BRMS
             accountUsd = Convert.ToDecimal(dataRow["spay_account_usd"]);
             cardUsd = Convert.ToDecimal(dataRow["spay_credit_usd"]);
             pointUsd = Convert.ToDecimal(dataRow["spay_point_usd"]);
-            deliveryUsd = Math.Round(Convert.ToDecimal(delivyerKrw) / Convert.ToDecimal(exchange), 2);
+            deliveryUsd = Math.Round(Convert.ToDecimal(deliveryKrw) / Convert.ToDecimal(exchange), 2);
 
             if(deliveryCode != 0)
             {
@@ -182,16 +191,18 @@ namespace BRMS
             PdtList.Dgv.Columns.Add("pdtSpriceUsd", "판매단가(＄)");
             PdtList.Dgv.Columns.Add("pdtQty", "수량");
             PdtList.Dgv.Columns.Add("pdtDc", "할인");
+            PdtList.Dgv.Columns.Add("pdtPoint", "포인트적립여부");;
             PdtList.Dgv.Columns.Add("pdtAmountKrw", "판매액(￦)");
             PdtList.Dgv.Columns.Add("pdtAmountUsd", "판매액(＄)");
             PdtList.Dgv.Columns.Add("pdtBprice", "원가");
             PdtList.Dgv.Columns.Add("pdtTaxCode", "과면세코드");
-            
+
+            PdtList.Dgv.Columns["pdtPoint"].Visible = false;
             PdtList.ApplyDefaultColumnSettings();
             PdtList.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             PdtList.Dgv.Columns["pdtCode"].Visible = false;
             PdtList.Dgv.Columns["pdtTaxCode"].Visible = false;
-            PdtList.FormatAsInteger("pdtSpriceKrw", "pdtDc", "pdtQty", "pdtAmountKrw");
+            PdtList.FormatAsInt("pdtSpriceKrw", "pdtDc", "pdtQty", "pdtAmountKrw");
             PdtList.FormatAsDecimal("pdtSpriceUsd", "pdtAmountUsd");
             PdtList.FormatAsStringCenter("pdtTax");
             PdtList.Dgv.ReadOnly = true;
@@ -268,7 +279,7 @@ namespace BRMS
                 SalesInfo.Dgv.Rows[0].Cells["Value"].Value = saleDate.ToString("yyyy년MM월dd일 HH:mm");
             }
             SalesInfo.Dgv.Rows[1].Cells["Value"].Value = empCode;
-            SalesInfo.Dgv.Rows[2].Cells["Value"].Value = saleType == 1 ? "판매" : "반품";
+            SalesInfo.Dgv.Rows[2].Cells["Value"].Value = cStatusCode.GetSaleType(saleType);
             SalesInfo.Dgv.Rows[3].Cells["Value"].Value = tax.ToString("#,###");
             SalesInfo.Dgv.Rows[4].Cells["Value"].Value = (amountKrw - tax).ToString("#,###");
             SalesInfo.Dgv.Rows[5].Cells["Value"].Value = $"{amountKrw.ToString("#,###")}({amountUsd.ToString("#,###.##")}$)";
@@ -276,17 +287,22 @@ namespace BRMS
             SalesInfo.Dgv.Rows[7].Cells["Value"].Value = $"{accountKrw.ToString("#,###")}({accountUsd.ToString("#,###.##")}$)";
             SalesInfo.Dgv.Rows[8].Cells["Value"].Value = $"{cardKrw.ToString("#,###")}({cardUsd.ToString("#,###.##")}$)";
             SalesInfo.Dgv.Rows[9].Cells["Value"].Value = $"{pointKrw.ToString("#,###")}({pointUsd.ToString("#,###.##")}$)";
-            SalesInfo.Dgv.Rows[10].Cells["Value"].Value = $"{delivyerKrw.ToString("#,###")}({deliveryUsd.ToString("#,###.##")}$)";
+            SalesInfo.Dgv.Rows[10].Cells["Value"].Value = $"{deliveryKrw.ToString("#,###")}({deliveryUsd.ToString("#,###.##")}$)";
             SalesInfo.Dgv.Rows[11].Cells["Value"].Value = customerName;
             SalesInfo.Dgv.Rows[12].Cells["Value"].Value = reward;
             SalesInfo.Dgv.Rows[13].Cells["Value"].Value = saleCode;
 
         }
+        /// <summary>
+        /// 판매 제품 목록
+        /// 판매 제품으 데이터 그리드에 추가
+        /// </summary>
+        /// <param name="code"></param>
         private void FillGridPdtList(int code)
         {
             DataTable resutlTable = new DataTable();
             DataTable procuctTable = new DataTable();
-            string query = $"SELECT saled_pdt, saled_bprice, saled_sprice_krw, saled_sprice_usd, saled_dc, saled_qty, saled_amount_krw, saled_amount_usd, saled_tax FROM saledetail WHERE saled_code = {code} ";
+            string query = $"SELECT saled_pdt, saled_bprice, saled_sprice_krw, saled_sprice_usd, saled_dc, saled_qty, saled_amount_krw, saled_amount_usd, saled_tax, saled_point FROM saledetail WHERE saled_code = {code} ";
             dbconn.SqlDataAdapterQuery(query, resutlTable);
             int rowIndex = 0;
             foreach(DataRow row in resutlTable.Rows )
@@ -300,13 +316,14 @@ namespace BRMS
                 string pdtNumber = productRow["pdt_number"]?.ToString().Trim() ?? "";
                 string pdtNameKr = productRow["pdt_name_kr"]?.ToString().Trim() ?? "";
                 string pdtNameEn = productRow["pdt_name_en"]?.ToString().Trim() ?? "";
-                decimal pdtBprice = row["saled_bprice"] != DBNull.Value ? Convert.ToDecimal(row["saled_bprice"]) : 0;
-                int pdtSpriceKrw = row["saled_sprice_krw"] != DBNull.Value ? Convert.ToInt32(row["saled_sprice_krw"]) : 0;
-                decimal pdtSpriceUsd = row["saled_sprice_usd"] != DBNull.Value ? Convert.ToDecimal(row["saled_sprice_usd"]) : 0;
-                int pdtAmountKrw = row["saled_amount_krw"] != DBNull.Value ? Convert.ToInt32(row["saled_amount_krw"]) : 0;
-                decimal pdtAmountUsd = row["saled_amount_usd"] != DBNull.Value ? Convert.ToDecimal(row["saled_amount_usd"]) : 0;
-                int taxCode = row["saled_tax"] != DBNull.Value ? Convert.ToInt32(row["saled_tax"]) : 1;
+                decimal pdtBprice = cDataHandler.ConvertToDecimal(row["saled_bprice"]);
+                int pdtSpriceKrw = cDataHandler.ConvertToInt(row["saled_sprice_krw"]);
+                decimal pdtSpriceUsd = cDataHandler.ConvertToDecimal(row["saled_sprice_usd"]);
+                int pdtAmountKrw = cDataHandler.ConvertToInt(row["saled_amount_krw"]);
+                decimal pdtAmountUsd = cDataHandler.ConvertToDecimal(row["saled_amount_usd"]);
+                int taxCode = cDataHandler.ConvertToInt(row["saled_tax"]);
                 string tax = cStatusCode.GetTaxStatus(taxCode);
+                int pdtPoint = cDataHandler.ConvertToInt(row["saled_point"]);
 
                 PdtList.Dgv.Rows.Add();
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtCode"].Value = pdtCode;
@@ -317,6 +334,7 @@ namespace BRMS
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtSpriceUsd"].Value = pdtSpriceUsd;
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtQty"].Value = row["saled_qty"];
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtDc"].Value = row["saled_dc"];
+                PdtList.Dgv.Rows[rowIndex].Cells["pdtPoint"].Value = row["saled_point"];
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtAmountKrw"].Value = pdtAmountKrw;
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtAmountUsd"].Value = pdtAmountUsd;
                 PdtList.Dgv.Rows[rowIndex].Cells["pdtBprice"].Value = pdtBprice;
@@ -325,14 +343,28 @@ namespace BRMS
             }
             GridNumberSetting();
         }
-        private int SetExchange()
+        /// <summary>
+        /// 판매 금액 확율 설정
+        /// </summary>
+        /// <returns></returns>
+        private void GetConfig()
         {
             string query = "SELECT cf_value FROM config WHERE cf_code =  1";
             object resultObj = new object();
             dbconn.sqlScalaQuery(query, out resultObj);
             exchange = Convert.ToInt32(resultObj);
-
-            return exchange;
+            query = "SELECT cf_value FROM config WHERE cf_code = 3";
+            dbconn.sqlScalaQuery(query, out resultObj);
+            cashRewardRate = cDataHandler.ConvertToDecimal(resultObj) / 1000 ;
+            query = "SELECT cf_value FROM config WHERE cf_code = 4";
+            dbconn.sqlScalaQuery(query, out resultObj);
+            cardRewardRate = cDataHandler.ConvertToDecimal(resultObj) / 1000;
+            query = "SELECT cf_value FROM config WHERE cf_code = 5";
+            dbconn.sqlScalaQuery(query, out resultObj);
+            acchRewardRate = cDataHandler.ConvertToDecimal(resultObj) / 1000;
+            query = "SELECT cf_value FROM config WHERE cf_code = 6";
+            dbconn.sqlScalaQuery(query, out resultObj);
+            pointRewardRate = cDataHandler.ConvertToDecimal(resultObj) / 1000;
         }
         private void UpdateSalesInfo()
         {
@@ -533,20 +565,23 @@ namespace BRMS
             }
             LablesUpdate();
         }
+        /// <summary>
+        /// 배달비 설정
+        /// </summary>
         private void DeliveryFeeRegist()
         {
             SalePayment salePayment = new SalePayment();
             salePayment.StartPosition = FormStartPosition.CenterParent;
             int krw = 0;
             double usd = 0;
-            if (delivyerKrw == 0)
+            if (deliveryKrw == 0)
             {
                 krw = 0;
                 usd = 0;
             }
             else
             {
-                krw = delivyerKrw;
+                krw = deliveryKrw;
                 usd = Convert.ToDouble(deliveryUsd);
             }
             salePayment.GetPaymntInfo("배송비", krw, usd, exchange);
@@ -565,9 +600,9 @@ namespace BRMS
         }
         private void DeliveryUpdate(int krw, decimal usd)
         {
-            int beforAccountKrw = delivyerKrw;
+            int beforAccountKrw = deliveryKrw;
             decimal beforAccountUsd = deliveryUsd;
-            delivyerKrw = krw;
+            deliveryKrw = krw;
             deliveryUsd = usd;
             if (krw == 0)
             {
@@ -663,9 +698,10 @@ namespace BRMS
             PdtList.Dgv.CurrentRow.Cells["pdtAmountUsd"].Value = Convert.ToDecimal(pdtAamountUsd);
         }
         /// <summary>
-        /// 판매상품리스트 데이터 그리드 생성
+        /// 
         /// </summary>
-       
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tBoxWordh_KeyDownEnter(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -733,16 +769,19 @@ namespace BRMS
             }
             if (customerCode != 0)
             {
-                string qeury = "SELECT cust_name, cust_point FROM customer WHERE cust_code = " + customerCode;
+                string query = "SELECT cust_name, cust_point FROM customer WHERE cust_code = " + customerCode;
                 DataTable resultTable = new DataTable();
                 object resultObj = new object();
-                dbconn.SqlReaderQuery(qeury, resultTable);
+                dbconn.SqlReaderQuery(query, resultTable);
                 DataRow row = resultTable.Rows[0];
-
+                
                 customerName = row["cust_name"].ToString();
                 custPoint = !string.IsNullOrWhiteSpace(row["cust_point"]?.ToString()) ? Convert.ToInt32(row["cust_point"]) : 0;
                 lblCustName.Text = customerName;
                 lblCustPoint.Text = custPoint.ToString("#,#00");
+                query = $"SELECT ISNULL(MAX(ph_seq),0) + 1 FROM pointhistory WHERE ph_cust = {customerCode}";
+                dbconn.sqlScalaQuery(query, out resultObj);
+                pointSeq = cDataHandler.ConvertToInt(resultObj);
                 //SalesGridFill();
                 customerToggle(true);
             }
@@ -768,7 +807,7 @@ namespace BRMS
         {
             PdtList.Dgv.Rows.Add();
             int index = PdtList.Dgv.RowCount - 1;
-            string query = "SELECT pdt_name_kr, pdt_name_en, pdt_number, pdt_sprice_krw, pdt_sprice_usd, pdt_bprice, pdt_tax FROM product WHERE pdt_code = " + pdtCode;
+            string query = "SELECT pdt_name_kr, pdt_name_en, pdt_number, pdt_sprice_krw, pdt_sprice_usd, pdt_bprice, pdt_tax, pdt_point FROM product WHERE pdt_code = " + pdtCode;
             DataTable dataTable = new DataTable();
             dbconn.SqlReaderQuery(query, dataTable);
             DataRow dataRow = dataTable.Rows[0];
@@ -781,6 +820,7 @@ namespace BRMS
             decimal pdtSpriceUsd = dataRow["pdt_sprice_usd"] != DBNull.Value ? Convert.ToDecimal(dataRow["pdt_sprice_usd"]) : 0;
             int taxCode = dataRow["pdt_tax"] != DBNull.Value ? Convert.ToInt32(dataRow["pdt_tax"]) : 1;
             string tax = cStatusCode.GetTaxStatus(taxCode);
+            int pdtPoint = cDataHandler.ConvertToInt(dataRow["pdt_point"]);
 
             PdtList.Dgv.Rows[index].Cells["No"].Value = index + 1;
             PdtList.Dgv.Rows[index].Cells["pdtCode"].Value = pdtCode;
@@ -791,6 +831,7 @@ namespace BRMS
             PdtList.Dgv.Rows[index].Cells["pdtSpriceUsd"].Value = pdtSpriceUsd;
             PdtList.Dgv.Rows[index].Cells["pdtQty"].Value = 1;
             PdtList.Dgv.Rows[index].Cells["pdtDc"].Value = 0;
+            PdtList.Dgv.Rows[index].Cells["pdtPoint"].Value = pdtPoint;
             PdtList.Dgv.Rows[index].Cells["pdtAmountKrw"].Value = pdtSpriceKrw;
             PdtList.Dgv.Rows[index].Cells["pdtAmountUsd"].Value = pdtSpriceUsd;
             PdtList.Dgv.Rows[index].Cells["pdtBprice"].Value = pdtBprice;
@@ -827,9 +868,13 @@ namespace BRMS
             DeliveryRecipient = customerName;
             DeliveryAddr = dataRow["address"].ToString();
             deliveryCountry = Convert.ToInt32(dataRow["countryCode"]);
-            delivyerKrw = Convert.ToInt32(dataRow["delivyerfeeKrw"]);
+            deliveryKrw = Convert.ToInt32(dataRow["delivyerfeeKrw"]);
             deliveryUsd = Convert.ToDecimal(dataRow["delivyerfeeUsd"]);
         }
+        /// <summary>
+        /// 주문서 내역 판매 제품으로 등록
+        /// </summary>
+        /// <param name="prodcutTable"></param>
         private void ConvertOrderToSale(DataTable prodcutTable)
         {
             int rowIndex = 0;
@@ -869,12 +914,16 @@ namespace BRMS
             }
                 
         }
+        /// <summary>
+        /// 판품 메소드
+        /// 판매조회 후 활성화된 반품 버튼 클릭시 실행
+        /// </summary>
         private void AdjustForReturn()
         {
             DialogResult result = MessageBox.Show("기존 배송비도 포함하여 환불 하시겠습니까?\n아니요를 누를 경우 청구할 배송비를 입력 하실 수 있습니다", "알림", MessageBoxButtons.YesNoCancel);
             if (result == DialogResult.Yes)
             {
-                delivyerKrw = delivyerKrw * -1;
+                deliveryKrw = deliveryKrw * -1;
             }
             else if(result == DialogResult.No)
             {
@@ -884,7 +933,8 @@ namespace BRMS
             {
                 return;
             }
-            saleType = 0;
+            
+            saleType = 2;
             amountKrw = amountKrw * -1;
             amountUsd = amountUsd * -1;
             cashKrw = cashKrw * -1;
@@ -903,24 +953,52 @@ namespace BRMS
             for (int index = 0; index < PdtList.Dgv.RowCount; index++)
             {
                 int qty = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtQty"].Value);
-                int bprice = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtBprice"].Value); ;
-                int pdtspriceKrw = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtSpriceKrw"].Value); ;
+                int bprice = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtBprice"].Value); 
+                int pdtspriceKrw = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtSpriceKrw"].Value); 
                 decimal pdtspriceUsd = PdtList.ConvertToDecimal(PdtList.Dgv.Rows[index].Cells["pdtSpriceUsd"].Value);
-                int pdtAmountKrw = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtAmountKrw"].Value); ;
+                int pdtAmountKrw = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtAmountKrw"].Value); 
                 decimal pdtAmountUsd = PdtList.ConvertToDecimal(PdtList.Dgv.Rows[index].Cells["pdtAmountUsd"].Value);
-                int dicscount = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtQty"].Value); ;
-
+                int dicscount = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtQty"].Value); 
+                int pdtPoint = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtPoint"].Value);
 
                 PdtList.Dgv.Rows[index].Cells["pdtQty"].Value = qty * -1;
                 PdtList.Dgv.Rows[index].Cells["pdtBprice"].Value = bprice * -1;
                 PdtList.Dgv.Rows[index].Cells["pdtSpriceKrw"].Value = pdtspriceKrw * -1;
                 PdtList.Dgv.Rows[index].Cells["pdtSpriceUsd"].Value = pdtspriceUsd * -1;
+                PdtList.Dgv.Rows[index].Cells["pdtPoint"].Value = pdtPoint ;
+                //제품 포인트 적립 여부 추가
                 PdtList.Dgv.Rows[index].Cells["pdtAmountKrw"].Value = pdtAmountKrw * -1;
                 PdtList.Dgv.Rows[index].Cells["pdtAmountUsd"].Value = pdtAmountUsd * -1;
                 PdtList.Dgv.Rows[index].Cells["pdtQty"].Value = dicscount * -1;
 
             }
-    }
+        }
+        private void PointReward()
+        {
+            if(customerCode.Equals(0))
+            {
+                return;    
+            }
+            int dgvCounter = PdtList.Dgv.Rows.Count;
+            int savingPoint = 0;
+            for (int i = 0; i <= dgvCounter - 1; i++)
+            {
+                if(cDataHandler.ConvertToInt(PdtList.Dgv.Rows[i].Cells["pdtPoint"].Value) == 1)
+                {
+                    savingPoint += cDataHandler.ConvertToInt(PdtList.Dgv.Rows[i].Cells["pdtAmountKrw"].Value);
+                }
+            }
+            decimal amount = Convert.ToDecimal(amountKrw);
+            decimal cashRate = Convert.ToDecimal(cashKrw) / amount;
+            decimal cardRate = Convert.ToDecimal(cardKrw) / amount;
+            decimal accRate = Convert.ToDecimal(accountKrw) / amount;
+            decimal pointRate = Convert.ToDecimal(pointKrw) / amount;
+            decimal cashReward = Convert.ToDecimal(savingPoint) * cashRate * (cashRewardRate);
+            decimal cardReward = Convert.ToDecimal(savingPoint) * cardRate * (cardRewardRate);
+            decimal accReward = Convert.ToDecimal(savingPoint) * accRate * (acchRewardRate);
+            decimal pointReward = Convert.ToDecimal(savingPoint) * pointRate * (pointRewardRate);
+            reward = Convert.ToInt32(cashReward + cardReward + accReward + pointReward);
+        }
         /// <summary>
         /// 판매등록
         /// </summary>
@@ -928,12 +1006,12 @@ namespace BRMS
         /// <param name="transaction"></param>
         private void InsertSaleVoucher(SqlConnection connection, SqlTransaction transaction)
         {
+            PointReward();
             string query = "SELECT ISNULL(MAX(sale_code),0) + 1 FROM sales";
             object resultObj = new object();
             dbconn.sqlScalaQuery(query, out resultObj);
             saleCode = Convert.ToInt32(resultObj);
             saleDate = DateTime.Now;
-
             query = "INSERT INTO sales (sale_code,  sale_date, sale_cust, sale_type, sale_bprice, sale_sprice_krw, sale_sprice_usd, sale_dc, sale_tax, sale_reward,sale_delivery,sale_delfee,sale_udate, sale_origine, sale_emp)" +
                             "\nValues(@saleCode, @date, @cust, @type, @bprice, @spriceKrw, @spcieUsd, @dc, @tax, @reward, 0, @fee , GETDATE(), @origine, @emp)";
             SqlParameter[] salesParameter =
@@ -948,7 +1026,7 @@ namespace BRMS
                 new SqlParameter("@dc",SqlDbType.Int){Value = discount},
                 new SqlParameter("@tax",SqlDbType.Int){Value = tax},
                 new SqlParameter("@reward",SqlDbType.Int){Value = reward},
-                new SqlParameter("@fee",SqlDbType.Int){Value = delivyerKrw},
+                new SqlParameter("@fee",SqlDbType.Int){Value = deliveryKrw},
                 new SqlParameter("@origine",SqlDbType.Int){Value = origineCode},
                 new SqlParameter("@emp",SqlDbType.Int){Value = accessedEmp}
 
@@ -999,18 +1077,59 @@ namespace BRMS
                 new SqlParameter("@saleCode",SqlDbType.Int){Value = saleCode}
             };
             dbconn.ExecuteNonQuery(query, connection, transaction, paymentParameter);
-            if(customerCode != 0)
+            if (custormCheck == true && !pointKrw.Equals(0))
             {
-                query = $"UPDATE custormer SET cust_lastsaledate = GETDATE(), cust_point =@addpoint;";
-                SqlParameter[] custmerParameter =
-                {
-                    new SqlParameter("@addpoint",SqlDbType.Int){Value = addPoint}
-                };
-                dbconn.ExecuteNonQuery(query, connection, transaction, custmerParameter);
+                
+                int usedPoint = pointKrw * -1;
+                //query = $"UPDATE customer SET cust_lastsaledate = GETDATE(), cust_point = cust_point + @usePoint WHERE cust_code = {customerCode};";
+                //SqlParameter[] sqlParameters =
+                //{
+                //    new SqlParameter("@usePoint",SqlDbType.Int){Value = usedPoint}
+                //};
+                //dbconn.ExecuteNonQuery(query, connection, transaction, sqlParameters);
+                UpdateCustPoint(connection, transaction, usedPoint);
+                InsertCustPointHistry(connection, transaction,2, usedPoint);
+                custPoint += usedPoint;
+                pointSeq++;
 
             }
+            if (custormCheck == true && !reward.Equals(0))
+            {
+                //query = $"UPDATE customer SET cust_lastsaledate = GETDATE(), cust_point = cust_point + @rewardPoint WHERE cust_code = {customerCode};";
+                //SqlParameter[] custmerParameter =
+                //{
+                //    new SqlParameter("@rewardPoint",SqlDbType.Int){Value = reward}
+                //};
+                //dbconn.ExecuteNonQuery(query, connection, transaction, custmerParameter);
+                UpdateCustPoint(connection, transaction, reward);
+                InsertCustPointHistry(connection, transaction,1, reward);
+            }
         }
-
+        private void UpdateCustPoint(SqlConnection connection, SqlTransaction transaction,int updatePoint)
+        {
+            string query = $"UPDATE customer SET cust_point = cust_point + @rewardPoint WHERE cust_code = {customerCode};";
+            SqlParameter[] custmerParameter =
+            {
+                    new SqlParameter("@rewardPoint",SqlDbType.Int){Value = updatePoint}
+            };
+            dbconn.ExecuteNonQuery(query, connection, transaction, custmerParameter);
+        }
+        private void InsertCustPointHistry(SqlConnection connection, SqlTransaction transaction, int type, int rewardPoint)
+        {
+            string query = $"SELECT cust_point FROM customer WHERE cust_code = {customerCode}";
+            query = "INSERT INTO pointhistory(ph_type, ph_cust, ph_param, ph_point, ph_previous, ph_date, ph_seq)" +
+                "VALUES(@type, @cust, @param, @point, @previous, GETDATE(),@seq)";
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@type",SqlDbType.Int){Value = type },
+                new SqlParameter("@cust",SqlDbType.Int){Value = customerCode},
+                new SqlParameter("@param",SqlDbType.Int){Value = saleCode},
+                new SqlParameter("@point",SqlDbType.Int){Value = rewardPoint},
+                new SqlParameter("@previous",SqlDbType.Int){Value = custPoint},
+                new SqlParameter("@seq",SqlDbType.Int){Value = pointSeq}
+            };
+            dbconn.ExecuteNonQuery(query, connection, transaction, parameters);
+        }
         /// <summary>
         /// 배송정보 DB에 기록
         /// </summary>
@@ -1023,7 +1142,7 @@ namespace BRMS
             dbconn.sqlScalaQuery(query, out resultObj);
             deliveryCode = Convert.ToInt32(resultObj);
             query = "INSERT INTO delivery(del_code, del_cust,del_country,del_addr,del_recipient,del_tel,del_invoice,del_salecode,del_idate,del_udate) " +
-                "\nVALUES(@delcode,  @cust, @country, @addr, @recipient, @tel, @fee, @invoice, @saleCode, GETDATE(), GETDATE())";
+                "\nVALUES(@delcode,  @cust, @country, @addr, @recipient, @tel, @invoice, @saleCode, GETDATE(), GETDATE())";
             SqlParameter[] deliveryParameter =
             {
                 new SqlParameter("@delCode",SqlDbType.Int){Value = deliveryCode},
@@ -1082,8 +1201,8 @@ namespace BRMS
             string query;
             for(int index =0; index < PdtList.Dgv.RowCount; index++)
             {
-                query = "INSERT INTO saledetail(saled_code, saled_pdt,saled_bprice, saled_sprice_krw, saled_sprice_usd, saled_dc, saled_qty, saled_amount_krw, saled_amount_usd, saled_tax)" +
-                "\nVALUES(@saleCode, @pdt, @bprice, @sprice_krw, @sprice_usd, @dc, @qty, @amount_krw, @amount_usd, @tax)";
+                query = "INSERT INTO saledetail(saled_code, saled_pdt,saled_bprice, saled_sprice_krw, saled_sprice_usd, saled_dc, saled_qty, saled_amount_krw, saled_amount_usd, saled_tax, saled_point)" +
+                "\nVALUES(@saleCode, @pdt, @bprice, @sprice_krw, @sprice_usd, @dc, @qty, @amount_krw, @amount_usd, @tax, @point)";
                 var pdtCode = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtCode"].Value);
                 var pdtBprice = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtBprice"].Value);
                 var pdtSpriceKrw = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtSpriceKrw"].Value);
@@ -1093,7 +1212,7 @@ namespace BRMS
                 var pdtAmountKrw = PdtList.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtAmountKrw"].Value);
                 var pdtAmountUsd = PdtList.ConvertToDecimal(PdtList.Dgv.Rows[index].Cells["pdtAmountUsd"].Value);
                 var pdtTax = cStatusCode.GetTaxStatusCode(PdtList.Dgv.Rows[index].Cells["pdtTax"].Value.ToString());
-
+                var pdtPoint = cDataHandler.ConvertToInt(PdtList.Dgv.Rows[index].Cells["pdtPoint"].Value);
                 SqlParameter[] parameters =
                 {
                     new SqlParameter("@saleCode",SqlDbType.Int){Value = saleCode},
@@ -1105,7 +1224,8 @@ namespace BRMS
                     new SqlParameter("@qty",SqlDbType.Int){Value = pdtQty},
                     new SqlParameter("@amount_krw",SqlDbType.Int){Value = pdtAmountKrw},
                     new SqlParameter("@amount_usd",SqlDbType.Float){Value = pdtAmountUsd},
-                    new SqlParameter("@tax",SqlDbType.Int){Value = pdtTax}
+                    new SqlParameter("@tax",SqlDbType.Int){Value = pdtTax},
+                    new SqlParameter("@point",SqlDbType.Int){Value = pdtPoint}
                 };
                 dbconn.ExecuteNonQuery(query, connection, transaction, parameters);
                 UpdateProductStock(connection, transaction, pdtCode, pdtQty);

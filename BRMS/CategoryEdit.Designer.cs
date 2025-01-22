@@ -205,9 +205,10 @@ namespace BRMS
             // chkStatus
             // 
             this.chkStatus.AutoSize = true;
+            this.chkStatus.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.chkStatus.Location = new System.Drawing.Point(16, 130);
             this.chkStatus.Name = "chkStatus";
-            this.chkStatus.Size = new System.Drawing.Size(48, 16);
+            this.chkStatus.Size = new System.Drawing.Size(50, 19);
             this.chkStatus.TabIndex = 9;
             this.chkStatus.Text = "유효";
             this.chkStatus.UseVisualStyleBackColor = true;

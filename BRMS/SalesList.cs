@@ -59,8 +59,7 @@ namespace BRMS
 
             SaleList.FormatAsDateTime("saleDate");
             SaleList.FormatAsStringCenter("SaleType", "saleCode", "saleCustNmme","saleDelivery");
-            SaleList.FormatAsStringRight("saleCash", "saleAccount", "saleCard", "salePoint", "saleDc");
-            SaleList.FormatAsInteger("saleCode", "saleAmountKrw", "saleReward");
+            SaleList.FormatAsInt("saleAmountKrw", "saleReward", "saleCash", "saleAccount", "saleCard", "salePoint", "saleDc");
             SaleList.FormatAsDecimal("saleAmountUsd");
             SaleList.Dgv.ReadOnly = true;
             SaleList.ApplyDefaultColumnSettings();
@@ -85,13 +84,14 @@ namespace BRMS
                 int accountKrw = Convert.ToInt32(salepayRow["spay_account_krw"]);
                 int cardKrw = Convert.ToInt32(salepayRow["spay_credit_krw"]);
                 int pointKrw = Convert.ToInt32(salepayRow["spay_point_krw"]);
+                int saleType = cDataHandler.ConvertToInt(saleDataRow["sale_type"]);
                 decimal cashUsd = Convert.ToDecimal(salepayRow["spay_cash_use"]);
                 decimal accountUsd = Convert.ToDecimal(salepayRow["spay_account_usd"]);
                 decimal cardUsd = Convert.ToDecimal(salepayRow["spay_credit_usd"]);
                 decimal pointUsd = Convert.ToDecimal(salepayRow["spay_point_usd"]);
                 SaleList.Dgv.Rows[rowIndex].Cells["No"].Value = rowIndex + 1;
                 SaleList.Dgv.Rows[rowIndex].Cells["saleCode"].Value = saleDataRow["sale_code"];
-                SaleList.Dgv.Rows[rowIndex].Cells["saleType"].Value = Convert.ToInt32(saleDataRow["sale_type"]) == 1 ? "판매":"반품";
+                SaleList.Dgv.Rows[rowIndex].Cells["saleType"].Value = cStatusCode.GetSaleType(saleType);
                 SaleList.Dgv.Rows[rowIndex].Cells["saleDate"].Value = saleDataRow["sale_date"];
                 SaleList.Dgv.Rows[rowIndex].Cells["saleAmountKrw"].Value = saleDataRow["sale_sprice_krw"];
                 SaleList.Dgv.Rows[rowIndex].Cells["saleAmountUsd"].Value = saleDataRow["sale_sprice_usd"];
@@ -133,7 +133,7 @@ namespace BRMS
             }
             dbconn.SqlDataAdapterQuery(query, resultData);
             GridFill(resultData);
-            cLog.InsertEmpAccessLogNotConnect("@saleSearch", accessedEmp, 0);
+            cLog.InsertEmpAccessLogNotConnect("@salesSearch", accessedEmp, 0);
         }
         /// <summary>
         /// 조회 버튼 클릭
@@ -154,7 +154,7 @@ namespace BRMS
             int saleCode = SaleList.ConvertToInt(SaleList.Dgv.CurrentRow.Cells["saleCode"].Value);
             SalesRegist salesRegist = new SalesRegist();
             salesRegist.GetSaleCode(saleCode);
-            cLog.InsertEmpAccessLogNotConnect("@customerSaleSearch", accessedEmp, saleCode);
+            cLog.InsertEmpAccessLogNotConnect("@salesSearch", accessedEmp, saleCode);
             salesRegist.StartPosition = FormStartPosition.CenterParent;
             salesRegist.ShowDialog();
         }

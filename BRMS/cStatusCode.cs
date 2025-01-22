@@ -67,7 +67,8 @@ namespace BRMS
         public static readonly Dictionary<int, string> SaleType = new Dictionary<int, string>()
         {
             { 0, "반품" },
-            { 1, "판매" }
+            { 1, "판매" },
+            { 2, "반품(구매 취소)" }
         };
         // 직원 상태
         public static readonly Dictionary<int, string> EmployeeStatus = new Dictionary<int, string>()
@@ -136,6 +137,22 @@ namespace BRMS
            {2,"신용카드" },
            {3,"어음" },
         };
+        // 포인트 내역 
+        public static readonly Dictionary<int, string> PointHistory = new Dictionary<int, string>()
+        {
+            {1, "구매 적립" },
+            {2, "포이트 지불" },
+            {3, "이벤트 적립" },
+            {4, "기간종료 차감" },
+            {5, "포인트 수정" }
+        };
+        // 배송상태
+        public static readonly Dictionary<int, string> DeliveryStatus = new Dictionary<int, string>()
+        {
+            {0, "배송취소" },
+            {1, "배송중" },
+            {2, "배송완료" }
+        };
         // 상태 문자열을 가져오는 메서드
         public static string GetCustomerStatus(int statusCode)
         {
@@ -190,6 +207,14 @@ namespace BRMS
         public static string GetEmployeePermission(int statuscode)
         {
             return GetStatusString(EmployeePermission, statuscode);
+        }
+        public static string GetPointHistory(int statuscode)
+        {
+            return GetStatusString(PointHistory, statuscode);
+        }
+        public static string GetDeliveryStatus(int statusCode)
+        {
+            return GetStatusString(DeliveryStatus, statusCode);
         }
         // 내부 메서드: 상태 딕셔너리에서 문자열을 조회
         private static string GetStatusString(Dictionary<int, string> statusDictionary, int code)
@@ -255,6 +280,14 @@ namespace BRMS
         public static int GetEmployeePermissionCode(string status)
         {
             return GetStatusCode(EmployeePermission, status);
+        }
+        public static int GetPointHistoryCode(string status)
+        {
+            return GetStatusCode(PointHistory, status);
+        }
+        public static int GetDeliveryCode(string status)
+        {
+            return GetStatusCode(DeliveryStatus, status);
         }
         private static int GetStatusCode(Dictionary<int, string> statusDictionary, string statusName)
         {

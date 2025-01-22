@@ -160,7 +160,7 @@ namespace BRMS
         /// 상세내역 과 같이 메인폼이 아닌 팝업 형식의 폼에 적용
         /// </summary>
         /// <param name="form"></param>
-        public static void ApplyPopupFormStyleㅡ(Form form)
+        public static void ApplyPopupFormStyle(Form form)
         {
             if (form == null) return;
 

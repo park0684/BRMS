@@ -136,7 +136,44 @@ namespace BRMS
 
         }
 
+        public DataRow ReaderQuery(string query)
+        {
+            try
+            {
+                using (SqlCommand command = new SqlCommand(query, Opensql()))
+                {
 
+                    SqlDataReader reader = command.ExecuteReader();
+                    DataTable dataTable = new DataTable();
+                    dataTable.Columns.Clear();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        dataTable.Columns.Add(reader.GetName(i));
+                    }
+                    if (reader.Read())
+                    {
+                        DataRow row = dataTable.NewRow();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            row[i] = reader[i].ToString();
+                        }
+                        dataTable.Rows.Add(row);
+                        reader.Close();
+                        return row;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        return null; // 데이터가 없으면 null을 반환합니다.
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("연결 오류 :" + ex.Message);
+                return null;
+            }
+        }
 
         //단일 row 결과물 조회 쿼리
         public void SqlReaderQuery(string query, DataTable dataTable)
@@ -172,7 +209,14 @@ namespace BRMS
             }
 
         }
-
+        public object ScalaResult(string query, SqlConnection connection, SqlTransaction transaction)
+        {
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+command.Transaction = transaction;
+                return command.ExecuteScalar();
+            }
+        }
 
         //단일 값 조회
         public void sqlScalaQuery(string query, out object objResult)

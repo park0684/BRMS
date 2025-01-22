@@ -64,12 +64,13 @@ namespace BRMS
         private void GridForm()
         {
             DgrPurorderList.Dgv.Columns.Add("purOrderCode", "발주코드");
+            DgrPurorderList.Dgv.Columns.Add("purOrderType", "유형");
             DgrPurorderList.Dgv.Columns.Add("purOrderSupplier", "매입처");
-            DgrPurorderList.Dgv.Columns.Add("purOrderSupcode", "공급사코드");
+            //DgrPurorderList.Dgv.Columns.Add("purOrderSupcode", "공급사코드");
             DgrPurorderList.Dgv.Columns.Add("purOrderDate", "발주일");
             DgrPurorderList.Dgv.Columns.Add("purOrderArrivaldate", "입고예정일");
             DgrPurorderList.Dgv.Columns.Add("purOrderAmount", "발주액");
-            DgrPurorderList.Dgv.Columns.Add("purOrderType", "유형");
+            DgrPurorderList.Dgv.Columns.Add("purOrderStatus", "상태");
             DgrPurorderList.Dgv.Columns.Add("purOrderNote", "비고");
             DgrPurorderList.Dgv.Columns.Add("purOrderIdate", "수정일");
             DgrPurorderList.Dgv.Columns.Add("purOrderUdate", "수정일");
@@ -78,7 +79,7 @@ namespace BRMS
             DgrPurorderList.FormatAsStringCenter("purOrderCode", "purOrderSupcode", "purType");
             DgrPurorderList.FormatAsDateTime("purOrderDate", "purOrderIdate", "purOrderUdate");
             DgrPurorderList.FormatAsDate("purOrderArrivaldate");
-            DgrPurorderList.FormatAsInteger("purOrderAmount");
+            DgrPurorderList.FormatAsInt("purOrderAmount");
             
             DgrPurorderList.Dgv.ReadOnly = true;
             DgrPurorderList.Dgv.Columns["purOrderCode"].Visible = false;
@@ -93,13 +94,14 @@ namespace BRMS
             {
                 DgrPurorderList.Dgv.Rows.Add();
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["No"].Value = DgrPurorderList.Dgv.RowCount;
+                DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderType"].Value = cStatusCode.GetPurchaseType(Convert.ToInt32(dataRow["pord_type"]));
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderCode"].Value = dataRow["pord_code"];
-                DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderSupplier"].Value = dataRow["sup_name"];
-                DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderSupcode"].Value = dataRow["pord_sup"];
+                DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderSupplier"].Value = $"{dataRow["sup_name"]}({dataRow["pord_sup"]})";
+                //DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderSupcode"].Value = dataRow["pord_sup"];
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderDate"].Value = Convert.ToDateTime(dataRow["pord_date"]);
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderArrivaldate"].Value = Convert.ToDateTime(dataRow["pord_arrivaldate"]);
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderAmount"].Value = Convert.ToInt32(dataRow["pord_Amount"]);
-                DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderType"].Value = cStatusCode.GetPurchaseOrderStatus(Convert.ToInt32(dataRow["pord_type"]));
+                DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderStatus"].Value = cStatusCode.GetPurchaseOrderStatus(Convert.ToInt32(dataRow["pord_status"]));
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderNote"].Value = dataRow["pord_note"];
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderIdate"].Value = Convert.ToDateTime(dataRow["pord_idate"]);
                 DgrPurorderList.Dgv.Rows[rowIndex].Cells["purOrderUdate"].Value = Convert.ToDateTime(dataRow["pord_udate"]);
@@ -110,7 +112,7 @@ namespace BRMS
         private void QuerySetting()
         {
             DataTable resultData = new DataTable();
-            string query = string.Format("SELECT pord_code, sup_name, pord_sup, pord_date, pord_arrivaldate, pord_Amount, pord_type, pord_note, pord_idate ,pord_udate FROM purorder,supplier " +
+            string query = string.Format("SELECT pord_code, sup_name, pord_sup, pord_date, pord_arrivaldate, pord_Amount, pord_type, pord_note, pord_idate ,pord_udate,pord_status FROM purorder,supplier " +
                 "WHERE pord_sup =  sup_code AND pord_date >= '{0}' ANd pord_date < '{1}' ", dtpRegDateFrom.Value.ToString("yyyy-MM-dd"), dtpRegDateTo.Value.AddDays(1).ToString("yyyy-MM-dd"));
             if (supplierCode != "")
             {

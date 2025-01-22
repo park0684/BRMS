@@ -59,7 +59,7 @@ namespace BRMS
             this.panelDataGrid.Location = new System.Drawing.Point(12, 170);
             this.panelDataGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelDataGrid.Name = "panelDataGrid";
-            this.panelDataGrid.Size = new System.Drawing.Size(994, 465);
+            this.panelDataGrid.Size = new System.Drawing.Size(826, 465);
             this.panelDataGrid.TabIndex = 0;
             // 
             // bntCategory
@@ -103,7 +103,7 @@ namespace BRMS
             this.tBoxSearchWord.Location = new System.Drawing.Point(64, 51);
             this.tBoxSearchWord.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tBoxSearchWord.Name = "tBoxSearchWord";
-            this.tBoxSearchWord.Size = new System.Drawing.Size(296, 25);
+            this.tBoxSearchWord.Size = new System.Drawing.Size(214, 25);
             this.tBoxSearchWord.TabIndex = 4;
             // 
             // dtpType2From
@@ -212,7 +212,7 @@ namespace BRMS
             this.groupBoxDatePikc.Controls.Add(this.dtpType1To);
             this.groupBoxDatePikc.Controls.Add(this.dtpType2From);
             this.groupBoxDatePikc.Controls.Add(this.dtpType2To);
-            this.groupBoxDatePikc.Location = new System.Drawing.Point(426, 54);
+            this.groupBoxDatePikc.Location = new System.Drawing.Point(343, 54);
             this.groupBoxDatePikc.Name = "groupBoxDatePikc";
             this.groupBoxDatePikc.Size = new System.Drawing.Size(499, 82);
             this.groupBoxDatePikc.TabIndex = 14;
@@ -227,7 +227,7 @@ namespace BRMS
             this.groupBox1.Controls.Add(this.tBoxSearchWord);
             this.groupBox1.Location = new System.Drawing.Point(12, 54);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(366, 82);
+            this.groupBox1.Size = new System.Drawing.Size(290, 82);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             // 
@@ -252,7 +252,7 @@ namespace BRMS
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1018, 649);
+            this.ClientSize = new System.Drawing.Size(850, 649);
             this.Controls.Add(this.bntProductAdd);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxDatePikc);

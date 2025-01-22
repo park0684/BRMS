@@ -35,7 +35,7 @@ namespace BRMS
                     total(connection,transaction);
                     transaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     throw;

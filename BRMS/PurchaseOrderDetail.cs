@@ -71,7 +71,7 @@ namespace BRMS
             DgrPurOrderdetail.FormatAsStringLeft("purOrderdPdtNumber", "purOrderdPdtNameKr", "purOrderdStatus");
             DgrPurOrderdetail.FormatAsStringCenter("purOrderdPdtTax", "purOrderdStatus");
             DgrPurOrderdetail.FormatAsDecimal("purOrderdBprice");
-            DgrPurOrderdetail.FormatAsInteger("purOrderdSprice", "purOrderdQty", "purOrderdAmount", "purOrderdPdtStock");
+            DgrPurOrderdetail.FormatAsInt("purOrderdSprice", "purOrderdQty", "purOrderdAmount", "purOrderdPdtStock");
 
             DgrPurOrderdetail.Dgv.Columns["No"].Width = 50;
             DgrPurOrderdetail.Dgv.Columns["purOrderdPdtTax"].Width = 40;

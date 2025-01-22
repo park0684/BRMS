@@ -31,7 +31,7 @@ namespace BRMS
         public Report()
         {
             InitializeComponent();
-            cUIManager.ApplyPopupFormStyleㅡ(this);
+            cUIManager.ApplyPopupFormStyle(this);
             //RunQeury();
         }
         /// <summary>

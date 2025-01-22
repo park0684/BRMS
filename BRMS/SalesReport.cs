@@ -153,7 +153,7 @@ namespace BRMS
                 dgrReport.Dgv.Columns.Add("saleDate", "매출일");
             }
 
-            dgrReport.FormatAsInteger("revenue", "cost", "profit", "dc", "tax", "fee", "sale", "return");
+            dgrReport.FormatAsInt("revenue", "cost", "profit", "dc", "tax", "fee", "sale", "return");
             dgrReport.FormatAsDecimal("margin", "ratio");
             dgrReport.FormatAsStringLeft("pdtNameKr", "pdtNumber", "categoryName", "supplier");
             dgrReport.FormatAsStringCenter("categoryCode", "supplierCode", "saleDate");
@@ -231,12 +231,12 @@ namespace BRMS
             }
             switch (searchType)
             {
-                case 0:
+                case 0: //단품별
                     selectQuery += "pdt_code, sum(saled_qty) as qty, ";
                     groupby += "pdt_code, ";
                     orderByQuery += "pdt_code ";
                     break;
-                case 1:
+                case 1://분류별
                     if (pdtCatTop == 0)
                     {
                         selectQuery += "pdt_top cattop, 0 catmid, 0 catbot, ";
@@ -258,9 +258,9 @@ namespace BRMS
                     }
                     
                     break;
-                case 2:
+                case 2://공급사별
                     selectQuery += "pdt_sup, ";
-                    groupby += "pdt_sup ";
+                    groupby += "pdt_sup, ";
                     orderByQuery += "pdt_sup";
                     break;
                 case 3:
@@ -507,9 +507,9 @@ namespace BRMS
                             break;
 
                         case 2:
-                            query = $"SELECT sup_name FROM supplier WHERE sup_code = {row["supCode"]}";
+                            query = $"SELECT sup_name FROM supplier WHERE sup_code = {row["pdt_sup"]}";
                             dbconn.sqlScalaQuery(query, out resultObj);
-                            dgrReport.Dgv.Rows[rowIndex].Cells["supplierCode"].Value = row["supCode"];
+                            dgrReport.Dgv.Rows[rowIndex].Cells["supplierCode"].Value = row["pdt_sup"];
                             dgrReport.Dgv.Rows[rowIndex].Cells["supplier"].Value = resultObj.ToString();
                             break;
 
@@ -669,6 +669,7 @@ namespace BRMS
             {
                
                 CategoryBoard categoryBoard = new CategoryBoard();
+                categoryBoard.WorkType = 2;
                 categoryBoard.CategorySelected += (top, mid, bot) => { GetCategoryInfo(top, mid, bot); };
                 categoryBoard.SearchMode();
                 categoryBoard.ShowDialog();

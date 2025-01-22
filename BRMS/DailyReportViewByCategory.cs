@@ -52,9 +52,11 @@ namespace BRMS
             dgvReport.Dgv.Columns.Add("dayrPayAccount", "계좌이체");
             dgvReport.Dgv.Columns.Add("dayrPayPoint", "포인트");
             dgvReport.ApplyDefaultColumnSettings();
-            dgvReport.FormatAsInteger("dayrBStockAmount", "dayrEStockAmount", "dayrPurAmount", "dayrSaleAmount", "dayrDifference", "dayrCost",  "dayrProfitAmount", "dayrLedgerStockAmount", "dayrLostStockAmount", "dayrTaxable", "dayrTaxFree");
+            dgvReport.FormatAsInt("dayrPurAmount", "dayrSaleAmount", "dayrDifference", "dayrCost",  "dayrProfitAmount", "dayrLostStockAmount", "dayrTaxable", "dayrTaxFree");
+            dgvReport.FormatAsFloat("dayrBStockAmount", "dayrEStockAmount", "dayrLedgerStockAmount");
             dgvReport.FormatAsDecimal("dayrProfitRate", "dayrPayCash", "dayrPayCard", "dayrPayAccount", "dayrPayPoint");
             dgvReport.FormatAsStringLeft("dayrCatName");
+            dgvReport.FormatAsStringCenter("dayrCatName");
 
             
         }
@@ -107,15 +109,15 @@ namespace BRMS
         {
             dgvReport.Dgv.Rows.Clear();
             //총합용 변수 선언
-            int totalBeginStockAmount = 0;
-            int totalEndStockAmount = 0;
+            decimal totalBeginStockAmount = 0;
+            decimal totalEndStockAmount = 0;
             int totalpurcasehAmount = 0;
             int totalSaleAmount = 0;
             int totalDifference = 0;
-            int totalcost = 0;
-            int totalProfitAmount = 0;
+            decimal totalcost = 0;
+            decimal totalProfitAmount = 0;
             decimal totalProfitRate = 0;
-            int totalLedgerStockAmount = 0;
+            decimal totalLedgerStockAmount = 0;
             int totalLostStockAmount = 0;
             int totalTaxable = 0;
             int totalTaxFree = 0;
@@ -127,15 +129,15 @@ namespace BRMS
             foreach (DataRow row in resultData.Rows)
             {
                 int rowIndex = dgvReport.Dgv.Rows.Add();
-                int beginStockAmount = cDataHandler.ConvertToInt(row["dayr_bstockamount"]);
-                int endStockAmount = cDataHandler.ConvertToInt(row["dayr_estockamount"]);
+                decimal beginStockAmount = cDataHandler.ConvertToDecimal(row["dayr_bstockamount"]);
+                decimal endStockAmount = cDataHandler.ConvertToDecimal(row["dayr_estockamount"]);
                 int purchaseAmount = cDataHandler.ConvertToInt(row["dayr_purAmount"]);
                 int saleAmount = cDataHandler.ConvertToInt(row["dayr_saleAmount"]);
                 int difference = saleAmount - saleAmount;
-                int cost = beginStockAmount + purchaseAmount - endStockAmount;
-                int profitAmount = saleAmount - cost;
+                decimal cost = beginStockAmount + purchaseAmount - endStockAmount;
+                decimal profitAmount = saleAmount - cost;
                 decimal profitRate = cDataHandler.ConvertProfitRate(saleAmount,cost);
-                int ledgerStockAmount = cDataHandler.ConvertToInt(row["dayr_ledgerstockamount"]);
+                decimal ledgerStockAmount = cDataHandler.ConvertToDecimal(row["dayr_ledgerstockamount"]);
                 int lostStockAmount = cDataHandler.ConvertToInt(row["dayr_loststockamount"]);
                 int taxAble = cDataHandler.ConvertToInt(row["dayr_taxable"]);
                 int tabFree = cDataHandler.ConvertToInt(row["dayr_taxfree"]);
@@ -231,8 +233,8 @@ namespace BRMS
             // 기본 쿼리문
             string query = $"SUM(dayr_purqty) dayr_purqty, SUM(dayr_purAmount) dayr_purAmount, SUM(dayr_saleqty) dayr_saleqty, " +
                 $"SUM(dayr_saleAmount) dayr_saleAmount,SUM(dayr_taxable) dayr_taxable, SUM(dayr_taxfree) dayr_taxfree, SUM(dayr_paycash) dayr_paycash, " +
-                $"SUM(dayr_paycard) dayr_paycard, SUM(dayr_payaccount) dayr_payaccount, SUM(dayr_paypoint) dayr_paypoint, SUM(dayr_bstockamount) dayr_bstockamount, " +
-                $"SUM(dayr_estockamount) dayr_estockamount, SUM(ISNULL(dayr_ledgerstock * dayr_bprice, 0)) dayr_ledgerstockamount ,SUM(ISNULL(dayr_loststock * dayr_bprice, 0)) dayr_loststockamount " +
+                $"SUM(dayr_paycard) dayr_paycard, SUM(dayr_payaccount) dayr_payaccount, SUM(dayr_paypoint) dayr_paypoint,SUM(CAST(dayr_bstockamount as float)) dayr_bstockamount, " +
+                $"SUM(CAST(dayr_estockamount as float)) dayr_estockamount, SUM(ISNULL(dayr_ledgerstock * dayr_bprice, 0)) dayr_ledgerstockamount ,SUM(ISNULL(dayr_loststock * dayr_bprice, 0)) dayr_loststockamount " +
                 $"FROM dailyreport WHERE dayr_date >= {fromDate} AND dayr_date < {toDate} ";
             //대분류 지정 시 쿼리문 추가
             if (!pdtCatTop.Equals(0))
@@ -306,6 +308,7 @@ namespace BRMS
             {
 
                 CategoryBoard categoryBoard = new CategoryBoard();
+                categoryBoard.WorkType = 2;
                 categoryBoard.CategorySelected += (top, mid, bot) => { GetCategoryInfo(top, mid, bot); };
                 categoryBoard.SearchMode();
                 categoryBoard.ShowDialog();

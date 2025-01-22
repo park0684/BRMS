@@ -14,6 +14,7 @@ namespace BRMS
     {
         cDatabaseConnect dbconn = new cDatabaseConnect();
         cDataGridDefaultSet DgrPdtSearch = new cDataGridDefaultSet();
+        DataTable resultData = new DataTable();
         public event Action<int> ProductForword;
         public ProductSearchBox()
         {
@@ -26,11 +27,13 @@ namespace BRMS
             DgrPdtSearch.CellDoubleClick += DgrDgrPdtSearch_CellDoubleClick;
             tBoxSearch.KeyUp += tBoxSearch_KeyUpEnter;
             DgrPdtSearch.Dgv.KeyDown += DgrPdtSearch_KeyDown;
-            DgrPdtSearch.ApplyDefaultColumnSettings();
+            
         }
 
         private void GridForm()
         {
+            DgrPdtSearch.Dgv.AutoGenerateColumns = false;
+
             DgrPdtSearch.Dgv.Columns.Add("pdtCode", "제품코드");
             DgrPdtSearch.Dgv.Columns.Add("pdtNumber", "제품번호");
             DgrPdtSearch.Dgv.Columns.Add("pdtNameKr", "제품명(한글)");
@@ -38,41 +41,155 @@ namespace BRMS
             DgrPdtSearch.Dgv.Columns.Add("pdtBprice", "매입가");
             DgrPdtSearch.Dgv.Columns.Add("pdtSpriceKrw", "판매가");
             DgrPdtSearch.Dgv.Columns["pdtCode"].Visible = false;
-
+            DgrPdtSearch.ApplyDefaultColumnSettings();
             DgrPdtSearch.FormatAsStringLeft("pdtNumber", "pdtNameKr", "pdtNameen");
             DgrPdtSearch.FormatAsDecimal("매입가");
-            DgrPdtSearch.FormatAsInteger("판매가");
-
+            DgrPdtSearch.FormatAsInt("판매가");
+            foreach(DataGridViewColumn column in DgrPdtSearch.Dgv.Columns)
+            {
+                column.DataPropertyName = column.Name;
+            }
             DgrPdtSearch.Dgv.ReadOnly = true;
             DgrPdtSearch.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
         }
-        private void FillGrid(DataTable dataTable)
+        ///// <summary>
+        ///// 데이터 그리드 결과 등록
+        ///// 속도 문제로 DataSource 방식으로 변경
+        ///// </summary>
+        ///// <param name="dataTable"></param>
+        //private void FillGrid(DataTable dataTable)
+        //{
+            
+        //    foreach (DataRow dataRow in dataTable.Rows)
+        //    {
+
+        //        int newIndex = DgrPdtSearch.Dgv.Rows.Add();
+        //        var rowIndex = DgrPdtSearch.Dgv.Rows[newIndex];
+        //        rowIndex.Cells["no"].Value = newIndex + 1;
+        //        rowIndex.Cells["pdtCode"].Value = dataRow["pdtCode"];
+        //        rowIndex.Cells["pdtNumber"].Value = dataRow["pdtNumber"];
+        //        rowIndex.Cells["pdtNameKr"].Value = dataRow["pdtNameKr"];
+        //        rowIndex.Cells["pdtNameEn"].Value = dataRow["pdtNameEn"];
+        //        rowIndex.Cells["pdtBprice"].Value = dataRow["pdtBprice"];
+        //        rowIndex.Cells["pdtSpriceKrw"].Value = dataRow["pdtSpriceKrw"];
+
+        //    }
+
+        //}
+        
+        /// <summary>
+        /// 데이터 그리드 등록
+        /// </summary>
+        private void InsertDataGridView()
         {
-
-            foreach (DataRow dataRow in dataTable.Rows)
+            int i= 1;
+            resultData.Columns.Add("No");
+            foreach(DataRow row in resultData.Rows)
             {
-                int i = dataTable.Rows.IndexOf(dataRow);
-                DgrPdtSearch.Dgv.Rows.Add();
-                DgrPdtSearch.Dgv.Rows[i].Cells["no"].Value = i + 1;
-                DgrPdtSearch.Dgv.Rows[i].Cells["pdtCode"].Value = dataRow["pdt_code"].ToString();
-                DgrPdtSearch.Dgv.Rows[i].Cells["pdtNumber"].Value = dataRow["pdt_number"].ToString().Trim();
-                DgrPdtSearch.Dgv.Rows[i].Cells["pdtNameKr"].Value = dataRow["pdt_name_kr"].ToString().Trim();
-                DgrPdtSearch.Dgv.Rows[i].Cells["pdtNameEn"].Value = dataRow["pdt_name_en"].ToString().Trim();
-                DgrPdtSearch.Dgv.Rows[i].Cells["pdtBprice"].Value = dataRow["pdt_bprice"].ToString();
-                DgrPdtSearch.Dgv.Rows[i].Cells["pdtSpriceKrw"].Value = dataRow["pdt_sprice_krw"].ToString();
-
+                row["No"] = i;
+                i++;
             }
+            DgrPdtSearch.Dgv.DataSource = resultData;
         }
+
+        /// <summary>
+        /// DataGridView에 데이터 바인딩
+        /// </summary>
+        /// <param name = "dataTable" ></ param >
+        //private void BindDataToGrid(DataTable dataTable)
+        //{
+        //    DgrPdtSearch.Dgv.RowCount = 0;
+        //    resultData = dataTable;
+
+        //    // 가상 모드 설정
+        //    DgrPdtSearch.Dgv.VirtualMode = true;
+
+        //    DgrPdtSearch.Dgv.RowCount = resultData.Rows.Count;
+
+        //    // CellValueNeeded 이벤트 연결
+        //    DgrPdtSearch.Dgv.CellValueNeeded -= DgrPdtSearch_CellValueNeeded;
+        //    DgrPdtSearch.Dgv.CellValueNeeded += DgrPdtSearch_CellValueNeeded;
+
+        //    // 열 크기 조절
+        //    DgrPdtSearch.Dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+        //}
+
+        /// <summary>
+        /// CellValueNeeded 이벤트
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void DgrPdtSearch_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        //{
+        //    if (e.RowIndex >= 0 && e.RowIndex < resultData.Rows.Count)
+        //    {
+        //        DataRow row = resultData.Rows[e.RowIndex];
+        //        e.Value = e.RowIndex + 1;
+        //        switch (DgrPdtSearch.Dgv.Columns[e.ColumnIndex].Name)
+        //        {
+        //            case "pdtCode":
+        //                e.Value = row["pdtCode"];
+        //                break;
+        //            case "pdtNumber":
+        //                e.Value = row["pdtNumber"];
+        //                break;
+        //            case "pdtNameKr":
+        //                e.Value = row["pdtNameKr"];
+        //                break;
+        //            case "pdtNameEn":
+        //                e.Value = row["pdtNameEn"];
+        //                break;
+        //            case "pdtBprice":
+        //                e.Value = row["pdtBprice"];
+        //                break;
+        //            case "pdtSpriceKrw":
+        //                e.Value = row["pdtSpriceKrw"];
+        //                break;
+        //        }
+        //    }
+        //}
         private void SearchQuery()
         {
-            string query = string.Format("SELECT pdt_code,pdt_number,pdt_name_kr,pdt_name_en,pdt_bprice,pdt_sprice_krw FROM product WHERE pdt_number like '%{0}%' \n union\n" +
-                "SELECT pdt_code,pdt_number,pdt_name_kr,pdt_name_en,pdt_bprice,pdt_sprice_krw  FROM product WHERE pdt_name_kr LIKE '%{0}%'\n UNION \n" +
-                "SELECT pdt_code,pdt_number,pdt_name_kr,pdt_name_en,pdt_bprice,pdt_sprice_krw  FROM product WHERE pdt_name_en LIKE'%{0}%'", tBoxSearch.Text);
+            if (ErrorCheck())
+            {
+                return;
+            }
+            //string query = string.Format("SELECT pdt_code,pdt_number,pdt_name_kr,pdt_name_en,pdt_bprice,pdt_sprice_krw FROM product WHERE pdt_number like '%{0}%' \n union\n" +
+            //    "SELECT pdt_code,pdt_number,pdt_name_kr,pdt_name_en,pdt_bprice,pdt_sprice_krw  FROM product WHERE pdt_name_kr LIKE '%{0}%'\n UNION \n" +
+            //    "SELECT pdt_code,pdt_number,pdt_name_kr,pdt_name_en,pdt_bprice,pdt_sprice_krw  FROM product WHERE pdt_name_en LIKE'%{0}%'", tBoxSearch.Text);
+            string query = $"SELECT pdt_code pdtCode,pdt_number pdtNumber,pdt_name_kr pdtNameKr,pdt_name_en pdtNameEn,pdt_bprice pdtBprice,pdt_sprice_krw pdtSpriceKrw FROM product WHERE pdt_number like '%{tBoxSearch.Text}%' \n union\n" +
+                $"SELECT pdt_code ,pdt_number ,pdt_name_kr ,pdt_name_en , pdt_bprice ,pdt_sprice_krw  FROM product WHERE pdt_name_kr LIKE '%{tBoxSearch.Text}%'\n UNION \n" +
+                $"SELECT pdt_code ,pdt_number ,pdt_name_kr ,pdt_name_en , pdt_bprice ,pdt_sprice_krw  FROM product WHERE pdt_name_en LIKE'%{tBoxSearch.Text}%'";
             DataTable dataTable = new DataTable();
             dbconn = new cDatabaseConnect();
             dbconn.SqlDataAdapterQuery(query, dataTable);
-            FillGrid(dataTable);
+            resultData = dataTable;
+            //FillGrid(dataTable);
+            InsertDataGridView();
+            //DgrPdtSearch.Dgv.DataSource = dataTable;
+
             DgrPdtSearch.Dgv.Focus();
+        }
+        private bool ErrorCheck()
+        {
+            if (string.IsNullOrEmpty(tBoxSearch.Text))
+            {
+                cUIManager.ShowMessageBox("검색어를 입력 하세요", "알림", MessageBoxButtons.OK);
+                return true;
+            }
+            if(tBoxSearch.Text.Contains("%%"))
+            {
+                cUIManager.ShowMessageBox(" '%%'는 입력 할 수 없는 문자입니다", "알림", MessageBoxButtons.OK);
+                return true;
+            }
+            if (tBoxSearch.Text.Contains("'"))
+            {
+                cUIManager.ShowMessageBox("작은 따옴표(') 는 입력 할 수 없는 문자입니다", "알림", MessageBoxButtons.OK);
+                return true;
+            }
+
+            return false;
         }
         private void tBoxSearch_KeyUpEnter(object sender, KeyEventArgs e)
         {

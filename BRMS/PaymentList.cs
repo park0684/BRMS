@@ -85,7 +85,7 @@ namespace BRMS
             DgrPayList.ApplyDefaultColumnSettings();
 
             //칼럼 포멧 설정
-            DgrPayList.FormatAsInteger("purchaseAmount", "paymentAmount", "cahsPayment", "bankTransfer", "creditPayment", "NotePayment", "Discount", "Coupon", "Supsiby", "etc", "balance");
+            DgrPayList.FormatAsInt("purchaseAmount", "paymentAmount", "cahsPayment", "bankTransfer", "creditPayment", "NotePayment", "Discount", "Coupon", "Supsiby", "etc", "balance");
             DgrPayList.FormatAsDateTime("payDate");
             DgrPayList.FormatAsStringCenter("payCode", "workType", "employee");
 
@@ -212,7 +212,7 @@ namespace BRMS
             {
                 //DataRow StatusRow = cBoxStatus.SelectedValue.ToString .[int.Parse(dataRow["pdt_status"].ToString())];
                 DgrPayList.Dgv.Rows.Add();
-                string query = $"SELECT emp_name FROM employee WHERE emp_code = {dataRow["pay_emp"]}";
+                string query = $"SELECT emp_name FROM employee WHERE emp_code = {dataRow["pay_code"]}";
                 object resultObj = new object();
                 dbconn.sqlScalaQuery(query, out resultObj);
                 employee = resultObj.ToString();
@@ -425,7 +425,7 @@ namespace BRMS
         {
 
             PaymentDetail paymentDetail = new PaymentDetail();
-           
+            paymentDetail.StartPosition = FormStartPosition.CenterParent;
             paymentDetail.AddPayment(selectedSupplier,0,currentBalane);
             paymentDetail.ShowDialog();
         }

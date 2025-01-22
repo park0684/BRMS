@@ -187,7 +187,7 @@ namespace BRMS
             this.btnSupplier.Name = "btnSupplier";
             this.btnSupplier.Size = new System.Drawing.Size(99, 24);
             this.btnSupplier.TabIndex = 58;
-            this.btnSupplier.Text = "분류";
+            this.btnSupplier.Text = "공급사";
             this.btnSupplier.UseVisualStyleBackColor = false;
             this.btnSupplier.Click += new System.EventHandler(this.btnSupplier_Click);
             // 

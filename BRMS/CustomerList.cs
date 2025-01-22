@@ -60,6 +60,7 @@ namespace BRMS
             custList.Dgv.Columns.Add("custName", "회원명");
             custList.Dgv.Columns.Add("custCountry", "국가코드");
             custList.Dgv.Columns.Add("custCountryName", "국가");
+            custList.Dgv.Columns.Add("custPoint", "포인트");
             custList.Dgv.Columns.Add("custTel", "전화");
             custList.Dgv.Columns.Add("custCell", "휴대폰");
             custList.Dgv.Columns.Add("custEmail", "이메일");
@@ -71,6 +72,7 @@ namespace BRMS
             custList.FormatAsStringCenter("custStatus", "custCountry", "custTel", "custCell");
             custList.FormatAsStringLeft("custName", "custEmail", "custAddress", "custMemo");
             custList.FormatAsDate("custRegDate", "custSaleDate");
+            custList.FormatAsInt("custPoint");
             custList.ApplyDefaultColumnSettings();
             custList.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             custList.Dgv.Columns["custCode"].Visible = false;
@@ -146,13 +148,14 @@ namespace BRMS
         private void QuerySetting()
         {
             DataTable resultData = new DataTable();
-            string queryBase = "SELECT cust_code, cust_name, cust_country,ctry_name, " +
+            string queryBase = "SELECT cust_code, cust_name, cust_country,ctry_name, cust_point, " +
                 "cust_tell, cust_cell, cust_email, cust_addr, cust_idate, cust_lastsaledate, cust_status, cust_memo FROM customer, country WHERE cust_country = ctry_code ";
             List<string> queries = new List<string>();  // UNION으로 결합할 쿼리 리스트
             List<string> conditions = new List<string>();
 
             string word = tBoxSearchWord.Text;
-
+            string fromDate = dtpSaveDateFrom.Value.ToString("d");
+            string toDate = dtpSaveDateTo.Value.AddDays(1).ToString("d");
             // 검색어에 따른 쿼리 생성 (UNION 유지)
             if (!string.IsNullOrEmpty(word))
             {
@@ -178,26 +181,22 @@ namespace BRMS
             // 등록일 또는 수정일 필터링
             if (checkBoxSaveDate.Checked)
             {
-                DateTime fromDate = dtpSaveDateFrom.Value;
-                DateTime toDate = dtpSaveDateTo.Value.AddDays(1);  // 종료 날짜에 하루를 더함
                 string saveDateCondition = cmBoxSaveDate.SelectedIndex == 0 ? 
-                    $"cust_idate BETWEEN '{fromDate:yyyy-MM-dd}' AND '{toDate:yyyy-MM-dd}'" : $"cust_udate BETWEEN '{fromDate:yyyy-MM-dd}' AND '{toDate:yyyy-MM-dd}'";
+                    $"cust_idate BETWEEN '{fromDate}' AND '{toDate}'" : $"cust_udate BETWEEN '{fromDate}' AND '{toDate}'";
                 conditions.Add(saveDateCondition);
             }
 
             // 거래일 필터링
             if (checkBoxSaleDate.Checked)
             {
-                DateTime fromDate = dtpSaleDateFrom.Value;
-                DateTime toDate = dtpSaleDateTo.Value.AddDays(1);
                 string saleDateCondition = cmBoxSaleDate.SelectedIndex == 0
                     ? $"cust_code IN (SELECT sale_cust FROM sales WHERE sale_date BETWEEN '{fromDate:yyyy-MM-dd}' AND '{toDate:yyyy-MM-dd}')"
-                    : $"cust_lastsaledate BETWEEN '{fromDate:yyyy-MM-dd}' AND '{toDate:yyyy-MM-dd}'";
+                    : $"cust_lastsaledate BETWEEN '{fromDate}' AND '{toDate}'";
                 conditions.Add(saleDateCondition);
             }
 
             // 각 쿼리에 조건을 적용 (조건을 WHERE가 있으면 AND, 없으면 WHERE로 처리)
-            for (int i = 1; i < queries.Count; i++)
+            for (int i = 0; i < queries.Count && conditions.Count>0 ; i++)
             {
                 queries[i] += " AND " + string.Join(" AND ", conditions);
             }
@@ -224,10 +223,11 @@ namespace BRMS
                 
                 row.Cells["No"].Value = custList.Dgv.RowCount;
                 row.Cells["custCode"].Value = dataRow["cust_code"];
-                row.Cells["custStatus"].Value = dataRow["cust_status"].ToString() == "1" ? $"유효" : $"무효";
+                row.Cells["custStatus"].Value = cStatusCode.GetCustomerStatus(cDataHandler.ConvertToInt(dataRow["cust_status"]));
                 row.Cells["custName"].Value = dataRow["cust_name"];
                 row.Cells["custCountry"].Value = dataRow["cust_country"];
                 row.Cells["custCountryName"].Value = dataRow["ctry_name"];
+                row.Cells["custPoint"].Value = dataRow["cust_point"];
                 row.Cells["custTel"].Value = dataRow["cust_tell"].ToString();
                 row.Cells["custCell"].Value = dataRow["cust_cell"].ToString();
                 row.Cells["custEmail"].Value = dataRow["cust_email"];

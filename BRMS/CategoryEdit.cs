@@ -16,9 +16,6 @@ namespace BRMS
         Dictionary<string, object> originalValues = new Dictionary<string, object>();
         int accessedEmp = cUserSession.AccessedEmp;
         int categoryCode = 0;
-        int catTop = 0;
-        int catMid = 0;
-        int catBot = 0;
         string catNameKr = "";
         string catNameEn = "";
         bool isNewEntry = false;
@@ -50,13 +47,13 @@ namespace BRMS
             tBoxBotCode.Enabled = false;
             tBoxBotKr.Enabled = false;
             tBoxBotEn.Enabled = false;
-            tBoxTopCode.Text = "";
+            tBoxTopCode.Text = "0";
             tBoxTopKr.Text = "";
             tBoxTopEn.Text = "";
-            tBoxMidCode.Text = "";
+            tBoxMidCode.Text = "0";
             tBoxMidKr.Text = "";
             tBoxMidEn.Text = "";
-            tBoxBotCode.Text = "";
+            tBoxBotCode.Text = "0";
             tBoxBotKr.Text = "";
             tBoxBotEn.Text = "";
         }
@@ -73,7 +70,7 @@ namespace BRMS
             isNewEntry = newEntery;
             if (isNewEntry == true) // 추가 등록
             {
-                chkStatus.Visible = false;
+                chkStatus.Checked = true;
                 object resultObj = new object();
                 string query;
                 if (topCode == 0)
@@ -82,8 +79,6 @@ namespace BRMS
                     dbconn.sqlScalaQuery(query, out resultObj);
                     tBoxTopCode.Text = resultObj.ToString();
                     tBoxTopCode.Enabled = false;
-                    return;
-
                 }
 
                 if (topCode != 0 && midCode == 0)
@@ -106,8 +101,7 @@ namespace BRMS
                     MidCategorySearch(topCode, midCode);
                     query = string.Format("SELECT ISNULL(MAX(cat_bot) + 1,1) FROM category WHERE cat_top = {0} AND cat_mid = {1} AND cat_bot !=0", topCode, midCode);
                     dbconn.sqlScalaQuery(query, out resultObj);
-                    catBot = cDataHandler.ConvertToInt(resultObj); //2025-01-01 수정
-                    tBoxBotCode.Text = catBot.ToString();
+                    tBoxBotCode.Text = resultObj.ToString();
                     tBoxMidCode.Enabled = false;
                     tBoxMidKr.Enabled = false;
                     tBoxMidEn.Enabled = false;
@@ -147,9 +141,6 @@ namespace BRMS
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
             categoryCode = cDataHandler.ConvertToInt(dataRow["cat_code"]);
-            catTop = topCode;
-            catMid = 0;
-            catBot = 0;
             catNameKr = dataRow["cat_name_kr"].ToString();
             catNameEn = dataRow["cat_name_en"].ToString();
             tBoxTopCode.Text = topCode.ToString();
@@ -173,9 +164,6 @@ namespace BRMS
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
             categoryCode = cDataHandler.ConvertToInt(dataRow["cat_code"]);
-            catTop = topCode;
-            catMid = midCode;
-            catBot = 0;
             catNameKr = dataRow["cat_name_kr"].ToString();
             catNameEn = dataRow["cat_name_en"].ToString();
             tBoxMidCode.Text = midCode.ToString();
@@ -209,9 +197,6 @@ namespace BRMS
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
             categoryCode = cDataHandler.ConvertToInt(dataRow["cat_code"]);
-            catTop = topCode;
-            catMid = midCode;
-            catBot = botCode;
             catNameKr = dataRow["cat_name_kr"].ToString();
             catNameEn = dataRow["cat_name_en"].ToString();
             tBoxBotCode.Text = botCode.ToString();
@@ -249,8 +234,8 @@ namespace BRMS
         {
             string query = "";
             object resultObj = new object();
-
-            query = $"SELECT count(cat_code) FROM category WHERE cat_top = {catTop} AND cat_mid = {catMid} AND cat_bot = {catBot}";
+            //신규 등록시 분류 번호 값이 동일 할 경우
+            query = $"SELECT count(cat_code) FROM category WHERE cat_top = {tBoxTopCode.Text} AND cat_mid = {tBoxMidCode.Text} AND cat_bot = {tBoxBotCode.Text}";
             dbconn.sqlScalaQuery(query, out resultObj);
             if(Convert.ToInt32(resultObj) > 0 && isNewEntry == true)
             {
@@ -258,8 +243,9 @@ namespace BRMS
                 errorCheck = true;
                 return;
             }
-
-            query = $"SELECT cat_code FROM category WHERE cat_top = {catTop} AND cat_mid = {catMid} AND cat_bot = {catBot}";
+            //분류 번호 수정 시 이미 동일한 분류 번호가 있는지 확인
+            //새로 등록 할 분류번호로 분류코드 조회 후 동일 여부 확인
+            query = $"SELECT cat_code FROM category WHERE cat_top = {tBoxTopCode.Text} AND cat_mid = {tBoxMidCode.Text} AND cat_bot = {tBoxBotCode.Text}";
             dbconn.sqlScalaQuery(query, out resultObj);
             if (Convert.ToInt32(resultObj) != categoryCode && isNewEntry == false)
             {

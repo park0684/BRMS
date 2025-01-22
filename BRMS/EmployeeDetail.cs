@@ -28,7 +28,7 @@ namespace BRMS
         public EmployeeDetail()
         {
             InitializeComponent();
-            cUIManager.ApplyPopupFormStyleㅡ(this);
+            cUIManager.ApplyPopupFormStyle(this);
             InitializeCombox();
             InitializeTabControl();
         }
@@ -358,7 +358,8 @@ namespace BRMS
                 new SqlParameter("@empStatus",SqlDbType.Int){Value = cmBoxStatus.SelectedIndex},
                 new SqlParameter("@empMemo",SqlDbType.VarChar){Value = tBoxMemo.Text}
             };
-
+            EncryptPassword();
+            parameters[2].Value = empPassword;
             dbconn.ExecuteNonQuery(query, connection, transaction, parameters);
 
         }

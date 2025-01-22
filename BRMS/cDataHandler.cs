@@ -16,9 +16,15 @@ namespace BRMS
         /// <returns>변환된 정수 값 (null 또는 빈 문자열일 경우 0 반환)</returns>
         public static int ConvertToInt(object input)
         {
-            if (string.IsNullOrEmpty(input.ToString()))
+            if (input == null || string.IsNullOrEmpty(input.ToString()))
                 return 0;
+            // decimal 타입일 경우
+            if (input is decimal decimalValue)
+                return Convert.ToInt32(decimalValue);
 
+            // double 타입일 경우
+            if (input is double doubleValue)
+                return Convert.ToInt32(doubleValue);
             return Convert.ToInt32(input.ToString().Replace(",", ""));
         }
 
@@ -29,7 +35,7 @@ namespace BRMS
         /// <returns>변환된 double 값 (null 또는 빈 문자열일 경우 0 반환)</returns>
         public static double ConvertToDouble(object input)
         {
-            if (string.IsNullOrEmpty(input.ToString()))
+            if (input == null || string.IsNullOrEmpty(input.ToString()))
                 return 0;
 
             return Convert.ToDouble(input.ToString().Replace(",", ""));
@@ -41,14 +47,14 @@ namespace BRMS
         /// <returns>변환된 decimal 값 (null 또는 빈 문자열일 경우 0 반환)</returns>
         public static decimal ConvertToDecimal(object input)
         {
-            if (string.IsNullOrEmpty(input.ToString()))
+            if (input == null || string.IsNullOrEmpty(input.ToString()))
                 return 0;
 
             return Convert.ToDecimal(input.ToString().Replace(",", ""));
         }
         public static DateTime ConvertIntToDate(object input)
         {
-            if (string.IsNullOrEmpty(input.ToString()))
+            if (input == null || string.IsNullOrEmpty(input.ToString()))
             {
                 return DateTime.Now;
             }
@@ -90,7 +96,7 @@ namespace BRMS
             }
             decimal convertSale = Convert.ToDecimal(sale);
             decimal convertCost = Convert.ToDecimal(cost);
-            return (convertSale - convertCost) / convertSale * 100;
+            return Math.Round((convertSale - convertCost) / convertSale * 100,2);
         }
         /// <summary>
         /// 키 입력이 유효한지 확인하는 메소드
@@ -131,12 +137,7 @@ namespace BRMS
                 textBox.SelectionStart = textBox.Text.Length;
             }
 
-            // 텍스트 박스 값이 비어 있을 경우 처리
-            if (string.IsNullOrWhiteSpace(textBox.Text))
-            {
-                cUIManager.ShowMessageBox("0 이상의 값을 입력해야 합니다", "알림", MessageBoxButtons.OK);
-                return;
-            }
+            
         }
 
         /// <summary>

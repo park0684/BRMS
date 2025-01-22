@@ -103,7 +103,7 @@ namespace BRMS
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
+            this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 140F));
             this.tableLayoutPanel7.Controls.Add(this.label9, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.tBoxPayment, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.label13, 0, 0);
@@ -112,8 +112,8 @@ namespace BRMS
             this.tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 1;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel7.Size = new System.Drawing.Size(425, 35);
             this.tableLayoutPanel7.TabIndex = 4;
             // 
@@ -123,9 +123,9 @@ namespace BRMS
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.label9.Location = new System.Drawing.Point(218, 1);
-            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 3, 5);
+            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 3, 15);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 39);
+            this.label9.Size = new System.Drawing.Size(72, 30);
             this.label9.TabIndex = 3;
             this.label9.Text = "외상 매입액";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -148,9 +148,9 @@ namespace BRMS
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.label13.Location = new System.Drawing.Point(6, 1);
-            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 3, 5);
+            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 3, 15);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(72, 39);
+            this.label13.Size = new System.Drawing.Size(72, 30);
             this.label13.TabIndex = 0;
             this.label13.Text = "결제액";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -240,7 +240,7 @@ namespace BRMS
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             this.tableLayoutPanel5.Controls.Add(this.label15, 4, 0);
             this.tableLayoutPanel5.Controls.Add(this.label12, 2, 0);
             this.tableLayoutPanel5.Controls.Add(this.tBoxPurOrderTaxable, 1, 0);
@@ -251,8 +251,8 @@ namespace BRMS
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(640, 35);
             this.tableLayoutPanel5.TabIndex = 3;
             // 
@@ -262,9 +262,9 @@ namespace BRMS
             this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label15.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.label15.Location = new System.Drawing.Point(430, 1);
-            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 3, 5);
+            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 3, 15);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(72, 39);
+            this.label15.Size = new System.Drawing.Size(72, 30);
             this.label15.TabIndex = 6;
             this.label15.Text = "총 발주액";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -275,9 +275,9 @@ namespace BRMS
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label12.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.label12.Location = new System.Drawing.Point(218, 1);
-            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 3, 5);
+            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 3, 15);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(72, 39);
+            this.label12.Size = new System.Drawing.Size(72, 30);
             this.label12.TabIndex = 3;
             this.label12.Text = "면세 발주액";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -300,9 +300,9 @@ namespace BRMS
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("맑은 고딕", 9F);
             this.label11.Location = new System.Drawing.Point(6, 1);
-            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 3, 5);
+            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 3, 15);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(72, 39);
+            this.label11.Size = new System.Drawing.Size(72, 30);
             this.label11.TabIndex = 0;
             this.label11.Text = "과세 발주액";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

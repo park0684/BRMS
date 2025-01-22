@@ -156,7 +156,7 @@ namespace BRMS
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(172, 22);
+            this.label1.Location = new System.Drawing.Point(144, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 15);
             this.label1.TabIndex = 2;
@@ -164,14 +164,14 @@ namespace BRMS
             // 
             // dtpTo
             // 
-            this.dtpTo.Location = new System.Drawing.Point(384, 19);
+            this.dtpTo.Location = new System.Drawing.Point(356, 22);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(124, 23);
             this.dtpTo.TabIndex = 1;
             // 
             // dtpFrom
             // 
-            this.dtpFrom.Location = new System.Drawing.Point(238, 19);
+            this.dtpFrom.Location = new System.Drawing.Point(210, 22);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(124, 23);
             this.dtpFrom.TabIndex = 1;

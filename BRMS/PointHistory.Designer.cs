@@ -1,7 +1,7 @@
 ﻿
 namespace BRMS
 {
-    partial class DailyReportViewByProduct
+    partial class PointHistory
     {
         /// <summary>
         /// Required designer variable.
@@ -30,17 +30,18 @@ namespace BRMS
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tBoxSearchWord = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmBoxWorkType = new System.Windows.Forms.ComboBox();
             this.dtpDateFrom = new System.Windows.Forms.DateTimePicker();
             this.dtpDateTo = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.chkDayli = new System.Windows.Forms.CheckBox();
-            this.lblCategory = new System.Windows.Forms.Label();
-            this.btnCategory = new System.Windows.Forms.Button();
-            this.pnlDatagrid = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnCustomer = new System.Windows.Forms.Button();
+            this.tBoxSearch = new System.Windows.Forms.TextBox();
+            this.pnlDataGrid = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -50,47 +51,24 @@ namespace BRMS
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 101F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 289F));
-            this.tableLayoutPanel1.Controls.Add(this.tBoxSearchWord, 6, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 5, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.cmBoxWorkType, 6, 0);
             this.tableLayoutPanel1.Controls.Add(this.dtpDateFrom, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.dtpDateTo, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.chkDayli, 4, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 53);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 13);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(908, 35);
-            this.tableLayoutPanel1.TabIndex = 23;
-            // 
-            // tBoxSearchWord
-            // 
-            this.tBoxSearchWord.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tBoxSearchWord.Font = new System.Drawing.Font("맑은 고딕", 9F);
-            this.tBoxSearchWord.Location = new System.Drawing.Point(622, 3);
-            this.tBoxSearchWord.Name = "tBoxSearchWord";
-            this.tBoxSearchWord.Size = new System.Drawing.Size(224, 23);
-            this.tBoxSearchWord.TabIndex = 27;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("맑은 고딕", 9F);
-            this.label2.Location = new System.Drawing.Point(564, 3);
-            this.label2.Margin = new System.Windows.Forms.Padding(3);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 29);
-            this.label2.TabIndex = 28;
-            this.label2.Text = "검색어 : ";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(711, 35);
+            this.tableLayoutPanel1.TabIndex = 22;
             // 
             // label4
             // 
@@ -101,8 +79,29 @@ namespace BRMS
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(64, 35);
             this.label4.TabIndex = 13;
-            this.label4.Text = "판매일 : ";
+            this.label4.Text = "날짜 : ";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 9F);
+            this.label2.Location = new System.Drawing.Point(483, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 35);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "유형";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmBoxWorkType
+            // 
+            this.cmBoxWorkType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmBoxWorkType.FormattingEnabled = true;
+            this.cmBoxWorkType.Location = new System.Drawing.Point(533, 3);
+            this.cmBoxWorkType.Name = "cmBoxWorkType";
+            this.cmBoxWorkType.Size = new System.Drawing.Size(175, 20);
+            this.cmBoxWorkType.TabIndex = 13;
             // 
             // dtpDateFrom
             // 
@@ -137,68 +136,69 @@ namespace BRMS
             this.label1.Text = "~";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // chkDayli
+            // tableLayoutPanel2
             // 
-            this.chkDayli.AutoSize = true;
-            this.chkDayli.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkDayli.Location = new System.Drawing.Point(463, 3);
-            this.chkDayli.Name = "chkDayli";
-            this.chkDayli.Size = new System.Drawing.Size(95, 29);
-            this.chkDayli.TabIndex = 24;
-            this.chkDayli.Text = "일자별 합계";
-            this.chkDayli.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 210F));
+            this.tableLayoutPanel2.Controls.Add(this.btnCustomer, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tBoxSearch, 1, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 51);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(280, 30);
+            this.tableLayoutPanel2.TabIndex = 23;
             // 
-            // lblCategory
+            // btnCustomer
             // 
-            this.lblCategory.AutoSize = true;
-            this.lblCategory.Font = new System.Drawing.Font("맑은 고딕", 10F);
-            this.lblCategory.Location = new System.Drawing.Point(63, 15);
-            this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(45, 19);
-            this.lblCategory.TabIndex = 26;
-            this.lblCategory.Text = "label1";
+            this.btnCustomer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCustomer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(154)))), ((int)(((byte)(240)))));
+            this.btnCustomer.FlatAppearance.BorderSize = 0;
+            this.btnCustomer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCustomer.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCustomer.ForeColor = System.Drawing.Color.White;
+            this.btnCustomer.Location = new System.Drawing.Point(3, 3);
+            this.btnCustomer.Name = "btnCustomer";
+            this.btnCustomer.Size = new System.Drawing.Size(64, 24);
+            this.btnCustomer.TabIndex = 14;
+            this.btnCustomer.Text = "회원";
+            this.btnCustomer.UseVisualStyleBackColor = false;
+            this.btnCustomer.Click += new System.EventHandler(this.btnCustomer_Click);
             // 
-            // btnCategory
+            // tBoxSearch
             // 
-            this.btnCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(95)))), ((int)(((byte)(184)))));
-            this.btnCategory.FlatAppearance.BorderSize = 0;
-            this.btnCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCategory.Font = new System.Drawing.Font("맑은 고딕", 10F);
-            this.btnCategory.ForeColor = System.Drawing.Color.White;
-            this.btnCategory.Location = new System.Drawing.Point(12, 12);
-            this.btnCategory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnCategory.Name = "btnCategory";
-            this.btnCategory.Size = new System.Drawing.Size(45, 26);
-            this.btnCategory.TabIndex = 25;
-            this.btnCategory.Text = "분류";
-            this.btnCategory.UseVisualStyleBackColor = false;
-            this.btnCategory.Click += new System.EventHandler(this.btnCategory_Click);
+            this.tBoxSearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tBoxSearch.Location = new System.Drawing.Point(73, 3);
+            this.tBoxSearch.Name = "tBoxSearch";
+            this.tBoxSearch.Size = new System.Drawing.Size(204, 21);
+            this.tBoxSearch.TabIndex = 13;
             // 
-            // pnlDatagrid
+            // pnlDataGrid
             // 
-            this.pnlDatagrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pnlDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlDatagrid.Location = new System.Drawing.Point(12, 103);
-            this.pnlDatagrid.Name = "pnlDatagrid";
-            this.pnlDatagrid.Size = new System.Drawing.Size(908, 513);
-            this.pnlDatagrid.TabIndex = 22;
+            this.pnlDataGrid.Location = new System.Drawing.Point(12, 92);
+            this.pnlDataGrid.Name = "pnlDataGrid";
+            this.pnlDataGrid.Size = new System.Drawing.Size(776, 346);
+            this.pnlDataGrid.TabIndex = 21;
             // 
-            // DailyReportViewByProduct
+            // PointHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(932, 629);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.lblCategory);
-            this.Controls.Add(this.btnCategory);
-            this.Controls.Add(this.pnlDatagrid);
-            this.Name = "DailyReportViewByProduct";
-            this.Text = "일결산 제품별";
+            this.Controls.Add(this.tableLayoutPanel2);
+            this.Controls.Add(this.pnlDataGrid);
+            this.Name = "PointHistory";
+            this.Text = "PointHistory";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -206,14 +206,14 @@ namespace BRMS
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmBoxWorkType;
         private System.Windows.Forms.DateTimePicker dtpDateFrom;
         private System.Windows.Forms.DateTimePicker dtpDateTo;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblCategory;
-        private System.Windows.Forms.Button btnCategory;
-        private System.Windows.Forms.CheckBox chkDayli;
-        private System.Windows.Forms.Panel pnlDatagrid;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tBoxSearchWord;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TextBox tBoxSearch;
+        private System.Windows.Forms.Panel pnlDataGrid;
+        private System.Windows.Forms.Button btnCustomer;
     }
 }

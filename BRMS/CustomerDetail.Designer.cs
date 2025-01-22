@@ -53,7 +53,7 @@ namespace BRMS
             this.tBoxMemo = new System.Windows.Forms.TextBox();
             this.cmBoxCountry = new System.Windows.Forms.ComboBox();
             this.bntCancle = new System.Windows.Forms.Button();
-            this.bntSave = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.tabCtrlCustomer = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lblSaleDate = new System.Windows.Forms.Label();
@@ -386,21 +386,21 @@ namespace BRMS
             this.bntCancle.UseVisualStyleBackColor = false;
             this.bntCancle.Click += new System.EventHandler(this.bntCancle_Click);
             // 
-            // bntSave
+            // btnSave
             // 
-            this.bntSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.bntSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(154)))), ((int)(((byte)(240)))));
-            this.bntSave.FlatAppearance.BorderSize = 0;
-            this.bntSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bntSave.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.bntSave.ForeColor = System.Drawing.Color.White;
-            this.bntSave.Location = new System.Drawing.Point(375, 347);
-            this.bntSave.Name = "bntSave";
-            this.bntSave.Size = new System.Drawing.Size(75, 30);
-            this.bntSave.TabIndex = 8;
-            this.bntSave.Text = "저장";
-            this.bntSave.UseVisualStyleBackColor = false;
-            this.bntSave.Click += new System.EventHandler(this.bntSave_Click);
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(154)))), ((int)(((byte)(240)))));
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnSave.ForeColor = System.Drawing.Color.White;
+            this.btnSave.Location = new System.Drawing.Point(375, 347);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 30);
+            this.btnSave.TabIndex = 8;
+            this.btnSave.Text = "저장";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.bntSave_Click);
             // 
             // tabCtrlCustomer
             // 
@@ -801,7 +801,7 @@ namespace BRMS
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 389);
             this.Controls.Add(this.tabCtrlCustomer);
-            this.Controls.Add(this.bntSave);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.bntCancle);
             this.Name = "CustomerDetail";
             this.Text = "회원상세정보";
@@ -848,7 +848,7 @@ namespace BRMS
         private System.Windows.Forms.TextBox tBoxMemo;
         private System.Windows.Forms.ComboBox cmBoxCountry;
         private System.Windows.Forms.Button bntCancle;
-        private System.Windows.Forms.Button bntSave;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TabControl tabCtrlCustomer;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;

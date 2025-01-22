@@ -19,9 +19,9 @@ namespace BRMS
         public event Action<int> GetPdtCode;
         bool isNewEntry = false;
         int pdtCode = 0;
-        int pdtTop = 0;
-        int pdtMid = 0;
-        int pdtBot = 0;
+        int pdtCatTop = 0;
+        int pdtCatMid = 0;
+        int pdtCatBot = 0;
         double exChange = 1250;
         int pdtSupplierCode = 0;
         int accessedEmp = cUserSession.AccessedEmp;
@@ -30,7 +30,6 @@ namespace BRMS
         cDataGridDefaultSet dgrPurchase = new cDataGridDefaultSet();
         cDataGridDefaultSet dgrSales = new cDataGridDefaultSet();
         cDataGridDefaultSet dgrLog = new cDataGridDefaultSet();
-        internal Func<object, object> refresh;
         static Dictionary<string, (int typeCode, string typeString)> parameter = new Dictionary<string, (int, string)>();
         public ProductDetail()
         {
@@ -150,13 +149,13 @@ namespace BRMS
                 query = $"SELECT sup_name FROM supplier WHERE sup_code = {pdtSupplierCode}";
                 dbconn.sqlScalaQuery(query, out resultObj);
                 lblSupplier.Text = resultObj.ToString().Trim();
-                pdtTop = Convert.ToInt32(resultRow["pdt_top"]);
-                pdtMid = Convert.ToInt32(resultRow["pdt_mid"]);
-                pdtBot = Convert.ToInt32(resultRow["pdt_bot"]);
+                pdtCatTop = Convert.ToInt32(resultRow["pdt_top"]);
+                pdtCatMid = Convert.ToInt32(resultRow["pdt_mid"]);
+                pdtCatBot = Convert.ToInt32(resultRow["pdt_bot"]);
                 //tBoxProductMemo.Text = resultRow["pdt_memo"].ToString();
                 ChangeMargin();
                 //GetCategory(code);
-                GetCategoryInfo(pdtTop, pdtMid, pdtBot);
+                GetCategoryInfo(pdtCatTop, pdtCatMid, pdtCatBot);
                 this.Text = "제품 정보 조회";
                 RegisterOriginalData();
                 ModifyPermission();
@@ -171,7 +170,7 @@ namespace BRMS
             originalValues["@pdtName_kr"] = tBoxProductName_kr.Text;
             originalValues["@pdtName_en"] = tBoxProductName_en.Text;
             originalValues["@pdtSup"] = pdtSupplierCode;
-            originalValues["@pdtCat"] = $"{pdtTop}_{pdtMid}_{pdtBot}";
+            originalValues["@pdtCat"] = $"{pdtCatTop}_{pdtCatMid}_{pdtCatBot}";
             originalValues["@pdtStatus"] = cBoxProductStstus.SelectedIndex+1;
             originalValues["@pdtBprice"] = tboxBprice.Text.Replace(",", "");    
             originalValues["@pdtSprice_krw"] = tBoxPriceKrw.Text.Replace(",", "");
@@ -200,7 +199,7 @@ namespace BRMS
             dataRow = dataTable.Rows[0];
             lblTopKr.Text = dataRow["cat_name_kr"].ToString();
             lblTopEn.Text = dataRow["cat_name_en"].ToString();
-
+            
             query = string.Format("SELECT cat_name_kr,cat_name_en FROM category WHERE cat_top = {0} AND cat_mid = {1} AND  cat_bot = 0", pdtTop, pdtMid);
             dataTable.Reset();
             dbconn.SqlReaderQuery(query, dataTable);
@@ -214,6 +213,10 @@ namespace BRMS
             dataRow = dataTable.Rows[0];
             lblBotKr.Text = dataRow["cat_name_kr"].ToString();
             lblBotEn.Text = dataRow["cat_name_en"].ToString();
+
+            pdtCatTop = pdtTop;
+            pdtCatMid = pdtMid;
+            pdtCatBot = pdtBot;
         }
         /// <summary>
         /// 공급사 변경 또는 지정을 위한 공급사 지정 폼 호출
@@ -249,7 +252,7 @@ namespace BRMS
                 dbconn.sqlScalaQuery(query, out resultObj);
                 if (resultObj != null)
                 {
-                    MessageBox.Show("이미 등록된 제품 번호입니다", "알림");
+                    cUIManager.ShowMessageBox("이미 등록된 제품 번호입니다", "알림",MessageBoxButtons.OK);
                     GetProductInfo(Convert.ToInt32(resultObj));
                 }
             }
@@ -261,7 +264,7 @@ namespace BRMS
                     dbconn.sqlScalaQuery(query, out resultObj);
                     if (resultObj != null)
                     {
-                        MessageBox.Show("이미 등록된 제품 번호입니다", "알림");
+                        cUIManager.ShowMessageBox("이미 등록된 제품 번호입니다", "알림",MessageBoxButtons.OK);
                         GetProductInfo(Convert.ToInt32(resultObj));
                     }
                 }
@@ -305,14 +308,16 @@ namespace BRMS
         /// </summary>
         private void ChangeMargin()
         {
-            double margin = 0;
-            if (!string.IsNullOrEmpty(tboxBprice.Text))
-            {
-                double bprice = Convert.ToDouble(tboxBprice.Text);
-                double sprice = Convert.ToDouble(tBoxPriceKrw.Text);
-                margin = (sprice - bprice) / sprice * 100;
-            }
-            tBoxMargin.Text = Convert.ToDouble(tBoxPriceKrw.Text) == 0 ? "0" :margin.ToString("#,###.##");
+            decimal margin = 0;
+            double bprice = cDataHandler.ConvertToDouble(tboxBprice.Text);
+            double sprice = cDataHandler.ConvertToDouble(tBoxPriceKrw.Text);
+            margin = cDataHandler.ConvertProfitRate(sprice, bprice);
+            //if (!string.IsNullOrEmpty(tboxBprice.Text))
+            //{
+                
+            //    margin = (sprice - bprice) / sprice * 100;
+            //}
+            tBoxMargin.Text = Convert.ToDouble(tBoxPriceKrw.Text) == 0 ? "0" :margin.ToString("#,##0.##");
 
         }
         /// <summary>
@@ -358,6 +363,12 @@ namespace BRMS
         {
             
             cDataHandler.AllowOnlyInteger(sener, e, tBoxPriceKrw);
+            // 텍스트 박스 값이 비어 있을 경우 처리
+            if (string.IsNullOrWhiteSpace(tBoxPriceKrw.Text))
+            {
+                cUIManager.ShowMessageBox("0 이상의 값을 입력해야 합니다", "알림", MessageBoxButtons.OK);
+                return;
+            }
             if (!string.IsNullOrWhiteSpace(tBoxPriceKrw.Text))
             {
                 tBoxPriceUsd.Text = (double.Parse(tBoxPriceKrw.Text)  / exChange).ToString();
@@ -407,7 +418,7 @@ namespace BRMS
         /// </summary>
         private void PdtErrorCheck()
         {
-            if(pdtTop == 0 || pdtMid == 0 || pdtBot == 0 )
+            if(pdtCatTop == 0 || pdtCatMid == 0 || pdtCatBot == 0 )
             {
                 cUIManager.ShowMessageBox("분류가 선택되지 않았습니다", "알림", MessageBoxButtons.OK);
                 errerCheck = true;
@@ -483,9 +494,9 @@ namespace BRMS
                 new SqlParameter("@name_kr",SqlDbType.VarChar){Value = tBoxProductName_kr.Text},
                 new SqlParameter("@name_en",SqlDbType.VarChar){Value = tBoxProductName_en.Text},
                 new SqlParameter("@sup",SqlDbType.Int){Value = pdtSupplierCode},
-                new SqlParameter("@top",SqlDbType.Int){Value = pdtTop},
-                new SqlParameter("@mid",SqlDbType.Int){Value = pdtMid},
-                new SqlParameter("@bot",SqlDbType.Int){Value = pdtBot},
+                new SqlParameter("@top",SqlDbType.Int){Value = pdtCatTop},
+                new SqlParameter("@mid",SqlDbType.Int){Value = pdtCatMid},
+                new SqlParameter("@bot",SqlDbType.Int){Value = pdtCatBot},
                 new SqlParameter("@status",SqlDbType.Int){Value = pdtStatusIndex},
                 new SqlParameter("@bprice",SqlDbType.Float){Value =  tboxBprice.Text.Replace(",", "")},
                 new SqlParameter("@sprice_krw",SqlDbType.Int){Value =  tBoxPriceKrw.Text.Replace(",", "")},
@@ -521,10 +532,10 @@ namespace BRMS
                 new SqlParameter("@pdtName_kr",SqlDbType.VarChar){Value = tBoxProductName_kr.Text},
                 new SqlParameter("@pdtName_en",SqlDbType.VarChar){Value = tBoxProductName_en.Text},
                 new SqlParameter("@pdtSup",SqlDbType.Int){Value = pdtSupplierCode},
-                new SqlParameter("@pdtTop",SqlDbType.Int){Value = pdtTop},
-                new SqlParameter("@pdtMid",SqlDbType.Int){Value = pdtMid},
-                new SqlParameter("@pdtBot",SqlDbType.Int){Value = pdtBot},
-                new SqlParameter("@pdtCat",SqlDbType.VarChar){Value =$"{pdtTop}_{pdtMid}_{pdtBot}"},
+                new SqlParameter("@pdtTop",SqlDbType.Int){Value = pdtCatTop},
+                new SqlParameter("@pdtMid",SqlDbType.Int){Value = pdtCatMid},
+                new SqlParameter("@pdtBot",SqlDbType.Int){Value = pdtCatBot},
+                new SqlParameter("@pdtCat",SqlDbType.VarChar){Value =$"{pdtCatTop}_{pdtCatMid}_{pdtCatBot}"},
                 new SqlParameter("@pdtStatus",SqlDbType.Int){Value = pdtStatusIndex},
                 new SqlParameter("@pdtBprice",SqlDbType.Float){Value = tboxBprice.Text.Replace(",", "")},
                 new SqlParameter("@pdtSprice_krw",SqlDbType.Int){Value = tBoxPriceKrw.Text.Replace(",", "")},
@@ -564,7 +575,7 @@ namespace BRMS
             dgrPurchase.Dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgrPurchase.FormatAsDateTime("purDate");
             dgrPurchase.FormatAsStringCenter("purType", "purSupplier");
-            dgrPurchase.FormatAsInteger("purQty", "purAmount");
+            dgrPurchase.FormatAsInt("purQty", "purAmount");
             dgrPurchase.FormatAsDecimal("purBprice");
             dgrPurchase.ApplyDefaultColumnSettings();
 
@@ -583,7 +594,7 @@ namespace BRMS
             dgrSales.FormatAsDateTime("saleDate");
             dgrSales.FormatAsStringCenter("saleType");
             dgrSales.FormatAsStringLeft("salecustomer");
-            dgrSales.FormatAsInteger("saleAmount", "saleSprice", "saleQty");
+            dgrSales.FormatAsInt("saleAmount", "saleSprice", "saleQty");
             dgrSales.FormatAsDecimal("saleBprice");
             dgrSales.ApplyDefaultColumnSettings();
 
@@ -681,7 +692,7 @@ namespace BRMS
                 string custName = "";
                 if (custCode != 0)
                 {
-                    string query = $"SELECT cust_name FROM cust WHERE cust_code = {Convert.ToInt32(resultRow["sale_cust"])}";
+                    string query = $"SELECT cust_name FROM customer WHERE cust_code = {Convert.ToInt32(resultRow["sale_cust"])}";
                     dbconn.sqlScalaQuery(query, out resultObj);
                     custName = resultObj.ToString();
                 }
@@ -830,9 +841,9 @@ namespace BRMS
         /// <param name="pdtBot"></param>
         public void GetCategory(int pdtTop, int pdtMid, int pdtBot)
         {
-            this.pdtTop = pdtTop;
-            this.pdtMid = pdtMid;
-            this.pdtBot = pdtBot;
+            this.pdtCatTop = pdtTop;
+            this.pdtCatMid = pdtMid;
+            this.pdtCatBot = pdtBot;
         }
         /// <summary>
         /// 공급사 버튼 클릭
@@ -879,6 +890,8 @@ namespace BRMS
                         ModifyProduct(connection, transaction);
                         cLog.InsertEmpAccessLogConnect("@pdtModify", accessedEmp, pdtCode, connection, transaction);
                     }
+                    transaction.Commit();
+                    Close();
                 }
                 catch (Exception ex)
                 {
@@ -887,7 +900,7 @@ namespace BRMS
                 }
                 finally
                 {
-                    connection.Close();
+                    connection.Close();                       
                 }
             }
         }
@@ -917,10 +930,12 @@ namespace BRMS
         private void btnCategory_Click(object sender, EventArgs e)
         {
             CategoryBoard categoryBoard = new CategoryBoard();
+            categoryBoard.StartPosition = FormStartPosition.CenterParent;
             categoryBoard.SearchMode();
+            categoryBoard.WorkType = 0;
             categoryBoard.CategorySelected += (top, mid, bot) => { GetCategory(top, mid, bot); };
             categoryBoard.ShowDialog();
-            GetCategoryInfo(pdtTop, pdtMid, pdtBot);
+            GetCategoryInfo(pdtCatTop, pdtCatMid, pdtCatBot);
         }
         /// <summary>
         /// 변경로그 탭 내 조회 버튼

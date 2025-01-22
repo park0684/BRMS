@@ -71,7 +71,7 @@ namespace BRMS
             //포멧 설정
             OrderList.FormatAsStringLeft("orderCustomer");
             OrderList.FormatAsStringCenter("orderStatus", "orderStaff", "orderNote");
-            OrderList.FormatAsInteger("orderAmountKrw");
+            OrderList.FormatAsInt("orderAmountKrw");
             OrderList.FormatAsDecimal("orderAmountUsd");
             OrderList.FormatAsDateTime("orderDate", "orderUpdate");
             OrderList.FormatAsDate("orderSaleDate");

@@ -65,11 +65,11 @@ namespace BRMS
             ["@purdStatus"] =       (315, "제품 매입상태"),
             ["@purdAdd"] =          (316, "제품 추가"),
             //발주내역 400
-            ["pordSup"] =           (401, "발주 공급사"),
-            ["pordArrivla"] =       (402, "발주 입고예정일"),
-            ["pordAmount"] =        (403, "발주 금액"),
-            ["pordNote"] =          (404, "발주 메모"),
-            ["pordStatus"] =        (405, "발주 상태"),
+            ["@pordSup"] =           (401, "발주 공급사"),
+            ["@pordArrivla"] =       (402, "발주 입고예정일"),
+            ["@pordAmount"] =        (403, "발주 금액"),
+            ["@pordNote"] =          (404, "발주 메모"),
+            ["@pordStatus"] =        (405, "발주 상태"),
 
             ["@porddPdt"] =         (411, "발주 제품"),
             ["@porddQty"] =         (412, "발주량"),
@@ -116,7 +116,7 @@ namespace BRMS
             ["@empPassword"] = (808, "비밀번호"),
             ["@empStatus"] = (809, "상태"),
             ["@empMemo"] = (810, "메모"),
-            //직원작업 900
+            //직원접속로그(작업) 900
             ["@pdtSearch"] =            (901, "상품 조회"),
             ["@pdtRegisted"] =          (902, "상품 등록"),
             ["@pdtPurSearch"] =         (903, "상품 매입 조회"),
@@ -156,7 +156,11 @@ namespace BRMS
             ["@categoryRegist"] =       (927, "분류 등록"),
             ["@categroyModify"] =       (928, "분류 수정"),
             ["@dailyReportWrite"] =     (929, "일결산 등록"),
-            ["@dailyReportSearch"] =    (930, "일결산 조회")
+            ["@dailyReportSearch"] =    (930, "일결산 조회"),
+            ["@exchange"] =             (931, "환율 변경"),
+            ["@RewadRate"] =            (932, "포인트 적립율"),
+            ["@RewadOption"] =          (933, "포인트 적립 설정"),
+            ["@PointUseOption"] =       (934, "포인트 사용"),
         };
         public static Dictionary<string, (int typeCode, string typeString)> GetFilteredParameters(int min, int max)
         {
@@ -279,6 +283,37 @@ namespace BRMS
                 new SqlParameter("@empCode",SqlDbType.Int){Value = empCode}
             };
             dbconn.ExecuteNonQuery(query, connection, transaction, sqlParameter);
+        }
+        /// <summary>
+        /// config 변경 로그 기록
+        /// 해당 로그 정보는 직원접속로그에서 표시
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
+        /// <param name="empCode"></param>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        public static void InsertConfigLog(DataTable dataTable, SqlConnection connection, SqlTransaction transaction)
+        {
+            cDatabaseConnect dbconn = new cDatabaseConnect();
+            foreach(DataRow row in dataTable.Rows)
+            {
+                var logData = logParameter[row["key"].ToString()];
+                int type = logData.typeCode;
+                string query = "INSERT INTO configlog(cfl_type, cfl_emp, cfl_param ,cfl_before, cfl_after, cfl_date) " +
+                "VALUES(@type, @emp,@parma, @before, @after,@date)";
+                SqlParameter[] parameters =
+                {
+                new SqlParameter("@type",SqlDbType.Int){Value = type},
+                new SqlParameter("@emp",SqlDbType.Int){Value = cDataHandler.ConvertToInt(row["accessedEmp"])},
+                new SqlParameter("@parma",SqlDbType.Int){Value = cDataHandler.ConvertToInt(row["param"])},
+                new SqlParameter("@before",SqlDbType.NVarChar){Value = row["before"].ToString()},
+                new SqlParameter("@after",SqlDbType.NVarChar){Value =  row["after"].ToString()},
+                new SqlParameter("@date",SqlDbType.DateTime){Value = row["date"].ToString() }
+                };
+                dbconn.ExecuteNonQuery(query, connection, transaction, parameters);
+            }
         }
         public static void InsertEmpAccessLogNotConnect(string key, int empCode, int parameter)
         {
@@ -435,6 +470,30 @@ namespace BRMS
             dbconn.sqlScalaQuery(query, out resultObj);
             string name = resultObj.ToString().Trim();
             resultString = $"{name}({code})";
+            return resultString;
+        }
+        public static string GetCustOrderInfo(int code, out string resultString)
+        {
+            if(code.Equals(0))
+            {
+                resultString = "";
+                return resultString;
+            }
+            cDatabaseConnect dbconn = new cDatabaseConnect();
+            string query = $"SELECT sale_date, sale_cust FROM sales WHERE sale_code ={code}";
+            DataTable resultData = new DataTable();
+            dbconn.SqlReaderQuery(query, resultData);
+            DataRow row = resultData.Rows[0];
+            int custCode = cDataHandler.ConvertToInt(row["sale_cust"]);
+            DateTime saleDate = Convert.ToDateTime(row["sale_date"]);
+            resultString = saleDate.ToString("g");
+            if(!custCode.Equals(0))
+            {
+                object resultObj = new object();
+                query = $"SELECT cust_name FROM customer WHERE cust_code = {custCode}";
+                dbconn.sqlScalaQuery(query, out resultObj);
+                resultString += $"({resultObj.ToString().Trim()})";
+            }
             return resultString;
         }
         public static string GetEmployeeInfo(int code, out string resultString)

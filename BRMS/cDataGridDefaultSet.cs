@@ -52,6 +52,8 @@ namespace BRMS
             Dgv.Columns["No"].ReadOnly = true;
             Dgv.Columns["No"].DefaultCellStyle.BackColor = Color.LightGoldenrodYellow;
             Dgv.Columns["No"].DefaultCellStyle.SelectionBackColor = Color.LightGoldenrodYellow;
+            Dgv.Columns["No"].ValueType = typeof(int);
+            Dgv.Columns["No"].DataPropertyName = "No";
             FormatAsStringCenter("No");
         }
         private void DataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -230,35 +232,60 @@ namespace BRMS
         }
         
         /// <summary>
-        /// 데이터 그리드 구조 정수형
+        /// int 포멧으로 지정
         /// </summary>
         /// <param name="columnNames"></param>
-        public void FormatAsInteger(params  string[] columnNames)
+        public void FormatAsInt(params  string[] columnNames)
         {
             foreach (string columnName in columnNames)
             {
                 if (Dgv.Columns.Contains(columnName))
                 {
-                    Dgv.Columns[columnName].DefaultCellStyle.Format = "#,##0;#,##0;0";
+                    Dgv.Columns[columnName].DefaultCellStyle.Format = "#,##0;-#,##0;0";
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                     Dgv.Columns[columnName].MinimumWidth = 80;
+                    Dgv.Columns[columnName].ValueType = typeof(int);
                 }
             }
-            
         }
+        /// <summary>
+        /// int 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
+        public void FormatAsFloat(params string[] columnNames)
+        {
+            foreach (string columnName in columnNames)
+            {
+                if (Dgv.Columns.Contains(columnName))
+                {
+                    Dgv.Columns[columnName].DefaultCellStyle.Format = "#,##0;-#,##0;0";
+                    Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    Dgv.Columns[columnName].MinimumWidth = 80;
+                    Dgv.Columns[columnName].ValueType = typeof(float);
+                }
+            }
+        }
+        /// <summary>
+        /// Dicimal 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
         public void FormatAsDecimal(params string[] columnNames)
         {
             foreach (string columnName in columnNames)
             {
                 if (Dgv.Columns.Contains(columnName))
                 {
-                    Dgv.Columns[columnName].DefaultCellStyle.Format = "#,##0.##;#,##0.##;0";
+                    Dgv.Columns[columnName].DefaultCellStyle.Format = "#,##0.##;-#,##0.##;0";
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                     Dgv.Columns[columnName].MinimumWidth = 80;
+                    Dgv.Columns[columnName].ValueType = typeof(decimal);
                 }
             }
         }
-
+        /// <summary>
+        /// 좌측 정렬 string 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
         public void FormatAsStringLeft(params string[] columnNames)
         {
             foreach (string columnName in columnNames)
@@ -266,9 +293,14 @@ namespace BRMS
                 if (Dgv.Columns.Contains(columnName))
                 {
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                    Dgv.Columns[columnName].ValueType = typeof(string);
                 }
             }
         }
+        /// <summary>
+        /// 우측 정렬 string 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
         public void FormatAsStringRight(params string[] columnNames)
         {
             foreach (string columnName in columnNames)
@@ -276,10 +308,15 @@ namespace BRMS
                 if (Dgv.Columns.Contains(columnName))
                 {
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    Dgv.Columns[columnName].ValueType = typeof(string);
                 }
             }
 
         }
+        /// <summary>
+        /// 중앙 정렬 string 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
         public void FormatAsStringCenter(params string[] columnNames)
         {
             foreach (string columnName in columnNames)
@@ -287,10 +324,15 @@ namespace BRMS
                 if (Dgv.Columns.Contains(columnName))
                 {
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    Dgv.Columns[columnName].ValueType = typeof(string);
                 }
             }
             
         }
+        /// <summary>
+        /// Date 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
         public void FormatAsDate(params string[] columnNames)
         {
             foreach (string columnName in columnNames)
@@ -300,9 +342,14 @@ namespace BRMS
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     Dgv.Columns[columnName].MinimumWidth = 120;
                     Dgv.Columns[columnName].DefaultCellStyle.Format = "yyyy년MM월dd일";
+                    Dgv.Columns[columnName].ValueType = typeof(DateTime);
                 }
             }
         }
+        /// <summary>
+        /// DataTime 포멧으로 지정
+        /// </summary>
+        /// <param name="columnNames"></param>
         public void FormatAsDateTime(params string[] columnNames)
         {
             foreach (string columnName in columnNames)
@@ -312,9 +359,15 @@ namespace BRMS
                     Dgv.Columns[columnName].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     Dgv.Columns[columnName].MinimumWidth = 120;
                     Dgv.Columns[columnName].DefaultCellStyle.Format = "yyyy년MM월dd일 hh시mm분";
+                    Dgv.Columns[columnName].ValueType = typeof(DateTime);
                 }
             }
         }
+        /// <summary>
+        /// Decimal로 전환
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public decimal ConvertToDecimal(object value)
         {
             if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
@@ -328,7 +381,11 @@ namespace BRMS
             }
             return 0;
         }
-
+        /// <summary>
+        /// int로 전환
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int ConvertToInt(object value)
         {
             if(value != null && !string.IsNullOrWhiteSpace(value.ToString()))

@@ -51,7 +51,7 @@ namespace BRMS
             dgvReport.Dgv.Columns.Add("dayrPayAccount", "계좌이체");
             dgvReport.Dgv.Columns.Add("dayrPayPoint", "포인트");
             dgvReport.ApplyDefaultColumnSettings();
-            dgvReport.FormatAsInteger("dayrBStockAmount", "dayrEStockAmount", "dayrPurAmount", "dayrSaleAmount", "dayrDifference", "dayrCost", "dayrProfitAmount", "dayrLedgerStock", "dayrLostStock", "dayrTaxable", "dayrDutyFree", "dayrPayCash", "dayrPayCard", "dayrPayAacount", "dayrPayPoint");
+            dgvReport.FormatAsInt("dayrBStockAmount", "dayrEStockAmount", "dayrPurAmount", "dayrSaleAmount", "dayrDifference", "dayrCost", "dayrProfitAmount", "dayrLedgerStock", "dayrLostStock", "dayrTaxable", "dayrDutyFree", "dayrPayCash", "dayrPayCard", "dayrPayAacount", "dayrPayPoint");
             dgvReport.FormatAsDecimal("dayrRate", "dayrProfitRate");
             dgvReport.FormatAsStringCenter("dayrDate");                                                                                                                                                                                      
         }
@@ -264,6 +264,7 @@ namespace BRMS
             else
             {
                 CategoryBoard categoryBoard = new CategoryBoard();
+                categoryBoard.WorkType = 2;
                 categoryBoard.CategorySelected += (top, mid, bot) => { GetCategoryInfo(top, mid, bot); };
                 categoryBoard.SearchMode();
                 categoryBoard.ShowDialog();

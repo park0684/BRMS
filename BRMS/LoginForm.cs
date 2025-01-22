@@ -14,16 +14,16 @@ namespace BRMS
     {
         cDatabaseConnect dbconn = new cDatabaseConnect();
         public Dictionary<int, string> accessPermission { get; private set; } = new Dictionary<int, string>();
-        public int accessedEmp { get; private set; } = 1;
+        public int accessedEmp { get; private set; }
         string empPassword;
         bool errorCheck = false;
         public bool login { get; private set; } = false;
         public LoginForm()
         {
             InitializeComponent();
-            cUIManager.ApplyPopupFormStyleㅡ(this);
+            cUIManager.ApplyPopupFormStyle(this);
             tBoxEmpName.Enabled = false;
-            tBoxEmpCode.KeyDown += tBoxEmpcode_KeyDown;
+            tBoxEmpCode.KeyUp += tBoxEmpcode_KeyUp;
             tBoxPassword.KeyDown += tBoxPassword_KeyDown;
             tBoxPassword.PasswordChar = '*';
         }
@@ -32,14 +32,16 @@ namespace BRMS
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tBoxEmpcode_KeyDown(object sender, KeyEventArgs e)
+        private void tBoxEmpcode_KeyUp(object sender, KeyEventArgs e)
         {
+            cDataHandler.AllowOnlyInteger(sender, e, tBoxEmpCode);
             if (e.KeyCode == Keys.Enter)
             {
                 GetEmployeeInfo();
                 tBoxPassword.Focus();
             }
         }
+        
         /// <summary>
         /// 패스워드 입력 텍스트 박스 키이벤트 생성
         /// </summary>
@@ -58,7 +60,8 @@ namespace BRMS
         private void GetEmployeeInfo()
         {
             DataTable resultData = new DataTable();
-            accessedEmp = Convert.ToInt32(tBoxEmpCode.Text);
+            if(tBoxEmpCode.Text !="")
+                accessedEmp = Convert.ToInt32(tBoxEmpCode.Text);
             string query = $"SELECT emp_name, emp_password FROM employee WHERE emp_code = {accessedEmp} AND emp_status = 1";
             dbconn.SqlReaderQuery(query, resultData);
             if(resultData.Rows.Count == 0)

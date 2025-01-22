@@ -181,7 +181,7 @@ namespace BRMS
 
             DgvOrderDetail.FormatAsStringLeft("custOrddPdtNameKr", "custOrddPdtNameUs", "custOrddPdtNumber", "custOrddRemark");
             DgvOrderDetail.FormatAsStringCenter("custOrddMargin", "custOrddSize", "cutOrddvolumetricweight", "custOrddweight");
-            DgvOrderDetail.FormatAsInteger("custOrddOfferPriceKrw", "custOrddPdtSprice", "custOrddProfit", "custOrddOrderQty", "custOrddOfferQty", "custOrddOfferAmounteKrw", "custOrddProfitKrw");
+            DgvOrderDetail.FormatAsInt("custOrddOfferPriceKrw", "custOrddPdtSprice", "custOrddProfit", "custOrddOrderQty", "custOrddOfferQty", "custOrddOfferAmounteKrw", "custOrddProfitKrw");
             DgvOrderDetail.FormatAsDecimal("custOrddPdtBprice", "custOrddOfferPriceUsd", "custOrddOfferAmounteUsd", "custOrddProfitUsd");
 
             foreach (DataGridViewColumn column in DgvOrderDetail.Dgv.Columns)
@@ -356,7 +356,10 @@ namespace BRMS
             cUIManager.ShowMessageBox("인쇄", "알림", MessageBoxButtons.OK);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="custOrderCode"></param>
         public void OrderSelectedHandle(int custOrderCode)
         {
             LoadCustOrder(custOrderCode);
@@ -731,6 +734,7 @@ namespace BRMS
             // 편집이 시작된 셀의 값을 previousValue에 저장
             previousValue = DgvOrderDetail.Dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
         }
+
         /// <summary>
         /// 셀 편집시 오류 여부확인
         /// 공백 또는 Null값이 입력될 경우 previousValue에 입력된 값을 다시 입력 후 종료
@@ -1128,7 +1132,7 @@ namespace BRMS
         /// <param name="transaction"></param>
         private void InsertCsutOrderVoucher(SqlConnection connection, SqlTransaction transaction)
         {
-            string query = "SELECT MAX(ISNULL(cord_code,0)) + 1 FROM custorder";
+            string query = "SELECT ISNULL(MAX(cord_code),0) + 1 FROM custorder";
             object resultObj = new object();
             dbconn.sqlScalaQuery(query, out resultObj);
             orderCode = Convert.ToInt32(resultObj);

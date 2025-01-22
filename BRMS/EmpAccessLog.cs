@@ -21,7 +21,7 @@ namespace BRMS
             InitializeComponent();
             pnlDataGrid.Controls.Add(dgrLog.Dgv);
             dgrLog.Dgv.Dock = DockStyle.Fill;
-            cLog.GetFilteredParameters(900, 1000);
+            parameter = cLog.GetFilteredParameters(900, 1000);
             InitializecombBox();
             DataGridFrom();
         }
@@ -113,6 +113,8 @@ namespace BRMS
                     case 915:// 주문서 삭제
                     case 916:// 판매 내역 조회
                     case 917:// 판매 조회
+                        cLog.GetCustOrderInfo(paramCode, out param);
+                        break;
                     case 918:// 고객 조회
                     case 919:// 고객 등록
                     case 920:// 고객 수정
@@ -189,15 +191,17 @@ namespace BRMS
             string fromDate = dtpDateFrom.Value.ToString("yyyy-MM-dd");
             string toDate = dtpDateTo.Value.AddDays(1).ToString("yyyy-MM-dd");
             DataTable resultData = new DataTable();
-            string query = $"SELECT acslog_type, acslog_emp, acslog_param, acslog_date FROM accesslog WHERE acslog_date > '{fromDate}' AND acslog_date < '{toDate}'";
+            string query = $"SELECT acslog_type, acslog_emp, cast(acslog_param as NVARCHAR(100)) acslog_param, acslog_date FROM accesslog WHERE acslog_date > '{fromDate}' AND acslog_date < '{toDate}' ";
+            
             if (cmBoxWorkType.SelectedItem is KeyValuePair<int, string> selectedItem)
             {
-                query += $" AND acslog_type = {selectedItem.Key}";
+                query += $"AND acslog_type = {selectedItem.Key} ";
+                
             }
             if (!string.IsNullOrEmpty(tBoxSearch.Text))
             {
-                string pdtQuery = $"SELECT distinct(emp_code) FROM employee WHERE pdt_name like '%{tBoxSearch.Text}%'";
-                dbconn.SqlDataAdapterQuery(pdtQuery, resultData);
+                string employeeQuery = $"SELECT distinct(emp_code) FROM employee WHERE pdt_name like '%{tBoxSearch.Text}%'";
+                dbconn.SqlDataAdapterQuery(employeeQuery, resultData);
                 string resultString = "";
                 foreach (DataRow pdtRow in resultData.Rows)
                 {
@@ -208,8 +212,9 @@ namespace BRMS
                     resultString += ", " + pdtRow[0].ToString();
                 }
                 query += $"AND acslog_emp IN ({resultString})";
+                
             }
-            query += " ORDER BY acslog_date";
+
             dbconn.SqlDataAdapterQuery(query, resultData);
             FillGrid(resultData);
         }

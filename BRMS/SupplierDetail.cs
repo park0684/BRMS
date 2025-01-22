@@ -22,7 +22,7 @@ namespace BRMS
         public SupplierDetail()
         {
             InitializeComponent();
-            cUIManager.ApplyPopupFormStyleㅡ(this);
+            cUIManager.ApplyPopupFormStyle(this);
             InitailizeComboBox();
         }
         private void ModifyPermission()

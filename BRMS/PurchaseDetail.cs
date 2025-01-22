@@ -30,6 +30,7 @@ namespace BRMS
 
         bool typeToggle = false; // 매입 반품여부 true : 반품 | fales : 매입
         bool supplierToggle = false;
+        bool isEventProcessing = false;
         bool isNewEntry = true;
         int currentBalance = 0;
 
@@ -167,7 +168,7 @@ namespace BRMS
             DgrPurdetail.FormatAsStringLeft("purdPdtCode", "purdPdtNumber", "purdPdtNameKr", "purdPdtNameEn");
             DgrPurdetail.FormatAsStringCenter("purdPdtTax");
             DgrPurdetail.FormatAsDecimal("purdBprice");
-            DgrPurdetail.FormatAsInteger("purdQty", "purdAmount");
+            DgrPurdetail.FormatAsInt("purdQty", "purdAmount");
 
             DgrPurdetail.Dgv.Columns["No"].Width = 50;
             DgrPurdetail.Dgv.Columns["purdPdtTax"].Width = 40;
@@ -208,14 +209,7 @@ namespace BRMS
                 DgrPurdetail.Dgv.Rows.Add();
                 DgrPurdetail.Dgv.Rows[rowIndex].Cells["No"].Value = dataRow["purd_seq"].ToString();
                 DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtCode"].Value = dataRow["purd_pdt"].ToString();
-                if(dataRow["pdt_tax"].ToString() == "0")
-                {
-                    DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtTax"].Value = "면";
-                }
-                else
-                {
-                    DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtTax"].Value = "과";
-                }
+                DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtTax"].Value = cStatusCode.GetTaxStatus(cDataHandler.ConvertToInt(dataRow["pdt_tax"]));
                 DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtNumber"].Value = dataRow["pdt_number"].ToString();
                 DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtNameKr"].Value = dataRow["pdt_name_kr"].ToString();
                 DgrPurdetail.Dgv.Rows[rowIndex].Cells["purdPdtNameEn"].Value = dataRow["pdt_name_en"].ToString();
@@ -273,16 +267,7 @@ namespace BRMS
             lblPurchaseType.Text = cStatusCode.GetPurchaseType(purType);
             typeToggle = purType == 1 ? false : true;
             tBoxPurchaseNote.Text = dataRow["pur_note"].ToString();
-            //if (purType == "1")
-            //{
-            //    lblPurchaseType.Text = "매입";
-            //    typeToggle = false;
-            //}
-            //else
-            //{
-            //    lblPurchaseType.Text = "반품";
-            //    typeToggle = true;
-            //}
+
             GetBalanceFromDatabase();
             OrigenaDate();
             isNewEntry = false;
@@ -375,7 +360,8 @@ namespace BRMS
             DgrPurdetail.Dgv.CellValueChanged -= DataGridCellChangedEvent;
             try
             {
-                string query = string.Format("SELECT pdt_code FROM product WHERE pdt_number = '{0}' ", DgrPurdetail.Dgv.CurrentRow.Cells["purdPdtNumber"].Value.ToString());
+                string pdtNumber = DgrPurdetail.Dgv.CurrentRow.Cells["purdPdtNumber"].Value.ToString();
+                string query = $"SELECT pdt_code FROM product WHERE pdt_number = '{pdtNumber}' ";
                 object resultObj = new object();
                 dbconn.sqlScalaQuery(query, out resultObj);
                 
@@ -401,9 +387,11 @@ namespace BRMS
                 {
                     AddProductToGrid(Convert.ToInt32(resultObj), currentIndex);
                     DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtNumber"].ReadOnly = true;
+                    int lastIndex = DgrPurdetail.Dgv.Rows.Count - 1;
+                    DgrPurdetail.Dgv.CurrentCell = DgrPurdetail.Dgv.Rows[lastIndex].Cells["purdPdtNumber"];
                 }
-                LastGridAdd();
-                SetTextBox();
+                //LastGridAdd();
+                //SetTextBox();
             }
             catch(Exception ex)
             {
@@ -547,42 +535,39 @@ namespace BRMS
         private void AddProductToGrid(int pdtCode, int index)
         {
             //셀에 제품 정보가 입력되어 이벤트 핸들러가 작동되지 않도록 이벤트 핸들러 제거
+            isEventProcessing = true;
             DgrPurdetail.Dgv.CellValueChanged -= DataGridCellChangedEvent;
+            int currentIndex = index;
             //마지막행 찾기
             if (index == 0)
             {
-                index = DgrPurdetail.Dgv.RowCount - 1;
+                currentIndex = DgrPurdetail.Dgv.RowCount - 1;
             }
             //제품정보 조회 후 결과 담기
-            string query = string.Format("SELECT RTRIM(pdt_number) pdt_number,pdt_tax, RTRIM(pdt_name_kr) pdt_name_kr, RTRIM(pdt_name_en) pdt_name_en, pdt_bprice FROM product WHERE pdt_code = {0}", pdtCode);
+            string query = $"SELECT RTRIM(pdt_number) pdt_number,pdt_tax, RTRIM(pdt_name_kr) pdt_name_kr, RTRIM(pdt_name_en) pdt_name_en, pdt_bprice FROM product WHERE pdt_code = {pdtCode}";
             DataTable resultData = new DataTable();
             dbconn.SqlReaderQuery(query, resultData);
             DataRow dataRow = resultData.Rows[0];
-            DgrPurdetail.Dgv.Rows[index].Cells["No"].Value = DgrPurdetail.Dgv.RowCount;
-            DgrPurdetail.Dgv.Rows[index].Cells["purdPdtCode"].Value = pdtCode;
-            DgrPurdetail.Dgv.Rows[index].Cells["purdStatus"].Value = 1;
-            if (dataRow["pdt_tax"].ToString() == "0")
-            {
-                DgrPurdetail.Dgv.Rows[index].Cells["purdPdtTax"].Value = "면";
-            }
-            else
-            {
-                DgrPurdetail.Dgv.Rows[index].Cells["purdPdtTax"].Value = "과";
-            }
-            DgrPurdetail.Dgv.Rows[index].Cells["purdPdtNumber"].Value = dataRow["pdt_number"].ToString();
-            DgrPurdetail.Dgv.Rows[index].Cells["purdPdtNameKr"].Value = dataRow["pdt_name_kr"].ToString();
-            DgrPurdetail.Dgv.Rows[index].Cells["purdPdtNameEn"].Value = dataRow["pdt_name_en"].ToString();
-            DgrPurdetail.Dgv.Rows[index].Cells["purdBprice"].Value = Convert.ToDecimal(dataRow["pdt_bprice"].ToString());
-            DgrPurdetail.Dgv.Rows[index].Cells["purdQty"].Value = "1";
-            DgrPurdetail.Dgv.Rows[index].Cells["purdAmount"].Value = Convert.ToInt32(dataRow["pdt_bprice"].ToString());
-            DgrPurdetail.Dgv.Rows[index].Cells["purdBprice"].ReadOnly = false;
-            DgrPurdetail.Dgv.Rows[index].Cells["purdQty"].ReadOnly = false;
-            DgrPurdetail.Dgv.Rows[index].Cells["purdAmount"].ReadOnly = false;
-            DgrPurdetail.Dgv.Rows[index].Cells["purdPdtNumber"].ReadOnly = true;
+            
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtCode"].Value = pdtCode;
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdStatus"].Value = 1;
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtTax"].Value = cStatusCode.GetTaxStatus(cDataHandler.ConvertToInt(dataRow["pdt_tax"]));
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtNumber"].Value = dataRow["pdt_number"].ToString();
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtNameKr"].Value = dataRow["pdt_name_kr"].ToString();
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtNameEn"].Value = dataRow["pdt_name_en"].ToString();
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdBprice"].Value = Convert.ToDecimal(dataRow["pdt_bprice"].ToString());
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdQty"].Value = "1";
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdAmount"].Value = Convert.ToInt32(dataRow["pdt_bprice"].ToString());
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdBprice"].ReadOnly = false;
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdQty"].ReadOnly = false;
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdAmount"].ReadOnly = false;
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["purdPdtNumber"].ReadOnly = true;
+            DgrPurdetail.Dgv.Rows[currentIndex].Cells["No"].Value = currentIndex + 1;
             //DgrPurdetail.Dgr.Rows.Add();
             LastGridAdd();
             SetTextBox();
             DgrPurdetail.Dgv.CellValueChanged += DataGridCellChangedEvent;
+            isEventProcessing = false;
         }
         /// <summary>
         /// 닫기 버튼 클릭
@@ -618,6 +603,8 @@ namespace BRMS
         /// <param name="e"></param>
         private void DataGridCellChangedEvent(object sender, DataGridViewCellEventArgs e)
         {
+            if (isEventProcessing)
+                return;
             int SelectIndex = DgrPurdetail.Dgv.CurrentCell.RowIndex;
             string columnName = DgrPurdetail.Dgv.Columns[DgrPurdetail.Dgv.CurrentCell.ColumnIndex].Name;
             
@@ -833,6 +820,8 @@ namespace BRMS
         /// </summary>
         private void PurchaseProductDelete()
         {
+            
+            isEventProcessing = true;
             DgrPurdetail.Dgv.CellValueChanged -= DataGridCellChangedEvent;
             int index = DgrPurdetail.Dgv.CurrentRow.Index;
             DgrPurdetail.Dgv.Rows[index].Cells["purdStatus"].Value = 0;
@@ -840,6 +829,7 @@ namespace BRMS
             PurchasQuantityChanged(index);
             DgrPurdetail.Dgv.Rows[index].Visible = false;
             SetTextBox();
+            isEventProcessing = false;
             DgrPurdetail.Dgv.CellValueChanged += DataGridCellChangedEvent;
         }
         
@@ -902,6 +892,8 @@ namespace BRMS
             productSearchBox.StartPosition = FormStartPosition.CenterParent;
             productSearchBox.ProductForword += (pdtCode) => { AddProductToGrid(pdtCode,0); };
             productSearchBox.ShowDialog();
+            int lastIndex = DgrPurdetail.Dgv.RowCount - 1;
+            DgrPurdetail.Dgv.CurrentCell = DgrPurdetail.Dgv.Rows[lastIndex].Cells["purdPdtNumber"];
         }
         /// <summary>
         /// 제품정보 버튼 클릭

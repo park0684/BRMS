@@ -44,18 +44,18 @@ namespace BRMS
         }
         private void GridForm()
         {
+            DgrPurchaseList.Dgv.Columns.Add("purType", "유형");
             DgrPurchaseList.Dgv.Columns.Add("purCode", "매입코드");
             DgrPurchaseList.Dgv.Columns.Add("purSupplier", "매입처");
-            DgrPurchaseList.Dgv.Columns.Add("purSupcode", "공급사코드");
+            //DgrPurchaseList.Dgv.Columns.Add("purSupcode", "공급사코드");
             DgrPurchaseList.Dgv.Columns.Add("purDate", "매입일");
             DgrPurchaseList.Dgv.Columns.Add("purAmount", "매입액");
             DgrPurchaseList.Dgv.Columns.Add("purPayment", "결제액");
-            DgrPurchaseList.Dgv.Columns.Add("purType", "유형");
             DgrPurchaseList.Dgv.Columns.Add("purNote", "비고");
             DgrPurchaseList.Dgv.Columns.Add("purUdate", "수정일");
             DgrPurchaseList.FormatAsStringCenter("purCode", "purSupplier", "purSupcode", "purType");
             DgrPurchaseList.FormatAsDateTime("purDate", "purUdate");
-            DgrPurchaseList.FormatAsInteger("purAmount", "purPayment");
+            DgrPurchaseList.FormatAsInt("purAmount", "purPayment");
             DgrPurchaseList.Dgv.ReadOnly = true;
             DgrPurchaseList.Dgv.Columns["purCode"].Visible = false;
             DgrPurchaseList.ApplyDefaultColumnSettings();
@@ -77,8 +77,8 @@ namespace BRMS
                 DgrPurchaseList.Dgv.Rows.Add();
                 DgrPurchaseList.Dgv.Rows[rowIndex].Cells["No"].Value = DgrPurchaseList.Dgv.RowCount;
                 DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purCode"].Value = dataRow["pur_code"];
-                DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purSupplier"].Value = dataRow["sup_name"];
-                DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purSupcode"].Value = dataRow["pur_sup"];
+                DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purSupplier"].Value = $"{dataRow["sup_name"]}({dataRow["pur_sup"]})";
+                //DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purSupcode"].Value = dataRow["pur_sup"];
                 DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purDate"].Value = dataRow["pur_date"];
                 DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purAmount"].Value = dataRow["pur_amount"];
                 DgrPurchaseList.Dgv.Rows[rowIndex].Cells["purPayment"].Value = dataRow["pur_payment"];

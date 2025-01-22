@@ -34,6 +34,8 @@ namespace BRMS
             SideMenuDesign();
             TopMenuButtonSet();
             lblMenuTitle.Text = "";
+            this.KeyPreview = true;
+            this.KeyDown += MainForm_KeyDown;
         }
         /// <summary>
         /// 상단 조회, 인쇄, 엑셀 버튼 디자인 설정
@@ -54,6 +56,9 @@ namespace BRMS
             btnPrint.Image = printer;
             btnPrint.Image = new Bitmap(printer, new Size(25, 25));
             btnPrint.Text = "";
+            btnConfig.Image = option;
+            btnConfig.Image = new Bitmap(option, new Size(25, 25));
+            btnConfig.ImageAlign = ContentAlignment.TopCenter;
 
         }
         private void MenuLayout()
@@ -98,6 +103,8 @@ namespace BRMS
             Button btnDailyReportPdt = CreateMenuButton("일결산 제품별 조회", btnDailyReportPdt_Click);
             Button btnDailyReportCategory = CreateMenuButton("일결산 분류별 조회", btnDailyReportCategory_Click);
             Button btnSupplierPayment = CreateMenuButton("공급사 결제", btnSupplierPayment_Click);
+            Button btnPointHistory = CreateMenuButton("포인트 내역", btnPointHistroy_Click);
+            Button btnDeliveryList = CreateMenuButton("배송", btnDeliveryList_Click);
 
             //사이드 버튼 설정
             SideButtonSetting(btnCustomerMenu, "회원관리", btnCustomerMenu_Click);
@@ -130,12 +137,14 @@ namespace BRMS
             pnlSalesMenu.Controls.Add(btnDailyReportPdt);
             pnlSalesMenu.Controls.Add(btnDailyreportByDay);
             pnlSalesMenu.Controls.Add(btnSettlement);
+            pnlSalesMenu.Controls.Add(btnDeliveryList);
             pnlSalesMenu.Controls.Add(btnOrderList);
-            pnlSalesMenu.Controls.Add(btnSalesReport);
             pnlSalesMenu.Controls.Add(btnSalesList);
+            pnlSalesMenu.Controls.Add(btnSalesReport);
 
             //회원관리 패널 설정
             SidePanalSetting(pnlCustomerMenu);
+            pnlCustomerMenu.Controls.Add(btnPointHistory);
             pnlCustomerMenu.Controls.Add(btnCustomerLog);
             pnlCustomerMenu.Controls.Add(btnCustomerList);
         }
@@ -243,6 +252,10 @@ namespace BRMS
         /// <param name="e"></param>
         private void bntSearch_Click(object sender, EventArgs e)
         {
+            Search();
+        }
+        private void Search()
+        {
             Form currentForm = panelViewer.Controls.Count > 0 ? panelViewer.Controls[0] as Form : null;
 
             if (currentForm != null)
@@ -259,6 +272,14 @@ namespace BRMS
                         methodInfo.Invoke(currentForm, null);
                     }
                 }
+            }
+        }
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.F5)
+            {
+                this.ActiveControl = null;
+                Search();
             }
         }
         /// <summary>
@@ -364,6 +385,7 @@ namespace BRMS
         private void btnCategory_Click(object sender, EventArgs e)
         {
             CategoryBoard categoryBoard = new CategoryBoard();
+            categoryBoard.WorkType = 0;
             categoryBoard.StartPosition = FormStartPosition.CenterParent;
             categoryBoard.EditeMode();
             categoryBoard.ShowDialog();
@@ -510,6 +532,21 @@ namespace BRMS
         private void btnDailyReportCategory_Click(object sender, EventArgs e)
         {
             btn_Click<DailyReportViewByCategory>(sender, e, 351);
+        }
+        private void btnPointHistroy_Click(object sender, EventArgs e)
+        {
+            btn_Click<PointHistory>(sender, e, 401);
+        }
+        private void btnDeliveryList_Click(object sender, EventArgs e)
+        {
+            btn_Click<DeliveryList>(sender, e, 301);
+        }
+
+        private void btnConfig_Click(object sender, EventArgs e)
+        {
+            Config config = new Config();
+            config.StartPosition = FormStartPosition.CenterParent;
+            config.ShowDialog();
         }
     }
 }

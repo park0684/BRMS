@@ -13,8 +13,8 @@ namespace BRMS
     public partial class ProductList : Form
     {
         cDatabaseConnect dbconn = new cDatabaseConnect();
-        private cDataGridDefaultSet DgrProductList;
-
+        private cDataGridDefaultSet DgvProductList;
+        DataTable PdtListData = new DataTable();
         int pdtCatTop = 0;
         int pdtCatMid = 0;
         int pdtCatBot = 0;
@@ -24,11 +24,11 @@ namespace BRMS
         public ProductList()
         {
             InitializeComponent();
-            DgrProductList = new cDataGridDefaultSet();
-            panelDataGrid.Controls.Add(DgrProductList.Dgv);
-            DgrProductList.Dgv.Dock = DockStyle.Fill;
+            DgvProductList = new cDataGridDefaultSet();
+            panelDataGrid.Controls.Add(DgvProductList.Dgv);
+            DgvProductList.Dgv.Dock = DockStyle.Fill;
             tBoxSearchWord.KeyUp += KeyUpEnter;
-            DgrProductList.CellDoubleClick += DgrProductList_CellDoubleClick;
+            DgvProductList.CellDoubleClick += DgrProductList_CellDoubleClick;
             InitializeDefaultValues();
             GridForm();
             DateTypeSetting();
@@ -43,46 +43,39 @@ namespace BRMS
         }
         private void GridForm()
         {
-            DgrProductList.Dgv.Columns.Add("pdtCode", "부품코드");
-            DgrProductList.Dgv.Columns.Add("pdtStatusCode", "상태");
-            DgrProductList.Dgv.Columns.Add("pdtStatus", "상태");
-            DgrProductList.Dgv.Columns.Add("pdtNumber", "제품번호");
-            DgrProductList.Dgv.Columns.Add("pdtNamekr", "제품명(한글)");
-            DgrProductList.Dgv.Columns.Add("pdtNameUs", "제품명(영문)");
-            DgrProductList.Dgv.Columns.Add("pdtBprice", "매입단가");
-            DgrProductList.Dgv.Columns.Add("pdtPriceKrw", "판매단가(￦)");
-            DgrProductList.Dgv.Columns.Add("pdtPriceUsd", "판매단가($)");
-            DgrProductList.Dgv.Columns.Add("pdtTop", "대분류코드");
-            DgrProductList.Dgv.Columns.Add("pdtTopName", "대분류");
-            DgrProductList.Dgv.Columns.Add("pdtMid", "중분류코드");
-            DgrProductList.Dgv.Columns.Add("pdtMidName", "중분류");
-            DgrProductList.Dgv.Columns.Add("pdtBot", "소분류코드");
-            DgrProductList.Dgv.Columns.Add("pdtBotName", "소분류");
-            DgrProductList.Dgv.Columns.Add("pdtIdate", "등록일");
-            DgrProductList.Dgv.Columns.Add("pdtUdate", "수정일");
-            DgrProductList.Dgv.ReadOnly = true;
-            DgrProductList.Dgv.Columns["pdtCode"].Visible = false;
-            DgrProductList.Dgv.Columns["pdtTop"].Visible = false;
-            DgrProductList.Dgv.Columns["pdtMid"].Visible = false;
-            DgrProductList.Dgv.Columns["pdtBot"].Visible = false;
-            DgrProductList.Dgv.Columns["pdtStatusCode"].Visible = false;
-            //DgrProductList.Dgr.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            DgrProductList.ApplyDefaultColumnSettings();
-
+            DgvProductList.Dgv.AutoGenerateColumns = false;
+            DgvProductList.Dgv.Columns.Add("pdtCode", "부품코드");
+            DgvProductList.Dgv.Columns.Add("pdtStatus", "상태");
+            DgvProductList.Dgv.Columns.Add("pdtNumber", "제품번호");
+            DgvProductList.Dgv.Columns.Add("pdtNamekr", "제품명(한글)");
+            DgvProductList.Dgv.Columns.Add("pdtNameEn", "제품명(영문)");
+            DgvProductList.Dgv.Columns.Add("pdtBprice", "매입단가");
+            DgvProductList.Dgv.Columns.Add("pdtPriceKrw", "판매단가(￦)");
+            DgvProductList.Dgv.Columns.Add("pdtPriceUsd", "판매단가($)");
+            DgvProductList.Dgv.Columns.Add("pdtTopName", "대분류");
+            DgvProductList.Dgv.Columns.Add("pdtMidName", "중분류");
+            DgvProductList.Dgv.Columns.Add("pdtBotName", "소분류");
+            DgvProductList.Dgv.Columns.Add("pdtIdate", "등록일");
+            DgvProductList.Dgv.Columns.Add("pdtUdate", "수정일");
+            DgvProductList.Dgv.ReadOnly = true;
+            DgvProductList.Dgv.Columns["pdtCode"].Visible = false;
+            DgvProductList.ApplyDefaultColumnSettings();
+            foreach(DataGridViewColumn column in DgvProductList.Dgv.Columns)
+            {
+                column.DataPropertyName = column.Name;
+            }
             //포멧설정
-            DgrProductList.FormatAsInteger("pdtPriceKrw");
-            DgrProductList.FormatAsDecimal("pdtBprice", "pdtPriceUsd");
-            DgrProductList.FormatAsStringLeft("pdtNumber", "pdtNamekr", "pdtNameUs");
-            DgrProductList.FormatAsStringCenter("pdtStatus", "pdtTopName", "pdtMidName", "pdtBotName");
-            DgrProductList.FormatAsDecimal("pdtIdate", "pdtUdate");
+            DgvProductList.FormatAsInt("pdtPriceKrw");
+            DgvProductList.FormatAsDecimal("pdtBprice", "pdtPriceUsd");
+            DgvProductList.FormatAsStringLeft("pdtNumber", "pdtNamekr", "pdtNameUs");
+            DgvProductList.FormatAsStringCenter("pdtStatus", "pdtTopName", "pdtMidName", "pdtBotName");
+            DgvProductList.FormatAsDateTime("pdtIdate", "pdtUdate");
 
         }
 
         private void InitializeDefaultValues()
         {
             lblCategory.Text = "전체";
-            //cBoxDateType1.SelectedIndex = 0;
-            //cBoxDateType2.SelectedIndex = 0;
             cBoxStatus.SelectedItem = "판매가능";
             dtpType1From.Enabled = false;
             dtpType1To.Enabled = false;
@@ -141,38 +134,42 @@ namespace BRMS
             DatePickerEanble(cBoxDateType2, dtpType2From, dtpType2To);
         }
 
-
-        private void girdFill(DataTable dataTable)
-        {
-            DgrProductList.Dgv.Rows.Clear();
-            int rowIndex = 0;
+        /// <summary>
+        /// 데이터 그리드 데이터 등록
+        /// 검색 속도 문제로 DataSource로 변경
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void FillGrid(DataTable dataTable)
+        //{
+        //    DgvProductList.Dgv.Rows.Clear();
+        //    int rowIndex = 0;
             
-            foreach (DataRow dataRow in dataTable.Rows)
-            {
+        //    foreach (DataRow dataRow in dataTable.Rows)
+        //    {
                 
-                //DataRow StatusRow = cBoxStatus.SelectedValue.ToString .[int.Parse(dataRow["pdt_status"].ToString())];
-                DgrProductList.Dgv.Rows.Add();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["No"].Value = DgrProductList.Dgv.RowCount;
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtcode"].Value = dataRow["pdt_code"].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtStatusCode"].Value = dataRow["pdt_status"].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtStatus"].Value = cBoxStatus.Items[int.Parse(dataRow["pdt_status"].ToString())].ToString(); ;//StatusRow[1].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtNumber"].Value = dataRow[2].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtNamekr"].Value = dataRow[3].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtNameUs"].Value = dataRow[4].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtBprice"].Value = Convert.ToDecimal(dataRow["pdt_bprice"]);
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtPriceKrw"].Value = Convert.ToDecimal(dataRow["pdt_sprice_krw"]);
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtPriceUsd"].Value = Convert.ToDecimal(dataRow["pdt_sprice_usd"]);
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtTopName"].Value = dataRow[11].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtMidName"].Value = dataRow[12].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtBotName"].Value = dataRow[13].ToString();
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtIdate"].Value = Convert.ToDateTime(dataRow["pdt_idate"].ToString()).ToString("yyyy-MM-dd HH:mm"); ;
-                DgrProductList.Dgv.Rows[rowIndex].Cells["pdtUdate"].Value = Convert.ToDateTime(dataRow["pdt_udate"].ToString()).ToString("yyyy-MM-dd HH:mm");
+        //        //DataRow StatusRow = cBoxStatus.SelectedValue.ToString .[int.Parse(dataRow["pdt_status"].ToString())];
+        //        DgvProductList.Dgv.Rows.Add();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["No"].Value = DgvProductList.Dgv.RowCount;
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtcode"].Value = dataRow["pdtcode"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtStatus"].Value = cBoxStatus.Items[int.Parse(dataRow["pdtStatus"].ToString())].ToString(); ;//StatusRow[1].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtNumber"].Value = dataRow["pdtNumber"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtNamekr"].Value = dataRow["pdtNamekr"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtNameEn"].Value = dataRow["pdtNameEn"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtBprice"].Value = Convert.ToDecimal(dataRow["pdtBprice"]);
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtPriceKrw"].Value = Convert.ToDecimal(dataRow["pdtPriceKrw"]);
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtPriceUsd"].Value = Convert.ToDecimal(dataRow["pdtPriceUsd"]);
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtTopName"].Value = dataRow["pdtTopName"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtMidName"].Value = dataRow["pdtMidName"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtBotName"].Value = dataRow["pdtBotName"].ToString();
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtIdate"].Value = Convert.ToDateTime(dataRow["pdtIdate"].ToString()).ToString("yyyy-MM-dd HH:mm"); ;
+        //        DgvProductList.Dgv.Rows[rowIndex].Cells["pdtUdate"].Value = Convert.ToDateTime(dataRow["pdtUdate"].ToString()).ToString("yyyy-MM-dd HH:mm");
 
-                rowIndex++;
+        //        rowIndex++;
 
-            }
-        }
-
+        //    }
+        //}
+        
         private void bntCategory_Click(object sender, EventArgs e)
         {
             if(categoryToggle == true)
@@ -189,7 +186,9 @@ namespace BRMS
                 //categoryTreeView.CategorySelected += (top, mid, bot) => { GetCategoryInfo(top, mid, bot); };
                 //categoryTreeView.ShowDialog();
                 CategoryBoard categoryBoard = new CategoryBoard();
+                categoryBoard.StartPosition = FormStartPosition.CenterParent;
                 categoryBoard.CategorySelected += (top, mid, bot) => { GetCategoryInfo(top, mid, bot); };
+                categoryBoard.WorkType = 2;
                 categoryBoard.SearchMode();
                 categoryBoard.ShowDialog();
             }
@@ -237,8 +236,8 @@ namespace BRMS
             int currentRowIndex = e.RowIndex;
             if (currentRowIndex >= 0)
             {
-                DataGridViewRow currentRow = DgrProductList.Dgv.Rows[currentRowIndex];
-                int pdtCode = DgrProductList.ConvertToInt(currentRow.Cells["pdtCode"].Value);
+                DataGridViewRow currentRow = DgvProductList.Dgv.Rows[currentRowIndex];
+                int pdtCode = DgvProductList.ConvertToInt(currentRow.Cells["pdtCode"].Value);
 
                 ProductDetail productDetail = new ProductDetail();
                 productDetail.StartPosition = FormStartPosition.CenterParent;
@@ -264,17 +263,19 @@ namespace BRMS
             DataTable reusltdata = new DataTable();
 
             string query;
-            string SELECT= "SELECT pdt_code,pdt_status,RTRIM(pdt_number) as pdt_number, RTRIM(pdt_name_kr), RTRIM(pdt_name_en),pdt_bprice,pdt_sprice_krw,pdt_sprice_usd, pdt_top,pdt_mid,pdt_bot,\n" +
-                "(SELECT cat_name_kr FROM category WHERE cat_top = pdt_top AND cat_mid = 0 AND cat_bot = 0) ,\n" +
-                "(SELECT cat_name_kr FROM category WHERE cat_top = pdt_top AND cat_mid = pdt_mid AND cat_bot = 0 ) ,\n" +
-                "(SELECT cat_name_kr FROM category WHERE cat_top = pdt_top AND cat_mid = pdt_mid AND cat_bot = pdt_bot) ,pdt_idate, pdt_udate FROM product";
-            string WHERE = null;
+            string querySelect= "SELECT pdt_code AS pdtCode ,pdt_status , RTRIM(pdt_number) AS pdtNumber, RTRIM(pdt_name_kr) AS pdtNamekr, RTRIM(pdt_name_en)  AS pdtNameEn ," +
+                "pdt_bprice AS pdtBprice, pdt_sprice_krw AS pdtPriceKrw, pdt_sprice_usd AS pdtPriceUsd,\n" +
+                "(SELECT cat_name_kr FROM category WHERE cat_top = pdt_top AND cat_mid = 0 AND cat_bot = 0) AS pdtTopName,\n" +
+                "(SELECT cat_name_kr FROM category WHERE cat_top = pdt_top AND cat_mid = pdt_mid AND cat_bot = 0 ) AS pdtMidName,\n" +
+                "(SELECT cat_name_kr FROM category WHERE cat_top = pdt_top AND cat_mid = pdt_mid AND cat_bot = pdt_bot) AS pdtBotName,pdt_idate pdtIdate, pdt_udate pdtUdate FROM product";
+            string queryWhere = null;
 
             //if(string.IsNullOrEmpty(tBoxSearchWord.Text) && categoryToggle== false && cBoxDateType1.SelectedIndex == 0 && cBoxDateType2.SelectedIndex==0)
             //{
             //    if(MessageBox.Show("검색 조건 없이 상품 검색시 시간이 소요 될 수 있습니다.\n계속 하시겠습니까?","알림",MessageBoxButtons.YesNo)==DialogResult.Yes)
                 
             //}
+            
            
            
            
@@ -282,19 +283,19 @@ namespace BRMS
             {
                 if(!string.IsNullOrEmpty(tBoxSearchWord.Text))
                 {
-                    WHERE = string.Format(WHERE + " AND pdt_top = {0}",pdtCatTop);
+                    queryWhere = string.Format(queryWhere + " AND pdt_top = {0}",pdtCatTop);
                 }
                 else
                 {
-                    WHERE = string.Format(" pdt_top = {0}", pdtCatTop);
+                    queryWhere = string.Format(" pdt_top = {0}", pdtCatTop);
                 }
                 if (pdtCatMid != 0)
                 {
-                    WHERE = string.Format(WHERE + " AND pdt_mid = {0}", pdtCatMid);
+                    queryWhere = string.Format(queryWhere + " AND pdt_mid = {0}", pdtCatMid);
                 }
                 if(pdtCatBot != 0)
                 {
-                    WHERE = string.Format(WHERE + " AND pdt_bot = {0}", pdtCatBot);
+                    queryWhere = string.Format(queryWhere + " AND pdt_bot = {0}", pdtCatBot);
                 }
             }
             if(cBoxDateType1.SelectedIndex != 0)
@@ -313,13 +314,13 @@ namespace BRMS
                         DateType1 = $"pdt_udate >= '{dtpFrom}' AND pdt_udate <= '{dtpTo}'";
                         break;
                 }
-                if (!string.IsNullOrEmpty(tBoxSearchWord.Text) || !string.IsNullOrEmpty(WHERE))
+                if (!string.IsNullOrEmpty(tBoxSearchWord.Text) || !string.IsNullOrEmpty(queryWhere))
                 {
-                    WHERE = string.Format(WHERE + " AND " + DateType1);
+                    queryWhere = string.Format(queryWhere + " AND " + DateType1);
                 }
                 else
                 {
-                    WHERE = DateType1;
+                    queryWhere = DateType1;
                 }
             }
             if(cBoxDateType2.SelectedIndex != 0)
@@ -360,42 +361,58 @@ namespace BRMS
                              $" pdt_code IN (SELECT DISTINCT(purd_pdt) FROM purchase,purdetail WHERE pur_date >= '{dtpFrom}' AND pur_date <='{dtpTo}' AND pur_code = purd_code)";
                          break;
                  }
-                 if (!string.IsNullOrEmpty(tBoxSearchWord.Text) || !string.IsNullOrEmpty(WHERE))
+                 if (!string.IsNullOrEmpty(tBoxSearchWord.Text) || !string.IsNullOrEmpty(queryWhere))
                  {
-                     WHERE = WHERE + " AND " + DateType2;
+                     queryWhere = queryWhere + " AND " + DateType2;
                  }
                  else
                  {
-                     WHERE =  DateType2;
+                     queryWhere =  DateType2;
                  }
             }
             if(cBoxStatus.SelectedIndex != 0)
             {
                 string Status = string.Format(" pdt_status ={0} ", cBoxStatus.SelectedIndex.ToString());
-                if(!string.IsNullOrEmpty(tBoxSearchWord.Text) || !string.IsNullOrEmpty(WHERE))
+                if(!string.IsNullOrEmpty(tBoxSearchWord.Text) || !string.IsNullOrEmpty(queryWhere))
                 {
-                    WHERE = WHERE + " AND " + Status;
+                    queryWhere = queryWhere + " AND " + Status;
                 }
                 else
                 {
-                    WHERE =  Status;
+                    queryWhere =  Status;
                 }
             }
             if (string.IsNullOrEmpty(tBoxSearchWord.Text))
             {
-                query = string.Format("{0} WHERE {1} ORDER BY pdt_number", SELECT, WHERE);
+                query = string.Format("{0} WHERE {1} ORDER BY pdtNumber", querySelect, queryWhere);
             }
             else
             {
-                query = string.Format("{0} WHERE pdt_name_kr LIKE '%{1}%' {2} \nunion \n {0} WHERE pdt_name_en LIKE '%{1}%' {2} \nunion \n {0} WHERE pdt_number LIKE '%{1}%' {2} ORDER BY pdt_number", SELECT, tBoxSearchWord.Text, WHERE);
+                query = string.Format("{0} WHERE pdt_name_kr LIKE '%{1}%' {2} \nunion \n {0} WHERE pdt_name_en LIKE '%{1}%' {2} \nunion \n {0} WHERE pdt_number LIKE '%{1}%' {2} ORDER BY pdtNumber", querySelect, tBoxSearchWord.Text, queryWhere);
             }
             
             //MessageBox.Show(query);
             dbconn.SqlDataAdapterQuery(query, reusltdata);
-            girdFill(reusltdata);
+            PdtListData = reusltdata;
+            InsertToDataGridView();
+            //FillGrid(reusltdata);
             cLog.InsertEmpAccessLogNotConnect("@pdtSearch", accessedEmp, 0);
         }
+        private void InsertToDataGridView()
+        {
+            PdtListData.Columns.Add("No");
+            PdtListData.Columns.Add("pdtStatus");
+            int i = 1;
+            foreach(DataRow row in PdtListData.Rows)
+            {
 
+                row["No"] = i;
+                string status = cStatusCode.GetProductStatus(cDataHandler.ConvertToInt(row["pdt_status"]));
+                row["pdtStatus"] = status;
+                i++;
+            }
+            DgvProductList.Dgv.DataSource = PdtListData;
+        }
         
 
         public void RunQuery()

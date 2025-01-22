@@ -54,7 +54,7 @@ namespace BRMS
             //포멧 설정
             OrderList.FormatAsStringLeft("회원");
             OrderList.FormatAsStringCenter("상태", "담당자", "메모");
-            OrderList.FormatAsInteger("주문액");
+            OrderList.FormatAsInt("주문액");
             OrderList.FormatAsDateTime("주문일");
             OrderList.FormatAsDate("판매일");
         }

@@ -17,7 +17,7 @@ namespace BRMS
         int accessedEmp = cUserSession.AccessedEmp;
         int paymentCode = 0;
         int supCode = 0;
-        bool PurchasePayment = false;
+        bool isPurchasePayment = false;
         int purchaseCode = 0;
         int voucherType = 1;
         int payAmount = 0;
@@ -152,7 +152,7 @@ namespace BRMS
             supCode = supplierCode;    
             if(purchase != 0)
             {
-                PurchasePayment = true;
+                isPurchasePayment = true;
             }
             GetDateTime(DateTime.Now);
             bntDelete.Visible = false;
@@ -203,7 +203,7 @@ namespace BRMS
 
         }
         /// <summary>
-        /// 결제전호 호출
+        /// 결제전표 호출
         /// </summary>
         /// <param name="paymentCode"></param>
         public void LoadPaymentDetail(int getPaymentCode)
@@ -230,8 +230,13 @@ namespace BRMS
             bntDelete.Visible = true;
             paymentCode = getPaymentCode;
             purchaseCode = Convert.ToInt32(dataRow["pay_purcode"]);
+            if(!purchaseCode.Equals(0))
+            {
+                
+            }
             RegisterOriginalData();
             ModifyPermission();
+
         }
 
         /// <summary>
