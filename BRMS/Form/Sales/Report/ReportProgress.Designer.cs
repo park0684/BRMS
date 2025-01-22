@@ -1,7 +1,7 @@
 ﻿
 namespace BRMS
 {
-    partial class Report
+    partial class ReportProgress
     {
         /// <summary>
         /// Required designer variable.

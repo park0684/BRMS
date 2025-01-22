@@ -263,8 +263,8 @@ namespace BRMS
             {
                 foreach (string date in workDate)
                 {
-                    Report.GetDailyDate = date;
-                    Report repoft = new Report();
+                    ReportProgress.GetDailyDate = date;
+                    ReportProgress repoft = new ReportProgress();
                     repoft.StartPosition = FormStartPosition.CenterScreen;
 
                     repoft.Show();

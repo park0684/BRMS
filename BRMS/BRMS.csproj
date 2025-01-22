@@ -99,169 +99,168 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryBoard.cs">
+    <Compile Include="Form\Category\CategoryBoard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CategoryBoard.Designer.cs">
+    <Compile Include="Form\Category\CategoryBoard.Designer.cs">
       <DependentUpon>CategoryBoard.cs</DependentUpon>
     </Compile>
-    <Compile Include="CategoryEdit.cs">
+    <Compile Include="Form\Category\CategoryEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CategoryEdit.Designer.cs">
+    <Compile Include="Form\Category\CategoryEdit.Designer.cs">
       <DependentUpon>CategoryEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="CategoryTreeView.cs">
+    <Compile Include="Form\Category\CategoryTreeView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CategoryTreeView.Designer.cs">
+    <Compile Include="Form\Category\CategoryTreeView.Designer.cs">
       <DependentUpon>CategoryTreeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="cCryptor.cs" />
-    <Compile Include="cDataHandler.cs" />
-    <Compile Include="cExport.cs" />
-    <Compile Include="cLog.cs" />
-    <Compile Include="Config.cs">
+    <Compile Include="Service\cCryptor.cs" />
+    <Compile Include="Utitlity\cDataHandler.cs" />
+    <Compile Include="Service\cExport.cs" />
+    <Compile Include="Service\cLog.cs" />
+    <Compile Include="Form\Config\Config.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Config.Designer.cs">
+    <Compile Include="Form\Config\Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigBasic.cs">
+    <Compile Include="Form\Config\ConfigBasic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigBasic.Designer.cs">
+    <Compile Include="Form\Config\ConfigBasic.Designer.cs">
       <DependentUpon>ConfigBasic.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigLog.cs">
+    <Compile Include="Form\Logger\ConfigLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigLog.Designer.cs">
+    <Compile Include="Form\Logger\ConfigLog.Designer.cs">
       <DependentUpon>ConfigLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConfigPoint.cs">
+    <Compile Include="Form\Config\ConfigPoint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigPoint.Designer.cs">
+    <Compile Include="Form\Config\ConfigPoint.Designer.cs">
       <DependentUpon>ConfigPoint.cs</DependentUpon>
     </Compile>
-    <Compile Include="cStatusCode.cs" />
-    <Compile Include="CustomerDetail.cs">
+    <Compile Include="Model\cStatusCode.cs" />
+    <Compile Include="Form\Customer\CustomerDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerDetail.Designer.cs">
+    <Compile Include="Form\Customer\CustomerDetail.Designer.cs">
       <DependentUpon>CustomerDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomerList.cs">
+    <Compile Include="Form\Customer\CustomerList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerList.Designer.cs">
+    <Compile Include="Form\Customer\CustomerList.Designer.cs">
       <DependentUpon>CustomerList.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomerLog.cs">
+    <Compile Include="Form\Logger\CustomerLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerLog.Designer.cs">
+    <Compile Include="Form\Logger\CustomerLog.Designer.cs">
       <DependentUpon>CustomerLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomerOrderDetail.cs">
+    <Compile Include="Form\Sales\CustomerOrderDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerOrderDetail.Designer.cs">
+    <Compile Include="Form\Sales\CustomerOrderDetail.Designer.cs">
       <DependentUpon>CustomerOrderDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomerOrderList.cs">
+    <Compile Include="Form\Sales\CustomerOrderList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerOrderList.Designer.cs">
+    <Compile Include="Form\Sales\CustomerOrderList.Designer.cs">
       <DependentUpon>CustomerOrderList.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomerSearchBox.cs">
+    <Compile Include="Form\Customer\CustomerSearchBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomerSearchBox.Designer.cs">
+    <Compile Include="Form\Customer\CustomerSearchBox.Designer.cs">
       <DependentUpon>CustomerSearchBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="cDataBaseConfig.cs">
+    <Compile Include="Form\Config\cDataBaseConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="cDataBaseConfig.Designer.cs">
+    <Compile Include="Form\Config\cDataBaseConfig.Designer.cs">
       <DependentUpon>cDataBaseConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="cDatabaseConnect.cs" />
-    <Compile Include="cDataGridDefaultSet.cs" />
-    <Compile Include="cUtility.cs" />
-    <Compile Include="DailyRepoft.cs" />
-    <Compile Include="DailyReportViewByCategory.cs">
+    <Compile Include="Service\cDatabaseConnect.cs" />
+    <Compile Include="Controls\cDataGridDefaultSet.cs" />
+    <Compile Include="Service\DailyRepoft.cs" />
+    <Compile Include="Form\Sales\Report\DailyReportViewByCategory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DailyReportViewByCategory.Designer.cs">
+    <Compile Include="Form\Sales\Report\DailyReportViewByCategory.Designer.cs">
       <DependentUpon>DailyReportViewByCategory.cs</DependentUpon>
     </Compile>
-    <Compile Include="DailyReportViewByProduct.cs">
+    <Compile Include="Form\Sales\Report\DailyReportViewByProduct.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DailyReportViewByProduct.Designer.cs">
+    <Compile Include="Form\Sales\Report\DailyReportViewByProduct.Designer.cs">
       <DependentUpon>DailyReportViewByProduct.cs</DependentUpon>
     </Compile>
-    <Compile Include="DateSelectionForm.cs">
+    <Compile Include="Form\Sales\Report\DateSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DateSelectionForm.Designer.cs">
+    <Compile Include="Form\Sales\Report\DateSelectionForm.Designer.cs">
       <DependentUpon>DateSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DateTimePickerBox.cs">
+    <Compile Include="Controls\DateTimePickerBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DateTimePickerBox.Designer.cs">
+    <Compile Include="Controls\DateTimePickerBox.Designer.cs">
       <DependentUpon>DateTimePickerBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeliveryList.cs">
+    <Compile Include="Form\Sales\DeliveryList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeliveryList.Designer.cs">
+    <Compile Include="Form\Sales\DeliveryList.Designer.cs">
       <DependentUpon>DeliveryList.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeliveryRegist.cs">
+    <Compile Include="Form\Sales\DeliveryRegist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeliveryRegist.Designer.cs">
+    <Compile Include="Form\Sales\DeliveryRegist.Designer.cs">
       <DependentUpon>DeliveryRegist.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmpAccessLog.cs">
+    <Compile Include="Form\Logger\EmpAccessLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmpAccessLog.Designer.cs">
+    <Compile Include="Form\Logger\EmpAccessLog.Designer.cs">
       <DependentUpon>EmpAccessLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Emplog.cs">
+    <Compile Include="Form\Logger\Emplog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emplog.Designer.cs">
+    <Compile Include="Form\Logger\Emplog.Designer.cs">
       <DependentUpon>Emplog.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmployeeDetail.cs">
+    <Compile Include="Form\Employee\EmployeeDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmployeeDetail.Designer.cs">
+    <Compile Include="Form\Employee\EmployeeDetail.Designer.cs">
       <DependentUpon>EmployeeDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmployeeList.cs">
+    <Compile Include="Form\Employee\EmployeeList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmployeeList.Designer.cs">
+    <Compile Include="Form\Employee\EmployeeList.Designer.cs">
       <DependentUpon>EmployeeList.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmployeePasswordSet.cs">
+    <Compile Include="Form\Employee\EmployeePasswordSet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmployeePasswordSet.Designer.cs">
+    <Compile Include="Form\Employee\EmployeePasswordSet.Designer.cs">
       <DependentUpon>EmployeePasswordSet.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmployeePermission.cs">
+    <Compile Include="Form\Employee\EmployeePermission.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EmployeePermission.Designer.cs">
+    <Compile Include="Form\Employee\EmployeePermission.Designer.cs">
       <DependentUpon>EmployeePermission.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -270,10 +269,10 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DailyReportViewByDay.cs">
+    <Compile Include="Form\Sales\Report\DailyReportViewByDay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DailyReportViewByDay.Designer.cs">
+    <Compile Include="Form\Sales\Report\DailyReportViewByDay.Designer.cs">
       <DependentUpon>DailyReportViewByDay.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
@@ -282,233 +281,233 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaymentLog.cs">
+    <Compile Include="Form\Logger\PaymentLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PaymentLog.Designer.cs">
+    <Compile Include="Form\Logger\PaymentLog.Designer.cs">
       <DependentUpon>PaymentLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PointHistory.cs">
+    <Compile Include="Form\Customer\PointHistory.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PointHistory.Designer.cs">
+    <Compile Include="Form\Customer\PointHistory.Designer.cs">
       <DependentUpon>PointHistory.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductLog.cs">
+    <Compile Include="Form\Logger\ProductLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductLog.Designer.cs">
+    <Compile Include="Form\Logger\ProductLog.Designer.cs">
       <DependentUpon>ProductLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="NumericInputDialog.cs">
+    <Compile Include="Controls\NumericInputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NumericInputDialog.Designer.cs">
+    <Compile Include="Controls\NumericInputDialog.Designer.cs">
       <DependentUpon>NumericInputDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaymentDetail.cs">
+    <Compile Include="Form\Employee\PaymentDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PaymentDetail.Designer.cs">
+    <Compile Include="Form\Employee\PaymentDetail.Designer.cs">
       <DependentUpon>PaymentDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaymentList.cs">
+    <Compile Include="Form\Employee\PaymentList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PaymentList.Designer.cs">
+    <Compile Include="Form\Employee\PaymentList.Designer.cs">
       <DependentUpon>PaymentList.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductDetail.cs">
+    <Compile Include="Form\Product\ProductDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductDetail.Designer.cs">
+    <Compile Include="Form\Product\ProductDetail.Designer.cs">
       <DependentUpon>ProductDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductList.cs">
+    <Compile Include="Form\Product\ProductList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductList.Designer.cs">
+    <Compile Include="Form\Product\ProductList.Designer.cs">
       <DependentUpon>ProductList.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProductSearchBox.cs">
+    <Compile Include="Form\Product\ProductSearchBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductSearchBox.Designer.cs">
+    <Compile Include="Form\Product\ProductSearchBox.Designer.cs">
       <DependentUpon>ProductSearchBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PurchaseDetail.cs">
+    <Compile Include="Form\Supplier\PurchaseDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PurchaseDetail.Designer.cs">
+    <Compile Include="Form\Supplier\PurchaseDetail.Designer.cs">
       <DependentUpon>PurchaseDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseList.cs">
+    <Compile Include="Form\Supplier\PurchaseList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PurchaseList.Designer.cs">
+    <Compile Include="Form\Supplier\PurchaseList.Designer.cs">
       <DependentUpon>PurchaseList.cs</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseLog.cs">
+    <Compile Include="Form\Logger\PurchaseLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PurchaseLog.Designer.cs">
+    <Compile Include="Form\Logger\PurchaseLog.Designer.cs">
       <DependentUpon>PurchaseLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseOrderDetail.cs">
+    <Compile Include="Form\Supplier\PurchaseOrderDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PurchaseOrderDetail.Designer.cs">
+    <Compile Include="Form\Supplier\PurchaseOrderDetail.Designer.cs">
       <DependentUpon>PurchaseOrderDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseOrderList.cs">
+    <Compile Include="Form\Supplier\PurchaseOrderList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PurchaseOrderList.Designer.cs">
+    <Compile Include="Form\Supplier\PurchaseOrderList.Designer.cs">
       <DependentUpon>PurchaseOrderList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Report.cs">
+    <Compile Include="Form\Sales\Report\ReportProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Report.Designer.cs">
-      <DependentUpon>Report.cs</DependentUpon>
+    <Compile Include="Form\Sales\Report\ReportProgress.Designer.cs">
+      <DependentUpon>ReportProgress.cs</DependentUpon>
     </Compile>
-    <Compile Include="SaleOrderList.cs">
+    <Compile Include="Form\Sales\SaleOrderList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SaleOrderList.Designer.cs">
+    <Compile Include="Form\Sales\SaleOrderList.Designer.cs">
       <DependentUpon>SaleOrderList.cs</DependentUpon>
     </Compile>
-    <Compile Include="SalePayment.cs">
+    <Compile Include="Form\Sales\SalePayment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SalePayment.Designer.cs">
+    <Compile Include="Form\Sales\SalePayment.Designer.cs">
       <DependentUpon>SalePayment.cs</DependentUpon>
     </Compile>
-    <Compile Include="SalesList.cs">
+    <Compile Include="Form\Sales\SalesList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SalesList.Designer.cs">
+    <Compile Include="Form\Sales\SalesList.Designer.cs">
       <DependentUpon>SalesList.cs</DependentUpon>
     </Compile>
-    <Compile Include="SalesRegist.cs">
+    <Compile Include="Form\Sales\SalesRegist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SalesRegist.Designer.cs">
+    <Compile Include="Form\Sales\SalesRegist.Designer.cs">
       <DependentUpon>SalesRegist.cs</DependentUpon>
     </Compile>
-    <Compile Include="SalesReport.cs">
+    <Compile Include="Form\Sales\SalesReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SalesReport.Designer.cs">
+    <Compile Include="Form\Sales\SalesReport.Designer.cs">
       <DependentUpon>SalesReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="SupplierDetail.cs">
+    <Compile Include="Form\Supplier\SupplierDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SupplierDetail.Designer.cs">
+    <Compile Include="Form\Supplier\SupplierDetail.Designer.cs">
       <DependentUpon>SupplierDetail.cs</DependentUpon>
     </Compile>
-    <Compile Include="SupplierList.cs">
+    <Compile Include="Form\Supplier\SupplierList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SupplierList.Designer.cs">
+    <Compile Include="Form\Supplier\SupplierList.Designer.cs">
       <DependentUpon>SupplierList.cs</DependentUpon>
     </Compile>
-    <Compile Include="SupplierLog.cs">
+    <Compile Include="Form\Logger\SupplierLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SupplierLog.Designer.cs">
+    <Compile Include="Form\Logger\SupplierLog.Designer.cs">
       <DependentUpon>SupplierLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="SupplierSelectBox.cs">
+    <Compile Include="Form\Supplier\SupplierSelectBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SupplierSelectBox.Designer.cs">
+    <Compile Include="Form\Supplier\SupplierSelectBox.Designer.cs">
       <DependentUpon>SupplierSelectBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="cUIManager.cs" />
-    <Compile Include="cUserSession.cs" />
-    <EmbeddedResource Include="CategoryBoard.resx">
+    <Compile Include="Utitlity\cUIManager.cs" />
+    <Compile Include="Model\cUserSession.cs" />
+    <EmbeddedResource Include="Form\Category\CategoryBoard.resx">
       <DependentUpon>CategoryBoard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CategoryEdit.resx">
+    <EmbeddedResource Include="Form\Category\CategoryEdit.resx">
       <DependentUpon>CategoryEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CategoryTreeView.resx">
+    <EmbeddedResource Include="Form\Category\CategoryTreeView.resx">
       <DependentUpon>CategoryTreeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Config.resx">
+    <EmbeddedResource Include="Form\Config\Config.resx">
       <DependentUpon>Config.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigBasic.resx">
+    <EmbeddedResource Include="Form\Config\ConfigBasic.resx">
       <DependentUpon>ConfigBasic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigLog.resx">
+    <EmbeddedResource Include="Form\Logger\ConfigLog.resx">
       <DependentUpon>ConfigLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfigPoint.resx">
+    <EmbeddedResource Include="Form\Config\ConfigPoint.resx">
       <DependentUpon>ConfigPoint.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerDetail.resx">
+    <EmbeddedResource Include="Form\Customer\CustomerDetail.resx">
       <DependentUpon>CustomerDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerList.resx">
+    <EmbeddedResource Include="Form\Customer\CustomerList.resx">
       <DependentUpon>CustomerList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerLog.resx">
+    <EmbeddedResource Include="Form\Logger\CustomerLog.resx">
       <DependentUpon>CustomerLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerOrderDetail.resx">
+    <EmbeddedResource Include="Form\Sales\CustomerOrderDetail.resx">
       <DependentUpon>CustomerOrderDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerOrderList.resx">
+    <EmbeddedResource Include="Form\Sales\CustomerOrderList.resx">
       <DependentUpon>CustomerOrderList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomerSearchBox.resx">
+    <EmbeddedResource Include="Form\Customer\CustomerSearchBox.resx">
       <DependentUpon>CustomerSearchBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="cDataBaseConfig.resx">
+    <EmbeddedResource Include="Form\Config\cDataBaseConfig.resx">
       <DependentUpon>cDataBaseConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DailyReportViewByCategory.resx">
+    <EmbeddedResource Include="Form\Sales\Report\DailyReportViewByCategory.resx">
       <DependentUpon>DailyReportViewByCategory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DailyReportViewByDay.resx">
+    <EmbeddedResource Include="Form\Sales\Report\DailyReportViewByDay.resx">
       <DependentUpon>DailyReportViewByDay.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DailyReportViewByProduct.resx">
+    <EmbeddedResource Include="Form\Sales\Report\DailyReportViewByProduct.resx">
       <DependentUpon>DailyReportViewByProduct.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DateSelectionForm.resx">
+    <EmbeddedResource Include="Form\Sales\Report\DateSelectionForm.resx">
       <DependentUpon>DateSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DateTimePickerBox.resx">
+    <EmbeddedResource Include="Controls\DateTimePickerBox.resx">
       <DependentUpon>DateTimePickerBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeliveryList.resx">
+    <EmbeddedResource Include="Form\Sales\DeliveryList.resx">
       <DependentUpon>DeliveryList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeliveryRegist.resx">
+    <EmbeddedResource Include="Form\Sales\DeliveryRegist.resx">
       <DependentUpon>DeliveryRegist.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmpAccessLog.resx">
+    <EmbeddedResource Include="Form\Logger\EmpAccessLog.resx">
       <DependentUpon>EmpAccessLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emplog.resx">
+    <EmbeddedResource Include="Form\Logger\Emplog.resx">
       <DependentUpon>Emplog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmployeeDetail.resx">
+    <EmbeddedResource Include="Form\Employee\EmployeeDetail.resx">
       <DependentUpon>EmployeeDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmployeeList.resx">
+    <EmbeddedResource Include="Form\Employee\EmployeeList.resx">
       <DependentUpon>EmployeeList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmployeePasswordSet.resx">
+    <EmbeddedResource Include="Form\Employee\EmployeePasswordSet.resx">
       <DependentUpon>EmployeePasswordSet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EmployeePermission.resx">
+    <EmbeddedResource Include="Form\Employee\EmployeePermission.resx">
       <DependentUpon>EmployeePermission.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -517,31 +516,31 @@
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PaymentLog.resx">
+    <EmbeddedResource Include="Form\Logger\PaymentLog.resx">
       <DependentUpon>PaymentLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PointHistory.resx">
+    <EmbeddedResource Include="Form\Customer\PointHistory.resx">
       <DependentUpon>PointHistory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductLog.resx">
+    <EmbeddedResource Include="Form\Logger\ProductLog.resx">
       <DependentUpon>ProductLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NumericInputDialog.resx">
+    <EmbeddedResource Include="Controls\NumericInputDialog.resx">
       <DependentUpon>NumericInputDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PaymentDetail.resx">
+    <EmbeddedResource Include="Form\Employee\PaymentDetail.resx">
       <DependentUpon>PaymentDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PaymentList.resx">
+    <EmbeddedResource Include="Form\Employee\PaymentList.resx">
       <DependentUpon>PaymentList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductDetail.resx">
+    <EmbeddedResource Include="Form\Product\ProductDetail.resx">
       <DependentUpon>ProductDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductList.resx">
+    <EmbeddedResource Include="Form\Product\ProductList.resx">
       <DependentUpon>ProductList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProductSearchBox.resx">
+    <EmbeddedResource Include="Form\Product\ProductSearchBox.resx">
       <DependentUpon>ProductSearchBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -554,49 +553,49 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="PurchaseDetail.resx">
+    <EmbeddedResource Include="Form\Supplier\PurchaseDetail.resx">
       <DependentUpon>PurchaseDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PurchaseList.resx">
+    <EmbeddedResource Include="Form\Supplier\PurchaseList.resx">
       <DependentUpon>PurchaseList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PurchaseLog.resx">
+    <EmbeddedResource Include="Form\Logger\PurchaseLog.resx">
       <DependentUpon>PurchaseLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PurchaseOrderDetail.resx">
+    <EmbeddedResource Include="Form\Supplier\PurchaseOrderDetail.resx">
       <DependentUpon>PurchaseOrderDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PurchaseOrderList.resx">
+    <EmbeddedResource Include="Form\Supplier\PurchaseOrderList.resx">
       <DependentUpon>PurchaseOrderList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report.resx">
-      <DependentUpon>Report.cs</DependentUpon>
+    <EmbeddedResource Include="Form\Sales\Report\ReportProgress.resx">
+      <DependentUpon>ReportProgress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SaleOrderList.resx">
+    <EmbeddedResource Include="Form\Sales\SaleOrderList.resx">
       <DependentUpon>SaleOrderList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SalePayment.resx">
+    <EmbeddedResource Include="Form\Sales\SalePayment.resx">
       <DependentUpon>SalePayment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SalesList.resx">
+    <EmbeddedResource Include="Form\Sales\SalesList.resx">
       <DependentUpon>SalesList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SalesRegist.resx">
+    <EmbeddedResource Include="Form\Sales\SalesRegist.resx">
       <DependentUpon>SalesRegist.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SalesReport.resx">
+    <EmbeddedResource Include="Form\Sales\SalesReport.resx">
       <DependentUpon>SalesReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupplierDetail.resx">
+    <EmbeddedResource Include="Form\Supplier\SupplierDetail.resx">
       <DependentUpon>SupplierDetail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupplierList.resx">
+    <EmbeddedResource Include="Form\Supplier\SupplierList.resx">
       <DependentUpon>SupplierList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupplierLog.resx">
+    <EmbeddedResource Include="Form\Logger\SupplierLog.resx">
       <DependentUpon>SupplierLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SupplierSelectBox.resx">
+    <EmbeddedResource Include="Form\Supplier\SupplierSelectBox.resx">
       <DependentUpon>SupplierSelectBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -652,5 +651,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

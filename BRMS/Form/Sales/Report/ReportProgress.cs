@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace BRMS
 {
-    public partial class Report : Form
+    public partial class ReportProgress : Form
     {
         private static string dailyDate;
         private static int accessedEmp = cUserSession.AccessedEmp;
@@ -28,7 +28,7 @@ namespace BRMS
             _dailyDate = Convert.ToDateTime(date);
             return _dailyDate;
         }
-        public Report()
+        public ReportProgress()
         {
             InitializeComponent();
             cUIManager.ApplyPopupFormStyle(this);
