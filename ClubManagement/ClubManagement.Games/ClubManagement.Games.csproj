@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{881659F4-1040-4D77-A806-97E4EA64F8B2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ClubManagement.Games</RootNamespace>
+    <AssemblyName>ClubManagement.Games</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTOs\PlayerInfoDto.cs" />
+    <Compile Include="Factory\GamesViewFactory.cs" />
+    <Compile Include="Models\GuestModel.cs" />
+    <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\MatchSearchModel.cs" />
+    <Compile Include="Presenters\GuestAddPresenter.cs" />
+    <Compile Include="Presenters\MatchDetailPresenter.cs" />
+    <Compile Include="Presenters\MatchListPresenter.cs" />
+    <Compile Include="Presenters\MatchPlayerManagePresenter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IMatchRepository.cs" />
+    <Compile Include="Repositories\MatchRepository.cs" />
+    <Compile Include="Views\GuestAddView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\GuestAddView.Designer.cs">
+      <DependentUpon>GuestAddView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IGuestAddView.cs" />
+    <Compile Include="Views\IMatchDetailView.cs" />
+    <Compile Include="Views\IMatchListView.cs" />
+    <Compile Include="Views\IMatchPlayerManageView.cs" />
+    <Compile Include="Views\MatchDetailView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MatchDetailView.Designer.cs">
+      <DependentUpon>MatchDetailView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MatchListView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MatchListView.Designer.cs">
+      <DependentUpon>MatchListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MatchPlayerManageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MatchPlayerManageView.Designer.cs">
+      <DependentUpon>MatchPlayerManageView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\GuestAddView.resx">
+      <DependentUpon>GuestAddView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MatchPlayerManageView.resx">
+      <DependentUpon>MatchPlayerManageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClubManagement.Common\ClubManagement.Common.csproj">
+      <Project>{196b232b-f897-4c04-b7bd-f82a74cb361c}</Project>
+      <Name>ClubManagement.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

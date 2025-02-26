@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C35A77EE-978B-4E4D-944E-33526FBBEBB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ClubManagement.Members</RootNamespace>
+    <AssemblyName>ClubManagement.Members</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factory\MembersViewFactory.cs" />
+    <Compile Include="Models\DuesModel.cs" />
+    <Compile Include="Models\MemberModel.cs" />
+    <Compile Include="Models\MemberSearchModel.cs" />
+    <Compile Include="Models\StatementModel.cs" />
+    <Compile Include="Presenters\DuesManagePresenter.cs" />
+    <Compile Include="Presenters\MemberDetailPresenter.cs" />
+    <Compile Include="Presenters\MemberListPresenter.cs" />
+    <Compile Include="Presenters\MemberSearchPresenter.cs" />
+    <Compile Include="Presenters\StatementDetailPresenter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DuesRepsotiry.cs" />
+    <Compile Include="Repositories\IDuesRepsotiry.cs" />
+    <Compile Include="Repositories\IMemberRepository.cs" />
+    <Compile Include="Repositories\MemberRepository.cs" />
+    <Compile Include="Views\DuesManageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\DuesManageView.Designer.cs">
+      <DependentUpon>DuesManageView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IDuesManageView.cs" />
+    <Compile Include="Views\IMemberDetailView.cs" />
+    <Compile Include="Views\IMemberListView.cs" />
+    <Compile Include="Views\IMemberSearchView.cs" />
+    <Compile Include="Views\IStatementDetailView.cs" />
+    <Compile Include="Views\MemberDetailView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MemberDetailView.Designer.cs">
+      <DependentUpon>MemberDetailView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemberListView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MemberListView.Designer.cs">
+      <DependentUpon>MemberListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MemberSearchView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MemberSearchView.Designer.cs">
+      <DependentUpon>MemberSearchView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatementDetailView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\StatementDetailView.Designer.cs">
+      <DependentUpon>StatementDetailView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\DuesManageView.resx">
+      <DependentUpon>DuesManageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MemberDetailView.resx">
+      <DependentUpon>MemberDetailView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MemberListView.resx">
+      <DependentUpon>MemberListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MemberSearchView.resx">
+      <DependentUpon>MemberSearchView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\StatementDetailView.resx">
+      <DependentUpon>StatementDetailView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ClubManagement.Common\ClubManagement.Common.csproj">
+      <Project>{196b232b-f897-4c04-b7bd-f82a74cb361c}</Project>
+      <Name>ClubManagement.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

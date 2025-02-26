@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8462AC5-A1A7-47FB-93E4-B802F069913C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BRM</RootNamespace>
+    <AssemblyName>BRM</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factory\MenuFactory.cs" />
+    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Employee\EmployeeDetailView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Employee\EmployeeDetailView.Designer.cs">
+      <DependentUpon>EmployeeDetailView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Employee\EmployeeListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Employee\EmployeeListView.Designer.cs">
+      <DependentUpon>EmployeeListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Employee\LoginView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Employee\LoginView.Designer.cs">
+      <DependentUpon>LoginView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Log\LogView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Log\LogView.Designer.cs">
+      <DependentUpon>LogView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Main\MainView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Main\MainView.Designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\CategoryBoradView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Product\CategoryBoradView.Designer.cs">
+      <DependentUpon>CategoryBoradView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\ProductDetailView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Product\ProductDetailView.Designer.cs">
+      <DependentUpon>ProductDetailView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\ProductListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Product\ProductListView.Designer.cs">
+      <DependentUpon>ProductListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Supplier\SupplierSearchView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Supplier\SupplierSearchView.Designer.cs">
+      <DependentUpon>SupplierSearchView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\Employee\EmployeeDetailView.resx">
+      <DependentUpon>EmployeeDetailView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Employee\EmployeeListView.resx">
+      <DependentUpon>EmployeeListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Employee\LoginView.resx">
+      <DependentUpon>LoginView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Log\LogView.resx">
+      <DependentUpon>LogView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Main\MainView.resx">
+      <DependentUpon>MainView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Product\CategoryBoradView.resx">
+      <DependentUpon>CategoryBoradView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Product\ProductDetailView.resx">
+      <DependentUpon>ProductDetailView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Product\ProductListView.resx">
+      <DependentUpon>ProductListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Supplier\SupplierSearchView.resx">
+      <DependentUpon>SupplierSearchView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BRIC\BRIC.csproj">
+      <Project>{64164b7a-f953-40d0-b353-93ff18caee98}</Project>
+      <Name>BRIC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\common\common.csproj">
+      <Project>{e6d1dadd-1384-4f4d-ab22-b46086bcb6be}</Project>
+      <Name>common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBConfig\DBConfig.csproj">
+      <Project>{6a76b078-5f4e-4149-8da7-7869df880b9f}</Project>
+      <Name>DBConfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GridControl\GridControl.csproj">
+      <Project>{40dcf50d-b9ee-4429-bcfb-c6f3e4fed648}</Project>
+      <Name>GridControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
