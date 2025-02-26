@@ -21,15 +21,7 @@
 <details>
 <summary>셈플데이터 지원 :</summary>
 
->셈플 데이터 접근을 위한 정보를 제공<br/>
-> - Address : park0684.tplinkdns.com/<br/>
-> - port : 15745
-> - user : testuser
-> - Password : !testuser1200
-> - Databse : brms_test
-> - BRMS 로그인 계정
->   > 코드 : 1
->   > 패스워드 1
+>DB 폴더내 BRMS_Sapmple
 </details>
 
 ## 📌 주요기능
