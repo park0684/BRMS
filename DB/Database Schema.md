@@ -1,8 +1,133 @@
 # 📘 Database Schema
 ---
 ## ✍ 다이어그램
-<details> <summary> 상세보기 </summary>
+<details><summary> 상세보기 </summary>
+
+  <details><summary>📄 <strong>판매, 회원 도메인</strong>
+  
+  > 보기</summary>
+  ```mermaid
+%%{init: {"theme":"neutral","themeVariables":{"fontSize":"16px"}}}%%
+erDiagram
+    COUNTRY   ||--o{ CUSTOMER   : "cust_country"
+    COUNTRY   ||--o{ CUSTORDER  : "cord_country"
+    CUSTOMER  ||--o{ CUSTORDER  : "cord_cust"
+    CUSTOMER  ||--o{ DELIVERY   : "del_cust"
+    SALES     ||--o{ DELIVERY   : "del_salecode"
+
+    EMPLOYEE  ||--o{ SALES      : "sale_emp"
+    SALES     ||--o{ SALEDETAIL : "saled_code"
+    PRODUCT   ||--o{ SALEDETAIL : "saled_pdt"
+    SALES     ||--o{ SALEPAY    : "spay_salecode"
+
+    COUNTRY {
+      INT ctry_code PK
+      NVARCHAR(50) ctry_name
+    }
+    CUSTOMER {
+      INT cust_code PK
+      INT cust_country FK
+      NVARCHAR(50) cust_name
+    }
+    CUSTORDER {
+      INT cord_code PK
+      INT cord_cust FK
+      INT cord_country FK
+    }
+    SALES {
+      INT sale_code PK
+      INT sale_emp FK
+      DATETIME sale_date
+    }
+    SALEDETAIL {
+      INT saled_code FK
+      INT saled_pdt FK
+      INT saled_qty
+    }
+    SALEPAY {
+      INT spay_code PK
+      INT spay_salecode FK
+    }
+    DELIVERY {
+      INT del_code PK
+      INT del_cust FK
+      INT del_salecode FK
+    }
+    PRODUCT {
+      INT pdt_code PK
+      NVARCHAR(50) pdt_name_kr
+    }
+    EMPLOYEE {
+      INT emp_code PK
+      NVARCHAR(50) emp_name
+    }
+```
+  
+  ---
+  </details>
+  <details><summary>📄 <strong>매입, 공급사 도메인</strong>
+  
+  > 보기</summary>
+  ```mermaid
+%%{init: {"theme":"neutral","themeVariables":{"fontSize":"16px"}}}%%
+erDiagram
+    SUPPLIER  ||--o{ PRODUCT         : "pdt_sup"
+    SUPPLIER  ||--o{ PAYMENT         : "pay_sup"
+    SUPPLIER  ||--o{ PURCHASE        : "pur_sup"
+    SUPPLIER  ||--o{ PURORDER        : "pord_sup"
+
+    EMPLOYEE  ||--o{ PURCHASE        : "pur_emp"
+    PURCHASE  ||--o{ PURDETAIL       : "purd_code"
+    PRODUCT   ||--o{ PURDETAIL       : "purd_pdt"
+
+    PURORDER  ||--o{ PURORDERDETAIL  : "pordd_code"
+    PRODUCT   ||--o{ PURORDERDETAIL  : "pordd_pdt"
+
+    SUPPLIER {
+      INT sup_code PK
+      VARCHAR(50) sup_name
+    }
+    PRODUCT {
+      INT pdt_code PK
+      INT pdt_sup FK
+      NVARCHAR(50) pdt_name_kr
+    }
+    PAYMENT {
+      INT pay_code PK
+      INT pay_sup FK
+      DATETIME pay_date
+    }
+    PURCHASE {
+      INT pur_code PK
+      INT pur_sup FK
+      INT pur_emp FK
+      DATETIME pur_date
+    }
+    PURDETAIL {
+      INT purd_code FK
+      INT purd_pdt FK
+      INT purd_seq
+    }
+    PURORDER {
+      INT pord_code PK
+      INT pord_sup FK
+      DATETIME pord_date
+    }
+    PURORDERDETAIL {
+      INT pordd_code FK
+      INT pordd_pdt FK
+      INT pordd_seq
+    }
+    EMPLOYEE {
+      INT emp_code PK
+      NVARCHAR(50) emp_name
+    }
+```
+  
+  ---
+  </details>
 </details>
+
 
 ## 🧱 데이터베이스 테이블 목록
 
