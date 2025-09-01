@@ -824,16 +824,16 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    UPDATE employee 
-       SET emp_code    = @empCode, 
-           emp_name    = @empName,
-           emp_password= @empPassword,
-           emp_level   = @empLevel,     
-           emp_cell    = @empCell,
-           emp_addr    = @empAddr,
-           emp_status  = @empStatus,
-           emp_udate   = GETDATE(),
-           emp_memo    = @empMemo;
+	UPDATE employee 
+	SET emp_name = @empName,
+	emp_password =  @empPassword,
+	emp_level =  @empLevel,	 
+	emp_cell =  @empCell,
+	emp_addr =  @empAddr,
+	emp_status =  @empStatus,
+	emp_udate =  GETDATE(),
+	emp_memo =  @empMemo
+	WHERE emp_code = @empCode;
 END
 ```
 ---
