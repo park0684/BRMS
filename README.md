@@ -18,18 +18,14 @@
 > 
 > 
 > <div style="margin-left: 20px;">
-<details>
-<summary>셈플데이터 지원 :</summary>
 
->셈플 데이터 접근을 위한 정보를 제공<br/>
-> - Address : park0684.tplinkdns.com/<br/>
-> - port : 15745
-> - user : testuser
-> - Password : !testuser1200
-> - Databse : brms_test
-> - BRMS 로그인 계정
->   > 코드 : 1
->   > 패스워드 1
+## 📌 Database 정보
+<details>
+<summary>DB Schema정보 </summary>
+> https://github.com/park0684/BRMS/blob/master/DB/Database%20Schema.md
+
+<summary>Sample DB</summary>
+>DB 폴더내 BRMS_SapmpleDB
 </details>
 
 ## 📌 주요기능
