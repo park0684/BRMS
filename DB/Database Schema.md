@@ -15,7 +15,7 @@
   | 칼럼명 | 자료형 | NULL 여부 | PK/Index | 참조 관계 | 설명 |
   |---|---|---|---|---|---|
   | acslog_type | int | ❌ | | | 로그 유형 |
-  | acslog_emp | int | ❌ | | FK → empoyee | 접속 직원 |
+  | acslog_emp | int | ❌ | **FK** | empoyee(emp_code) | 접속 직원 코드 |
   | acslog_param | int | ❌ | | | 대상 파라미터 |
   | acslog_date | int | ❌ | | | 접속 시간 |
   ---
@@ -27,7 +27,7 @@
   
   | 칼럼명 | 자료형 | NULL 여부 | PK/Index | 참조 관계 | 설명 |
   |---|---|---|---|---|---|
-  | acper_emp | int | ✅ | FK | → employee | 직원코드 |
+  | acper_emp | int | ✅ | **FK** | empoyee(emp_code) | 직원코드 |
   | acper_permission | int | ✅ | | | 권한 유형 |
   | acper_status | int | ✅ | | | 상태 |
   | acper_idate | datetime | ❌ | | | 등록 일자 |
@@ -53,7 +53,7 @@
   | cat_status | int | ✅ | | | 상태 |
   ---
   </details>
-  </br>
+
   <details><summary>📄 <strong>`closingbalance` 테이블</strong>
   
   > 전기이월 잔액</summary>
