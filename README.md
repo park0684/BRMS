@@ -18,10 +18,14 @@
 > 
 > 
 > <div style="margin-left: 20px;">
-<details>
-<summary>셈플데이터 지원 :</summary>
 
->DB 폴더내 BRMS_Sapmple
+## 📌 Database 정보
+<details>
+<summary>DB Schema정보 </summary>
+> https://github.com/park0684/BRMS/blob/master/DB/Database%20Schema.md
+
+<summary>Sample DB</summary>
+>DB 폴더내 BRMS_SapmpleDB
 </details>
 
 ## 📌 주요기능
